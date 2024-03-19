@@ -1,6 +1,8 @@
 import 'package:app_merchants_association/src/config/app_styles.dart';
+import 'package:app_merchants_association/src/config/navigator_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'config/navigator_router.dart';
 
 class AppComerciants extends StatefulWidget {
   const AppComerciants({super.key});
@@ -23,14 +25,12 @@ class _AppComerciantsState extends State<AppComerciants> {
       title: 'App Comerciants',
       debugShowCheckedModeBanner: false,
       theme: AppStyles.mainTheme,
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Onee chan'),
-        ),
-        body: Center(
-          child: const Text('Onee chan'),
-        ),
-      ),
+      // localizationsDelegates: AL.localizationsDelegates,
+      // supportedLocales: const [
+      //   Locale('ca'),
+      // ],
+      initialRoute: NavigatorRoutes.signIn,
+      onGenerateRoute: AppRouter.generateRoute,
     );
   }
 }
