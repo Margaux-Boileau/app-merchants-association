@@ -9,7 +9,7 @@ class AppRouter {
       case NavigatorRoutes.signIn:
         return MaterialPageRoute(
           builder: (context) {
-            return const SignIn();
+            return SignIn();
           },
         );
       case NavigatorRoutes.home:
