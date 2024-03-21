@@ -2,7 +2,9 @@ import 'package:app_merchants_association/src/config/app_styles.dart';
 import 'package:app_merchants_association/src/config/navigator_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'config/navigator_router.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AppComerciants extends StatefulWidget {
   const AppComerciants({super.key});
@@ -25,10 +27,16 @@ class _AppComerciantsState extends State<AppComerciants> {
       title: 'App Comerciants',
       debugShowCheckedModeBanner: false,
       theme: AppStyles.mainTheme,
-      // localizationsDelegates: AL.localizationsDelegates,
-      // supportedLocales: const [
-      //   Locale('ca'),
-      // ],
+      localizationsDelegates: const [
+        AppLocalizations.delegate, // Add this line
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en'), // English
+        Locale('es'), // Spanish
+      ],
       initialRoute: NavigatorRoutes.signIn,
       onGenerateRoute: AppRouter.generateRoute,
     );

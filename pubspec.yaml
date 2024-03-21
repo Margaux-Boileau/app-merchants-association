@@ -109,3 +109,7 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+arb-dir: assets/l10n
+template-arb-file: app_en.arb
+output-localization-file: app_localizations.dart
