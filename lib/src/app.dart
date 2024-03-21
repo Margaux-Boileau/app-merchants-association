@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'config/navigator_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+
 class AppComerciants extends StatefulWidget {
   const AppComerciants({super.key});
 
