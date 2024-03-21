@@ -4,7 +4,6 @@ import '../ui/screens/main_holder/home.dart';
 import 'navigator_routes.dart';
 
 class AppRouter {
-  ///
   static Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case NavigatorRoutes.signIn:
