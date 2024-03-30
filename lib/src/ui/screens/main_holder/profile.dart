@@ -1,3 +1,4 @@
+import 'package:app_merchants_association/src/config/app_assets.dart';
 import 'package:app_merchants_association/src/config/app_colors.dart';
 import 'package:app_merchants_association/src/config/app_styles.dart';
 import 'package:flutter/material.dart';
@@ -13,12 +14,10 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppColors.primaryBlue,
-      child: SafeArea(
-        child: Scaffold(
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return SafeArea(
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Column(
             children: [
               _header(),
               _body(),
@@ -33,30 +32,33 @@ class _ProfileState extends State<Profile> {
   /// Contiene el nombre del usuario, el icono para editar, la imagen de perfil y la categoría.
   Widget _header() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10),
       color: AppColors.primaryBlue,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              // TODO Quitar Strings Hardcodeados
-              Text(
-                "Cafè els amics",
-                style: AppStyles.textTheme.titleLarge,
-                overflow: TextOverflow.ellipsis,
-              ),
-              const SizedBox(width: 30),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.edit,
-                  size: 30,
-                  color: Colors.white,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                // TODO Quitar Strings Hardcodeados
+                Text(
+                  "Cafè els amics",
+                  style: AppStyles.textTheme.titleLarge,
+                  overflow: TextOverflow.ellipsis,
                 ),
-              ),
-            ],
+                const SizedBox(width: 30),
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.edit,
+                    size: 30,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 5),
           ClipRRect(
@@ -96,12 +98,10 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  /// Cuerpo de la pantalla de perfil
-  /// Contiene la información del usuario
   Widget _body() {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30.0),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
+      child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -280,13 +280,47 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget _socialNetworks() {
-    return Wrap(
-      children: [
-        IconButton(
-          onPressed: () {},
-          icon: Icon(Icons.facebook, color: AppColors.primaryBlue),
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(top: 10.0, bottom: 20.0),
+      child: Row(
+        children: [
+          InkWell(
+            onTap: () {
+              // TODO Abrir Instagram del usuario
+            },
+            child: Image.asset(
+              AppAssets.instagramLogo,
+              width: 45,
+              height: 45,
+              fit: BoxFit.cover,
+            ),
+          ),
+          const SizedBox(width: 10),
+          InkWell(
+            onTap: () {
+              // TODO Abrir Facebook del usuario
+            },
+            child: Image.asset(
+              AppAssets.facebookLogo,
+              width: 40,
+              height: 40,
+              fit: BoxFit.cover,
+            ),
+          ),
+          const SizedBox(width: 10),
+          InkWell(
+            onTap: () {
+              // TODO Abrir Linkedin del usuario
+            },
+            child: Image.asset(
+              AppAssets.linkedinLogo,
+              width: 41,
+              height: 41,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
