@@ -15,8 +15,6 @@ class AppComerciants extends StatefulWidget {
 }
 
 class _AppComerciantsState extends State<AppComerciants> {
-
-
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -35,10 +33,11 @@ class _AppComerciantsState extends State<AppComerciants> {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [
-        Locale('en'), // English
         Locale('es'), // Spanish
+        // Locale('en'), // English
       ],
-      initialRoute: NavigatorRoutes.signIn,
+      locale: const Locale('es'),
+      initialRoute: NavigatorRoutes.profile,
       onGenerateRoute: AppRouter.generateRoute,
     );
   }

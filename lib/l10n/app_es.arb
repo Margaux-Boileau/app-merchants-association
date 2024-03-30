@@ -1,3 +1,6 @@
 {
-  "helloWorld": "¡Hola Mundo!"
+  "bio": "Bio",
+  "information": "Información",
+  "weekly_schedule": "Lunes - Viernes",
+  "social_networks": "Redes Sociales"
 }
