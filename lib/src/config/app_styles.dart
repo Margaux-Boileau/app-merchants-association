@@ -23,6 +23,10 @@ class AppStyles {
       // Si és null, no s'aplica.
       surfaceTintColor: AppColors.surface,
 
+      iconTheme: IconThemeData(
+        color: AppColors.white,
+      ),
+
       // Color de l'obra de l'elevation.
       shadowColor: AppColors.black,
 
@@ -31,10 +35,13 @@ class AppStyles {
 
       // Elevation de l'AppBar si s'ha fet scroll al contingut.
       scrolledUnderElevation: 0.0,
-      centerTitle: false,
+      centerTitle: true,
       titleSpacing: 0.0,
-      titleTextStyle: textTheme.headlineLarge!
-          .copyWith(color: AppColors.background, fontFamily: 'Poppins'),
+      titleTextStyle: textTheme.headlineSmall!.copyWith(
+        color: AppColors.background,
+        fontFamily: 'Poppins',
+        fontWeight: FontWeight.w600,
+      ),
     ),
 
     /// Navigation Bar Theme
@@ -191,20 +198,20 @@ class AppStyles {
       fontWeight: FontWeight.w400,
     ),
     titleLarge: TextStyle(
-      color: AppColors.white,
+      color: AppColors.black,
       fontSize: 25.0,
       fontFamily: "Poppins",
       fontWeight: FontWeight.w700,
     ),
     titleMedium: TextStyle(
         color: AppColors.black,
-        fontSize: 16.0,
+        fontSize: 21.0,
         fontFamily: "Poppins",
         fontWeight: FontWeight.w500,
         height: 1.5),
     labelLarge: TextStyle(
         color: AppColors.onBackground,
-        fontSize: 14.0,
+        fontSize: 16.0,
         fontFamily: "Poppins",
         fontWeight: FontWeight.w500,
         height: 1.4),

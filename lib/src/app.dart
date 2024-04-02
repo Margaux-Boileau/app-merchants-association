@@ -37,7 +37,7 @@ class _AppComerciantsState extends State<AppComerciants> {
         // Locale('en'), // English
       ],
       locale: const Locale('es'),
-      initialRoute: NavigatorRoutes.profile,
+      initialRoute: NavigatorRoutes.home,
       onGenerateRoute: AppRouter.generateRoute,
     );
   }

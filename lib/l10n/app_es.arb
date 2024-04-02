@@ -2,5 +2,8 @@
   "bio": "Bio",
   "information": "Información",
   "weekly_schedule": "Lunes - Viernes",
-  "social_networks": "Redes Sociales"
+  "social_networks": "Redes Sociales",
+
+  "forums": "Foros",
+  "general": "General"
 }

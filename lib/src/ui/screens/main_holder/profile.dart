@@ -43,10 +43,14 @@ class _ProfileState extends State<Profile> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 // TODO Quitar Strings Hardcodeados
-                Text(
-                  "Cafè els amics",
-                  style: AppStyles.textTheme.titleLarge,
-                  overflow: TextOverflow.ellipsis,
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width * 0.5),
+                  child: Text(
+                    "Cafè els amics",
+                    style: AppStyles.textTheme.titleLarge,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
                 const SizedBox(width: 30),
                 IconButton(
@@ -62,21 +66,24 @@ class _ProfileState extends State<Profile> {
           ),
           const SizedBox(height: 5),
           ClipRRect(
-              borderRadius: BorderRadius.circular(100.0),
-              child: Container(
-                width: 210,
-                height: 210,
-                decoration: BoxDecoration(color: AppColors.background),
-                child: Image.network(
-                  // TODO Cambiar por la imagen del usuario
-                  'https://picsum.photos/200',
-                  fit: BoxFit.cover,
-                ),
-              )),
+            borderRadius: BorderRadius.circular(100.0),
+            child: Container(
+              width: 210,
+              height: 210,
+              decoration: BoxDecoration(color: AppColors.background),
+              child: Image.network(
+                // TODO Cambiar por la imagen del usuario
+                'https://picsum.photos/200',
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
           const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.only(bottom: 20),
             child: Container(
+              constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width * 0.7),
               decoration: BoxDecoration(
                 color: AppColors.white.withOpacity(0.4),
                 borderRadius: BorderRadius.circular(10.0),
