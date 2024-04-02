@@ -111,5 +111,5 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
 
 arb-dir: lib/l10n
-template-arb-file: app_en.arb
+template-arb-file: app_es.arb
 output-localization-file: app_localizations.dart

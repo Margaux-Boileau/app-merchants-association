@@ -1,3 +1,10 @@
 {
-  "helloWorld": "¡Hola Mundo!"
+  "helloWorld": "¡Hola Mundo!",
+
+  "login": "INICIAR SESIÓN",
+  "username_separated": "Nombre de usuario",
+  "password": "Contraseña",
+  "empty_password_validate" : "Introduce una contraseña",
+  "short_password": "Contraseña demasiado corta",
+  "empty_username": "Introduce un nombre de usuario"
 }
