@@ -45,7 +45,7 @@ class _AppComerciantsState extends State<AppComerciants> {
           Locale('en'), // English
           Locale('es'), // Spanish
         ],
-        initialRoute: NavigatorRoutes.home,
+        initialRoute: NavigatorRoutes.profile,
         onGenerateRoute: AppRouter.generateRoute,
       ),
     );

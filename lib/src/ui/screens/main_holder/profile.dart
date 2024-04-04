@@ -1,6 +1,7 @@
 import 'package:app_merchants_association/src/config/app_assets.dart';
 import 'package:app_merchants_association/src/config/app_colors.dart';
 import 'package:app_merchants_association/src/config/app_styles.dart';
+import 'package:app_merchants_association/src/config/navigator_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -32,7 +33,7 @@ class _ProfileState extends State<Profile> {
   /// Contiene el nombre del usuario, el icono para editar, la imagen de perfil y la categoría.
   Widget _header() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
       color: AppColors.primaryBlue,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -52,11 +53,11 @@ class _ProfileState extends State<Profile> {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                const SizedBox(width: 30),
+                const SizedBox(width: 40),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () => Navigator.pushNamed(context, NavigatorRoutes.userManage),
                   icon: const Icon(
-                    Icons.edit,
+                    Icons.person_add_alt_sharp,
                     size: 30,
                     color: Colors.white,
                   ),

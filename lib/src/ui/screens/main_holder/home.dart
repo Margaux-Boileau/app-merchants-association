@@ -5,7 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../model/post_image.dart';
-import '../../widgets/forum/forum_card.dart';
+import '../../widgets/card/forum_card.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});

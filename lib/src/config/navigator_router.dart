@@ -1,3 +1,4 @@
+import 'package:app_merchants_association/src/ui/screens/user/user_manage.dart';
 import 'package:flutter/material.dart';
 import '../ui/screens/auth/sign_in.dart';
 import '../ui/screens/main_holder/home.dart';
@@ -29,6 +30,12 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) {
             return const Profile();
+          },
+        );
+      case NavigatorRoutes.userManage:
+        return MaterialPageRoute(
+          builder: (context) {
+            return const UserManage();
           },
         );
     }
