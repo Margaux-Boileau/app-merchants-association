@@ -1,40 +1,30 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 enum BottomNavigationTabs {
   home,
-  chat,
-  profile
+  notices,
+  notifications,
+  profile,
 }
 
 class NavigationNotifier extends ChangeNotifier {
-  int _currentTab = 0;
-  int get currentTabIndex => _currentTab;
+  BottomNavigationTabs _currentTab = BottomNavigationTabs.home;
+  BottomNavigationTabs get currentTabIndex => _currentTab;
+  int _currentIndex = 0;
+
 
   BottomNavigationTabs getCurrentTab () {
-    switch(_currentTab) {
-      case 0:
-        return BottomNavigationTabs.home;
-      case 1:
-        return BottomNavigationTabs.chat;
-      case 2:
-        return BottomNavigationTabs.profile;
-      default:
-        return BottomNavigationTabs.home;
-    }
+    return _currentTab;
   }
 
   void setCurrentTab(BottomNavigationTabs tab) {
-    switch(tab) {
-      case BottomNavigationTabs.home:
-        _currentTab = 0;
-        break;
-      case BottomNavigationTabs.chat:
-        _currentTab = 1;
-        break;
-      case BottomNavigationTabs.profile:
-        _currentTab = 2;
-        break;
-    }
+    _currentTab = tab;
+    _currentIndex = tab.index;
     notifyListeners();
   }
+
+  int get currentIndex => _currentIndex;
+
+
 }
+

@@ -1,3 +1,4 @@
+import 'package:app_merchants_association/src/ui/screens/main_holder/main_holder.dart';
 import 'package:flutter/material.dart';
 import '../ui/screens/auth/sign_in.dart';
 import '../ui/screens/main_holder/home.dart';
@@ -21,6 +22,14 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) {
             return const Home();
+          },
+        );
+
+        /// Main Holder
+      case NavigatorRoutes.mainHolder:
+        return MaterialPageRoute(
+          builder: (context) {
+            return const MainHolder();
           },
         );
 

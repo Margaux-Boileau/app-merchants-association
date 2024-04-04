@@ -35,6 +35,23 @@ class _HomeState extends State<Home> {
           centerTitle: true,
         ),
         body: _body(),
+
+        /// Botón flotante para crear un nuevo foro
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            // TODO Mostrar snackbar de momento
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Crear foro'),
+              ),
+            );
+          },
+          backgroundColor: AppColors.thirdBlue,
+          child: Icon(
+            Icons.add,
+            color: AppColors.white,
+          ),
+        ),
       ),
     );
   }
@@ -59,7 +76,8 @@ class _HomeState extends State<Home> {
             /// Card provisional
             ListView.builder(
               shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(), //Si queremos que haga scroll toda la pantalla [desomentarlo]
+              physics: const NeverScrollableScrollPhysics(),
+              //Si queremos que haga scroll toda la pantalla [desomentarlo]
               itemCount: posts.length,
               itemBuilder: (context, index) {
                 return Padding(
@@ -86,7 +104,6 @@ class _HomeState extends State<Home> {
     );
   }
 
-
   /// ---- PRUEBAS HARDCODED ----////
 
   /// Lista [HARDCODED] de posts para pruebas
@@ -98,7 +115,8 @@ class _HomeState extends State<Home> {
       localName: 'El Aroma',
       title: 'Cafetería "El Aroma"',
       date: 'Hace 1 h',
-      body: ' ¡Disfruta del mejor café de la ciudad en un ambiente acogedor! En Café El Aroma, nos enorgullecemos de servir café de alta calidad y deliciosos pasteles caseros. ¡Ven y relájate con nosotros!',
+      body:
+          ' ¡Disfruta del mejor café de la ciudad en un ambiente acogedor! En Café El Aroma, nos enorgullecemos de servir café de alta calidad y deliciosos pasteles caseros. ¡Ven y relájate con nosotros!',
       images: [],
       idCreator: 1,
     ),
@@ -109,7 +127,8 @@ class _HomeState extends State<Home> {
       localName: 'Fashion Trends',
       title: 'Sobre nosotros',
       date: 'Hace 2 h',
-      body: 'Descubre las últimas tendencias en moda en nuestra tienda Fashion Trends. Desde elegantes vestidos hasta cómodos conjuntos casuales, tenemos todo lo que necesitas para lucir fabuloso en cualquier ocasión.',
+      body:
+          'Descubre las últimas tendencias en moda en nuestra tienda Fashion Trends. Desde elegantes vestidos hasta cómodos conjuntos casuales, tenemos todo lo que necesitas para lucir fabuloso en cualquier ocasión.',
       images: [
         PostImage(
           id: 1,
@@ -131,7 +150,8 @@ class _HomeState extends State<Home> {
       localName: 'Footwear Haven',
       title: 'Nuestros zapatos más cool de Sants',
       date: 'Hace 3 h',
-      body: 'Encuentra el par de zapatos perfecto para complementar tu estilo en Footwear Haven. Con una amplia selección de calzado de marcas reconocidas, estamos aquí para satisfacer todas tus necesidades de calzado.',
+      body:
+          'Encuentra el par de zapatos perfecto para complementar tu estilo en Footwear Haven. Con una amplia selección de calzado de marcas reconocidas, estamos aquí para satisfacer todas tus necesidades de calzado.',
       images: [
         PostImage(
           id: 1,
@@ -168,7 +188,8 @@ class _HomeState extends State<Home> {
       localName: 'La Parrilla Dorada',
       title: 'La Parrilla Dorada: ¡Satisfacción garantizada!',
       date: 'Hace 3 h',
-      body: 'Satisface tus antojos culinarios en nuestro restaurante La Parrilla Dorada',
+      body:
+          'Satisface tus antojos culinarios en nuestro restaurante La Parrilla Dorada',
       images: [
         PostImage(
           id: 1,
@@ -190,5 +211,3 @@ class _HomeState extends State<Home> {
     ),
   ];
 }
-
-

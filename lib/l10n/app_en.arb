@@ -6,5 +6,13 @@
   "password": "Contraseña",
   "empty_password_validate" : "Introduce una contraseña",
   "short_password": "Contraseña demasiado corta",
-  "empty_username": "Introduce un nombre de usuario"
+  "empty_username": "Introduce un nombre de usuario",
+
+  "bio": "Bio",
+  "information": "Information",
+  "weekly_schedule": "Monday - Friday",
+  "social_networks": "Social Networks",
+
+  "forums": "Forums",
+  "general": "General"
 }
