@@ -15,6 +15,8 @@ class AppComerciants extends StatefulWidget {
 }
 
 class _AppComerciantsState extends State<AppComerciants> {
+
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -22,23 +24,30 @@ class _AppComerciantsState extends State<AppComerciants> {
       DeviceOrientation.portraitDown,
     ]);
 
-    return MaterialApp(
-      title: 'App Comerciants',
-      debugShowCheckedModeBanner: false,
-      theme: AppStyles.mainTheme,
-      localizationsDelegates: const [
-        AppLocalizations.delegate, // Add this line
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('es'), // Spanish
-        // Locale('en'), // English
-      ],
-      locale: const Locale('es'),
-      initialRoute: NavigatorRoutes.home,
-      onGenerateRoute: AppRouter.generateRoute,
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
+          currentFocus.focusedChild?.unfocus();
+        }
+      },
+      child: MaterialApp(
+        title: 'App Comerciants',
+        debugShowCheckedModeBanner: false,
+        theme: AppStyles.mainTheme,
+        localizationsDelegates: const [
+          AppLocalizations.delegate, // Add this line
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('en'), // English
+          Locale('es'), // Spanish
+        ],
+        initialRoute: NavigatorRoutes.signIn,
+        onGenerateRoute: AppRouter.generateRoute,
+      ),
     );
   }
 }
