@@ -6,6 +6,7 @@ import 'package:app_merchants_association/src/ui/screens/main_holder/profile.dar
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../provider/navigator_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MainHolder extends StatelessWidget {
   const MainHolder({super.key});
@@ -34,22 +35,24 @@ class MainHolder extends StatelessWidget {
             selectedItemColor: AppColors.white,
             unselectedItemColor: AppColors.white.withOpacity(0.5),
             type: BottomNavigationBarType.fixed,
-            items: const [
+            showSelectedLabels: true, // Mostrar etiquetas solo para el ítem seleccionado
+            showUnselectedLabels: false, // No mostrar etiquetas para ítems no seleccionados
+            items: [
               BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Foros',
+                icon: const Icon(Icons.message),
+                label: AppLocalizations.of(context)!.forums,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.aspect_ratio),
-                label: 'Noticias',
+                icon: const Icon(Icons.library_books),
+                label: AppLocalizations.of(context)!.news,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.notifications),
-                label: 'Notificaciones',
+                icon: const Icon(Icons.notifications),
+                label: AppLocalizations.of(context)!.notifications
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: 'Perfil',
+                icon: const Icon(Icons.store),
+                label: AppLocalizations.of(context)!.profile,
               ),
             ],
           ),

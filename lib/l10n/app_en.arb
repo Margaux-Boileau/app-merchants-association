@@ -14,5 +14,8 @@
   "social_networks": "Social Networks",
 
   "forums": "Forums",
-  "general": "General"
+  "general": "General",
+  "news": "Notices",
+  "notifications": "Notifications",
+  "profile": "Profile"
 }

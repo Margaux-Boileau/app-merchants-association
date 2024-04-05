@@ -2,7 +2,6 @@ import 'package:app_merchants_association/src/config/app_styles.dart';
 import 'package:app_merchants_association/src/model/post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import '../../../config/app_colors.dart';
 import '../../../model/post_image.dart';
 import '../../widgets/forum/forum_card.dart';
@@ -15,19 +14,82 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  // Llave para el Scaffold para poder abrir el drawer desde el appbar.
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  // Lista de categorías para el menú lateral (temporal)
+  final List<String> categories = [
+    'Activitats de la construcció',
+    'Aparcament',
+    'Arranjament de roba i sabates i claus',
+    'Artesania',
+    'Articles per a nens',
+    'Arts Gràfiques',
+    'Assegurances',
+    'Audiovisual',
+    'Bar de tapes',
+    'Basar',
+    'Cafeteria i granja',
+    'Cansaladeria',
+    'Carnisseria',
+    'Celler',
+    'Centres Mèdics',
+    'Centres comercials i supermercats',
+    'Dietètica',
+    'Dolços i pastissos',
+    'Electrodomèstics',
+    'Escola',
+    'Escola de ball',
+    'Especialitats',
+    'Estanc',
+    'Estètica i bellesa',
+    'Farmàcia i ortopèdia',
+    'Ferreteria',
+    'Fisioteràpia',
+    'Floristeria',
+    'Forn de pa',
+    'Fruita i verdura',
+    'Gelateries',
+    'Gimnàs i acadèmia',
+    'Hotels i similars',
+    'Immobiliària',
+    'Informàtica',
+    'Instal·lacions i subministraments',
+    'Jocs i atraccions',
+    'Joieria, rellotjeria i bijuteria',
+    'Llar, decoració i mobiliari',
+    'Llegums i cereals',
+    'Loteries i apostes de l\'Estat',
+    'Mascotes',
+    'Materials de construcció',
+    'Menjar ràpid',
+    'Merceria i llenceria',
+    'Mobles i articles de fusta i metall',
+    'Música',
+    'Odontologia',
+    'Papereria, llibreria i copisteria',
+    'Perfumeria i drogueria',
+    'Perruqueria',
+    'Regals i souvenirs',
+    'Restaurant',
+    'Roba i complements',
+    'Sabateria',
+    'Serveis professionals',
+    'Taller mecànic',
+    'Varietats',
+    'Xarcuteria i embotits',
+    'Òptica'
+  ];
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           leading: IconButton(
             onPressed: () {
-              // TODO Mostrar snackbar de momento
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Mostrar menú lateral'),
-                ),
-              );
+              _scaffoldKey.currentState?.openDrawer();
             },
             icon: const Icon(Icons.menu),
           ),
@@ -52,55 +114,101 @@ class _HomeState extends State<Home> {
             color: AppColors.white,
           ),
         ),
+
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  color: AppColors.primaryBlue,
+                ),
+                child: Text(
+                  'App Comerciants Associats',
+                  style: TextStyle(color: AppColors.white),
+                ),
+              ),
+              // Genera los ListTile para cada categoría
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: categories.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(
+                      categories[index],
+                      style: TextStyle(
+                        color: AppColors.black,
+                        fontSize: 15.0,
+                      ),
+                    ),
+                    tileColor: index % 2 == 0 ? Colors.white : Colors.grey[100],
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
 
   Widget _body() {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.only(top: 25.0, left: 20.0, right: 20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              AppLocalizations.of(context)!.general,
-              style: AppStyles.textTheme.titleLarge,
-            ),
-            const SizedBox(height: 20.0),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 25.0, left: 20.0, right: 20.0),
+          child: Text(
+            AppLocalizations.of(context)!.general,
+            style: AppStyles.textTheme.titleLarge,
+          ),
+        ),
+        const SizedBox(height: 5.0),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  /// TODO Aquí irá el ListView.builder de los foros.
+                  /// Por ahora se creará un card provisional para poder crear el diseño
+                  /// del widget del card del foro. Después, ya se creará el ListView.builder.
 
-            /// TODO Aquí irá el ListView.builder de los foros.
-            /// Por ahora se creará un card provisional para poder crear el diseño
-            /// del widget del card del foro. Después, ya se creará el ListView.builder.
-
-            /// Card provisional
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              //Si queremos que haga scroll toda la pantalla [desomentarlo]
-              itemCount: posts.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 20.0),
-                  child: InkWell(
-                    onTap: () {
-                      // Mostrar snackbar de momento
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Mostrar foro'),
+                  /// Card provisional
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    //Si queremos que haga scroll toda la pantalla [desomentarlo]
+                    itemCount: posts.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 20.0),
+                        child: InkWell(
+                          onTap: () {
+                            // Mostrar snackbar de momento
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Mostrar foro'),
+                              ),
+                            );
+                          },
+                          child: ForumCard(
+                            post: posts[index],
+                          ),
                         ),
                       );
                     },
-                    child: ForumCard(
-                      post: posts[index],
-                    ),
                   ),
-                );
-              },
+                ],
+              ),
             ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 
