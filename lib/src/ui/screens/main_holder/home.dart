@@ -2,6 +2,7 @@ import 'package:app_merchants_association/src/config/app_styles.dart';
 import 'package:app_merchants_association/src/model/post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_svg/svg.dart';
 import '../../../config/app_colors.dart';
 import '../../../model/post_image.dart';
 import '../../widgets/forum/forum_card.dart';
@@ -81,6 +82,8 @@ class _HomeState extends State<Home> {
     'Òptica'
   ];
 
+  String currentCategory = 'General';
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -123,9 +126,11 @@ class _HomeState extends State<Home> {
                 decoration: BoxDecoration(
                   color: AppColors.primaryBlue,
                 ),
-                child: Text(
-                  'App Comerciants Associats',
-                  style: TextStyle(color: AppColors.white),
+                child: SvgPicture.asset(
+                  'assets/images/LogoSants.svg',
+                  height: 50.0, // Ajusta la altura de la imagen
+                  width: 50.0, // Ajusta la anchura de la imagen
+                  color: AppColors.black,
                 ),
               ),
               // Genera los ListTile para cada categoría
@@ -144,6 +149,9 @@ class _HomeState extends State<Home> {
                     ),
                     tileColor: index % 2 == 0 ? Colors.white : Colors.grey[100],
                     onTap: () {
+                      setState(() {
+                        currentCategory = categories[index]; // Actualiza la categoría actual
+                      });
                       Navigator.pop(context);
                     },
                   );
@@ -161,9 +169,9 @@ class _HomeState extends State<Home> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 25.0, left: 20.0, right: 20.0),
+          padding: const EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
           child: Text(
-            AppLocalizations.of(context)!.general,
+            currentCategory, // Usa la categoría actual
             style: AppStyles.textTheme.titleLarge,
           ),
         ),
@@ -313,6 +321,65 @@ class _HomeState extends State<Home> {
           id: 2,
           imageUrl: 'https://picsum.photos/111',
           idPost: 3,
+        ),
+      ],
+      idCreator: 1,
+    ),
+    Post(
+      id: 5,
+      profileImage: 'https://picsum.photos/505',
+      category: 'Bar de tapes',
+      localName: 'Tapas deliciosas',
+      title: 'Ven a disfrutar de nuestras tapas exquisitas',
+      date: 'Hace 4 h',
+      body:
+      'En Tapas deliciosas, te ofrecemos una amplia variedad de tapas españolas tradicionales y creativas para satisfacer tu paladar. ¡No te lo pierdas!',
+      images: [
+        PostImage(
+          id: 1,
+          imageUrl: 'https://picsum.photos/112',
+          idPost: 5,
+        ),
+        PostImage(
+          id: 2,
+          imageUrl: 'https://picsum.photos/113',
+          idPost: 5,
+        ),
+      ],
+      idCreator: 1,
+    ),
+    // Post para la categoría de "Escola"
+    Post(
+      id: 6,
+      profileImage: 'https://picsum.photos/506',
+      category: 'Escola',
+      localName: 'Academia de idiomas Bright',
+      title: 'Aprende idiomas con los mejores profesionales',
+      date: 'Hace 5 h',
+      body:
+      'En Academia de idiomas Bright, ofrecemos cursos de idiomas impartidos por profesores altamente calificados y con amplia experiencia. ¡Únete a nosotros y mejora tus habilidades lingüísticas!',
+      images: [],
+      idCreator: 1,
+    ),
+    Post(
+      id: 7,
+      profileImage: 'https://picsum.photos/507',
+      category: 'Joieria, rellotjeria i bijuteria',
+      localName: 'Gems & Watches',
+      title: 'Descubre las joyas más elegantes y los relojes más finos',
+      date: 'Hace 6 h',
+      body:
+      'En Gems & Watches, te ofrecemos una selección exclusiva de joyas preciosas y relojes de lujo de las mejores marcas. Visítanos y encuentra la pieza perfecta para complementar tu estilo.',
+      images: [
+        PostImage(
+          id: 1,
+          imageUrl: 'https://picsum.photos/114',
+          idPost: 7,
+        ),
+        PostImage(
+          id: 2,
+          imageUrl: 'https://picsum.photos/115',
+          idPost: 7,
         ),
       ],
       idCreator: 1,

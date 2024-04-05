@@ -57,11 +57,17 @@ class ForumCard extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        /// TODO Cambiar por el nombre del usuario
-                        post.localName,
-                        style: AppStyles.textTheme.labelLarge!.copyWith(
-                            fontWeight: FontWeight.w700, fontSize: 19.0),
+                      ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width * 0.6,
+                        ),
+                        child: Text(
+                          /// TODO Cambiar por el nombre del usuario
+                          post.localName,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppStyles.textTheme.labelLarge!.copyWith(
+                              fontWeight: FontWeight.w700, fontSize: 19.0),
+                        ),
                       ),
                       const SizedBox(height: 5),
                       Row(
@@ -129,60 +135,68 @@ class ForumCard extends StatelessWidget {
               /// Si el foro tiene imagenes cargarlas, de lo contrario se quedaría así
               /// Por ahora se ha creado un booleano provisional que simula si hay imágenes o no.
 
-              post.images.isNotEmpty ? Row(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: Container(
-                      width: 120,
-                      height: 120,
-                      decoration: BoxDecoration(
-                        color: AppColors.background,
-                      ),
-                      child: post.images.isNotEmpty ? Image.network(
-                        post.images[0].imageUrl,
-                        fit: BoxFit.cover,
-                      ) : Container(),
-                    ),
-                  ),
-                  const SizedBox(width: 10.0),
-                  // Si hay más de una imagen, mostrar el número de imágenes restantes y la imagen con opacidad
-                  // Si no, no mostrar nada
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: Container(
-                      width: 120,
-                      height: 120,
-                      child: Stack(
-                        fit: StackFit.expand,
-                        children: [
-                          post.images.isNotEmpty ? Image.network(
-                            post.images[1].imageUrl,
-                            fit: BoxFit.cover,
-                          ) : Container(),
-                          Opacity(
-                            opacity: 0.5,
-                            child: Container(
+              post.images.isNotEmpty
+                  ? Row(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10.0),
+                          child: Container(
+                            width: 120,
+                            height: 120,
+                            decoration: BoxDecoration(
                               color: AppColors.background,
                             ),
+                            child: post.images.isNotEmpty
+                                ? Image.network(
+                                    post.images[0].imageUrl,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Container(),
                           ),
-                          Center(
-                            child: post.images.isNotEmpty ? Text(
-                              "+${post.images.length - 1}",
-                              style: AppStyles.textTheme.labelLarge!.copyWith(
-                                color: AppColors.black,
-                                fontSize: 30.0,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ) : Container(),
+                        ),
+                        const SizedBox(width: 10.0),
+                        // Si hay más de una imagen, mostrar el número de imágenes restantes y la imagen con opacidad
+                        // Si no, no mostrar nada
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10.0),
+                          child: Container(
+                            width: 120,
+                            height: 120,
+                            child: Stack(
+                              fit: StackFit.expand,
+                              children: [
+                                post.images.isNotEmpty
+                                    ? Image.network(
+                                        post.images[1].imageUrl,
+                                        fit: BoxFit.cover,
+                                      )
+                                    : Container(),
+                                Opacity(
+                                  opacity: 0.5,
+                                  child: Container(
+                                    color: AppColors.background,
+                                  ),
+                                ),
+                                Center(
+                                  child: post.images.isNotEmpty
+                                      ? Text(
+                                          "+${post.images.length - 1}",
+                                          style: AppStyles.textTheme.labelLarge!
+                                              .copyWith(
+                                            color: AppColors.black,
+                                            fontSize: 30.0,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        )
+                                      : Container(),
+                                ),
+                              ],
+                            ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ) : Container(),
-
+                        ),
+                      ],
+                    )
+                  : Container(),
             ],
           ),
         ),
