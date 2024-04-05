@@ -20,6 +20,7 @@ class _HomeState extends State<Home> {
 
   // Lista de categorías para el menú lateral (temporal)
   final List<String> categories = [
+    'General',
     'Activitats de la construcció',
     'Aparcament',
     'Arranjament de roba i sabates i claus',
@@ -82,7 +83,13 @@ class _HomeState extends State<Home> {
     'Òptica'
   ];
 
-  String currentCategory = 'General';
+  // Categoría por defecto seleccionada. Será la primera de la lista [categories].
+  late String currentCategory;
+
+  // Constructor de la clase _HomeState para inicializar la categoría actual.
+  _HomeState() {
+    currentCategory = categories[0];
+  }
 
   @override
   Widget build(BuildContext context) {
