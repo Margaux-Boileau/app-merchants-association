@@ -11,21 +11,21 @@ class UserCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 8),
       child: Container(
         constraints: const BoxConstraints(maxWidth: 500),
         decoration: BoxDecoration(
           // Colors
           color: AppColors.white,
           // BorderRadius
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(5.0),
           // Sombra
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
               spreadRadius: 1,
-              blurRadius: 5,
-              offset: const Offset(0, 3),
+              blurRadius: 3,
+              offset: const Offset(0, 1),
             ),
           ],
         ),

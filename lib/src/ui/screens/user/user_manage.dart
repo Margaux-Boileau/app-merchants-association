@@ -2,6 +2,8 @@ import 'package:app_merchants_association/src/model/user.dart';
 import 'package:app_merchants_association/src/ui/widgets/card/user_card.dart';
 import 'package:flutter/material.dart';
 
+import '../../../config/app_colors.dart';
+
 class UserManage extends StatefulWidget {
   const UserManage({super.key});
 
@@ -22,11 +24,19 @@ class _UserManageState extends State<UserManage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Usuarios"),
+        title: const Text("Usuarios"),
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: Icon(Icons.close),
+          icon: const Icon(Icons.close),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => showCreateDialog(),
+        backgroundColor: AppColors.primaryBlue,
+        child: Icon(
+          Icons.add,
+          color: AppColors.white,
         ),
       ),
       body: _content(),
@@ -34,17 +44,20 @@ class _UserManageState extends State<UserManage> {
   }
 
   Widget _content(){
-    return Stack(
-      children: [
-        ListView.separated(
-          itemCount: users.length,
-          separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 5,),
-          itemBuilder: (BuildContext context, int index) {
-            return UserCard(user: users[index]);
-          },
-        )
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(top: 25),
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: users.length,
+        itemBuilder: (BuildContext context, int index) {
+          return UserCard(user: users[index]);
+        },
+      ),
     );
+  }
+
+  void showCreateDialog(){
+
   }
 
   List<User> getUsers() {
