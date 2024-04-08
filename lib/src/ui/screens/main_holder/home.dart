@@ -1,8 +1,9 @@
+import 'package:app_merchants_association/src/config/app_assets.dart';
 import 'package:app_merchants_association/src/config/app_styles.dart';
 import 'package:app_merchants_association/src/model/post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_svg/svg.dart';
+
 import '../../../config/app_colors.dart';
 import '../../../model/post_image.dart';
 import '../../widgets/forum/forum_card.dart';
@@ -21,66 +22,8 @@ class _HomeState extends State<Home> {
   // Lista de categorías para el menú lateral (temporal)
   final List<String> categories = [
     'General',
-    'Activitats de la construcció',
-    'Aparcament',
-    'Arranjament de roba i sabates i claus',
-    'Artesania',
-    'Articles per a nens',
-    'Arts Gràfiques',
-    'Assegurances',
-    'Audiovisual',
-    'Bar de tapes',
-    'Basar',
-    'Cafeteria i granja',
-    'Cansaladeria',
-    'Carnisseria',
-    'Celler',
-    'Centres Mèdics',
-    'Centres comercials i supermercats',
-    'Dietètica',
-    'Dolços i pastissos',
-    'Electrodomèstics',
-    'Escola',
-    'Escola de ball',
-    'Especialitats',
-    'Estanc',
-    'Estètica i bellesa',
-    'Farmàcia i ortopèdia',
-    'Ferreteria',
-    'Fisioteràpia',
-    'Floristeria',
-    'Forn de pa',
-    'Fruita i verdura',
-    'Gelateries',
-    'Gimnàs i acadèmia',
-    'Hotels i similars',
-    'Immobiliària',
-    'Informàtica',
-    'Instal·lacions i subministraments',
-    'Jocs i atraccions',
-    'Joieria, rellotjeria i bijuteria',
-    'Llar, decoració i mobiliari',
-    'Llegums i cereals',
-    'Loteries i apostes de l\'Estat',
-    'Mascotes',
-    'Materials de construcció',
-    'Menjar ràpid',
-    'Merceria i llenceria',
-    'Mobles i articles de fusta i metall',
-    'Música',
-    'Odontologia',
-    'Papereria, llibreria i copisteria',
-    'Perfumeria i drogueria',
-    'Perruqueria',
-    'Regals i souvenirs',
-    'Restaurant',
-    'Roba i complements',
-    'Sabateria',
-    'Serveis professionals',
-    'Taller mecànic',
-    'Varietats',
-    'Xarcuteria i embotits',
-    'Òptica'
+    'Tecnicos',
+    'Tiendas',
   ];
 
   // Categoría por defecto seleccionada. Será la primera de la lista [categories].
@@ -129,15 +72,21 @@ class _HomeState extends State<Home> {
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
-              DrawerHeader(
-                decoration: BoxDecoration(
-                  color: AppColors.primaryBlue,
+              const UserAccountsDrawerHeader(
+                accountName: Text("Fashion Trends", style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),),
+                accountEmail: Text("fashiontrends@gmail.com", style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),),
+                currentAccountPicture: CircleAvatar(
+                  backgroundImage: NetworkImage(
+                      "https://www.carrerdesants.cat/media/carrerdesants/image/fotos//1059_Foto.1658744545.webp"),
                 ),
-                child: SvgPicture.asset(
-                  'assets/images/LogoSants.svg',
-                  height: 50.0, // Ajusta la altura de la imagen
-                  width: 50.0, // Ajusta la anchura de la imagen
-                  color: AppColors.black,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    opacity: 0.3,
+                    image: AssetImage(
+                      AppAssets.sants_place,
+                    ),
+                    fit: BoxFit.fill,
+                  ),
                 ),
               ),
               // Genera los ListTile para cada categoría
@@ -154,10 +103,10 @@ class _HomeState extends State<Home> {
                         fontSize: 15.0,
                       ),
                     ),
-                    tileColor: index % 2 == 0 ? Colors.white : Colors.grey[100],
                     onTap: () {
                       setState(() {
-                        currentCategory = categories[index]; // Actualiza la categoría actual
+                        currentCategory =
+                            categories[index]; // Actualiza la categoría actual
                       });
                       Navigator.pop(context);
                     },
@@ -340,7 +289,7 @@ class _HomeState extends State<Home> {
       title: 'Ven a disfrutar de nuestras tapas exquisitas',
       date: 'Hace 4 h',
       body:
-      'En Tapas deliciosas, te ofrecemos una amplia variedad de tapas españolas tradicionales y creativas para satisfacer tu paladar. ¡No te lo pierdas!',
+          'En Tapas deliciosas, te ofrecemos una amplia variedad de tapas españolas tradicionales y creativas para satisfacer tu paladar. ¡No te lo pierdas!',
       images: [
         PostImage(
           id: 1,
@@ -364,7 +313,7 @@ class _HomeState extends State<Home> {
       title: 'Aprende idiomas con los mejores profesionales',
       date: 'Hace 5 h',
       body:
-      'En Academia de idiomas Bright, ofrecemos cursos de idiomas impartidos por profesores altamente calificados y con amplia experiencia. ¡Únete a nosotros y mejora tus habilidades lingüísticas!',
+          'En Academia de idiomas Bright, ofrecemos cursos de idiomas impartidos por profesores altamente calificados y con amplia experiencia. ¡Únete a nosotros y mejora tus habilidades lingüísticas!',
       images: [],
       idCreator: 1,
     ),
@@ -376,7 +325,7 @@ class _HomeState extends State<Home> {
       title: 'Descubre las joyas más elegantes y los relojes más finos',
       date: 'Hace 6 h',
       body:
-      'En Gems & Watches, te ofrecemos una selección exclusiva de joyas preciosas y relojes de lujo de las mejores marcas. Visítanos y encuentra la pieza perfecta para complementar tu estilo.',
+          'En Gems & Watches, te ofrecemos una selección exclusiva de joyas preciosas y relojes de lujo de las mejores marcas. Visítanos y encuentra la pieza perfecta para complementar tu estilo.',
       images: [
         PostImage(
           id: 1,
