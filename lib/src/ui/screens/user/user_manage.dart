@@ -1,7 +1,8 @@
 import 'package:app_merchants_association/src/model/user.dart';
 import 'package:app_merchants_association/src/ui/widgets/card/user_card.dart';
+import 'package:app_merchants_association/src/ui/widgets/dialog/create_user_dialog.dart';
+import 'package:app_merchants_association/src/utils/dialog_manager.dart';
 import 'package:flutter/material.dart';
-
 import '../../../config/app_colors.dart';
 
 class UserManage extends StatefulWidget {
@@ -57,7 +58,7 @@ class _UserManageState extends State<UserManage> {
   }
 
   void showCreateDialog(){
-
+    DialogManager().showRegisterDialog(context);
   }
 
   List<User> getUsers() {

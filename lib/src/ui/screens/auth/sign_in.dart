@@ -88,10 +88,6 @@ class _SignInState extends State<SignIn> {
                       prefixIcon: const Icon(
                         Icons.person,
                       ),
-                      focusedBorder:OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.white),
-                        borderRadius: BorderRadius.circular(25.0),
-                      ),
                     ),
                     validator: (value) => FormValidation.validateUsername(value!, context)
                   ),
@@ -121,10 +117,6 @@ class _SignInState extends State<SignIn> {
                           hintPassw ? Icons.visibility : Icons.visibility_off_rounded,
                           color: AppColors.outline,
                         ),
-                      ),
-                      focusedBorder:OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.white),
-                        borderRadius: BorderRadius.circular(25.0),
                       ),
                     ),
                     validator: (value) => FormValidation.validatePassword(value!, context)

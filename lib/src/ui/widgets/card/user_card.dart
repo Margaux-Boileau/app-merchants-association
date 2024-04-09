@@ -1,13 +1,19 @@
 import 'package:app_merchants_association/src/config/app_styles.dart';
+import 'package:app_merchants_association/src/utils/dialog_manager.dart';
 import 'package:flutter/material.dart';
 import '../../../config/app_colors.dart';
 import '../../../model/user.dart';
 
-class UserCard extends StatelessWidget {
-  UserCard({super.key, required this.user});
+class UserCard extends StatefulWidget {
+  const UserCard({super.key, required this.user});
 
-  late final User user;
+  final User user;
 
+  @override
+  State<UserCard> createState() => _UserCardState();
+}
+
+class _UserCardState extends State<UserCard> {
   @override
   Widget build(BuildContext context) {
     return  Padding(
@@ -15,11 +21,8 @@ class UserCard extends StatelessWidget {
       child: Container(
         constraints: const BoxConstraints(maxWidth: 500),
         decoration: BoxDecoration(
-          // Colors
           color: AppColors.white,
-          // BorderRadius
           borderRadius: BorderRadius.circular(5.0),
-          // Sombra
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
@@ -45,9 +48,9 @@ class UserCard extends StatelessWidget {
           ),
           Expanded(
             child: Padding(
-              padding: EdgeInsets.only(left: 15),
+              padding: const EdgeInsets.only(left: 15),
               child: Text(
-                user.name!,
+                widget.user.name!,
                 style: AppStyles.textTheme.titleMedium,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -55,7 +58,7 @@ class UserCard extends StatelessWidget {
           ),
           const SizedBox(width: 5,),
           ElevatedButton(
-            onPressed: () => deleteUser(),
+            onPressed: () => showDeleteDialog(),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primaryRed,
               shape: RoundedRectangleBorder(
@@ -63,12 +66,21 @@ class UserCard extends StatelessWidget {
 
               ),
             ),
-            child: Text(
+            child: const Text(
               "Eliminar"
             ),
           )
         ],
       ),
+    );
+  }
+
+  showDeleteDialog(){
+    DialogManager().showDeleteDialog(
+      context: context,
+      title: "Advertencia",
+      text: "¿Estas seguro que quieres eliminar este usuario?",
+      onDelete: deleteUser
     );
   }
 
