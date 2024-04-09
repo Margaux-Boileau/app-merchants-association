@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../config/app_colors.dart';
+import '../../../config/navigator_routes.dart';
 import '../../../model/post_image.dart';
 import '../../widgets/forum/forum_card.dart';
 
@@ -19,6 +20,9 @@ class _HomeState extends State<Home> {
   // Llave para el Scaffold para poder abrir el drawer desde el appbar.
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  /// Todas estas variables son temporales y se eliminarán cuando se implemente la lógica real.
+  /// Se han añadido para poder crear el diseño del widget del card del foro.
+  /// También se ha añadido la lista de categorías para el menú lateral.
   // Lista de categorías para el menú lateral (temporal)
   final List<String> categories = [
     'General',
@@ -73,12 +77,9 @@ class _HomeState extends State<Home> {
             padding: EdgeInsets.zero,
             children: [
               const UserAccountsDrawerHeader(
+                // TODO Cambiar el nombre de la cuenta y correo por el del usuario
                 accountName: Text("Fashion Trends", style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),),
                 accountEmail: Text("fashiontrends@gmail.com", style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),),
-                currentAccountPicture: CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      "https://www.carrerdesants.cat/media/carrerdesants/image/fotos//1059_Foto.1658744545.webp"),
-                ),
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     opacity: 0.3,
@@ -90,6 +91,7 @@ class _HomeState extends State<Home> {
                 ),
               ),
               // Genera los ListTile para cada categoría
+              // TODO Cambiar lista de items por las categorías reales
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -133,42 +135,35 @@ class _HomeState extends State<Home> {
         ),
         const SizedBox(height: 5.0),
         Expanded(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  /// TODO Aquí irá el ListView.builder de los foros.
-                  /// Por ahora se creará un card provisional para poder crear el diseño
-                  /// del widget del card del foro. Después, ya se creará el ListView.builder.
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                /// TODO Aquí irá el ListView.builder de los foros.
+                /// Por ahora se creará un card provisional para poder crear el diseño
+                /// del widget del card del foro. Después, ya se creará el ListView.builder.
 
-                  /// Card provisional
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    //Si queremos que haga scroll toda la pantalla [desomentarlo]
-                    itemCount: posts.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 20.0),
-                        child: InkWell(
-                          onTap: () {
-                            // Mostrar snackbar de momento
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Mostrar foro'),
-                              ),
-                            );
-                          },
-                          child: ForumCard(
-                            post: posts[index],
-                          ),
+                /// Card provisional
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  //Si queremos que haga scroll toda la pantalla [desomentarlo]
+                  itemCount: posts.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 20.0, right: 20.0,bottom: 20.0),
+                      child: InkWell(
+                        onTap: () {
+                          // TODO Navegar a la pantalla de detalle del foro y pasar el post
+                          Navigator.pushNamed(context, NavigatorRoutes.postDetail, arguments: posts[index]);
+                        },
+                        child: ForumCard(
+                          post: posts[index],
                         ),
-                      );
-                    },
-                  ),
-                ],
-              ),
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
           ),
         ),

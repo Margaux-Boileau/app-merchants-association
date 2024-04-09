@@ -64,9 +64,10 @@ class ForumCard extends StatelessWidget {
                         child: Text(
                           /// TODO Cambiar por el nombre del usuario
                           post.localName,
+
                           overflow: TextOverflow.ellipsis,
                           style: AppStyles.textTheme.labelLarge!.copyWith(
-                              fontWeight: FontWeight.w700, fontSize: 19.0),
+                              fontWeight: FontWeight.w700, fontSize: 16.0),
                         ),
                       ),
                       const SizedBox(height: 5),
@@ -99,6 +100,7 @@ class ForumCard extends StatelessWidget {
                           Text(
                             // TODO Cambiar por la fecha de envío
                             post.date,
+                            overflow: TextOverflow.ellipsis,
                             style: AppStyles.textTheme.bodySmall!.copyWith(
                               color: AppColors.appGrey,
                               fontSize: 10.0,
@@ -116,6 +118,8 @@ class ForumCard extends StatelessWidget {
               Text(
                 // TODO Cambiar por el título del foro
                 post.title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 style: AppStyles.textTheme.labelLarge!.copyWith(
                   fontWeight: FontWeight.w700,
                   fontSize: 17.0,
@@ -126,6 +130,7 @@ class ForumCard extends StatelessWidget {
               // Descripción del foro
               Text(
                 post.body,
+                textAlign: TextAlign.justify,
                 style: AppStyles.textTheme.labelSmall,
               ),
 
