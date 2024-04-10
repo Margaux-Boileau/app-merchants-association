@@ -17,25 +17,29 @@ class PostDetail extends StatelessWidget {
       "profileImage": "https://picsum.photos/201",
       "localName": "Zapatería los 3 hermanos",
       "date": "Hace 2",
-      "comment": "Me encanta La Parrilla Dorada! Siempre que voy me atienden muy bien y la comida es deliciosa. Recomiendo el corte de carne especial.",
+      "comment":
+          "Me encanta La Parrilla Dorada! Siempre que voy me atienden muy bien y la comida es deliciosa. Recomiendo el corte de carne especial.",
     },
     {
       "profileImage": "https://picsum.photos/202",
       "localName": "Ropa de moda para viejas como tú!",
       "date": "Hace 3",
-      "comment": "A todas las abuelas les encanta vuestra comida. A las abuelas de verdad les encanta La Parrilla Dorada! (Y el pollo frito)",
+      "comment":
+          "A todas las abuelas les encanta vuestra comida. A las abuelas de verdad les encanta La Parrilla Dorada! (Y el pollo frito)",
     },
     {
       "profileImage": "https://picsum.photos/203",
       "localName": "La tienda de la esquina",
       "date": "Hace 4",
-      "comment": "He ido un par de veces y me ha gustado mucho. La comida es muy buena y el servicio es excelente. Recomiendo el pollo frito.",
+      "comment":
+          "He ido un par de veces y me ha gustado mucho. La comida es muy buena y el servicio es excelente. Recomiendo el pollo frito.",
     },
     {
       "profileImage": "https://picsum.photos/204",
       "localName": "Pescadería MePeronas?",
       "date": "Hace 5",
-      "comment": "Me encanta La Parrilla Dorada! Siempre que voy me atienden muy bien y la comida es deliciosa. Recomiendo el corte de carne especial.",
+      "comment":
+          "Me encanta La Parrilla Dorada! Siempre que voy me atienden muy bien y la comida es deliciosa. Recomiendo el corte de carne especial.",
     },
     {
       "profileImage": "https://picsum.photos/205",
@@ -51,24 +55,29 @@ class PostDetail extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Detalle del post"),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              /// Imagen | nombre de la tienda | hora del post
-              _postInfoShop(context),
-
-              /// Título del post | Descripción | Imagenes
-              _postBody(),
-
-              /// Comments body
-              _commentsBody(context),
-            ],
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  _postInfoShop(context),
+                  _postBody(),
+                  _commentsBody(context),
+                ],
+              ),
+            ),
           ),
-        ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: _commentTextField(context),
+          ),
+        ],
       ),
     );
   }
@@ -98,7 +107,8 @@ class PostDetail extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.7),
+                constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width * 0.7),
                 child: Text(
                   post.localName,
                   maxLines: 2,
@@ -176,7 +186,7 @@ class PostDetail extends StatelessWidget {
 
   Widget _commentsBody(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20.0),
+      padding: const EdgeInsets.only(top: 25.0, bottom: 70),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -187,7 +197,7 @@ class PostDetail extends StatelessWidget {
               fontSize: 17.0,
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 20),
 
           /// Lista de  Commentarios
           ListView.builder(
@@ -196,71 +206,148 @@ class PostDetail extends StatelessWidget {
             itemCount: comments.length,
             itemBuilder: (context, index) {
               return Padding(
-                padding: const EdgeInsets.only(bottom: 10.0),
-                child: Row(
+                padding: const EdgeInsets.only(bottom: 20.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(100.0),
-                      child: Container(
-                        width: 35,
-                        height: 35,
-                        decoration: BoxDecoration(color: AppColors.background),
-                        child: Image.network(
-                          // TODO Cambiar por la imagen del usuario
-                          comments[index]["profileImage"],
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 20),
-                    Column(
+                    Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.7),
-                          child: Text(
-                            // TODO reemplazar por el nombre del usuario
-                            comments[index]["localName"],
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: AppStyles.textTheme.labelLarge!.copyWith(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 10.0,
+                        /// Imagen de la tienda
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(100.0),
+                          child: Container(
+                            width: 35,
+                            height: 35,
+                            decoration:
+                                BoxDecoration(color: AppColors.background),
+                            child: Image.network(
+                              // TODO Cambiar por la imagen del usuario
+                              comments[index]["profileImage"],
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
-                        Text(
-                          // TODO reemplazar por la fecha del comentario
-                          comments[index]["date"],
-                          overflow: TextOverflow.ellipsis,
-                          style: AppStyles.textTheme.bodySmall!.copyWith(
-                            color: AppColors.appGrey,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const SizedBox(height: 5),
-                        Text(
-                          // TODO reemplazar por el contenido del comentario
-                          comments[index]["comment"],
-                          textAlign: TextAlign.justify,
-                          style: AppStyles.textTheme.labelSmall!.copyWith(
-                            fontSize: 12.0,
-                          ),
+                        const SizedBox(width: 10),
+
+                        /// Nombre de tienda | Hora del comentario
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              constraints: BoxConstraints(
+                                  maxWidth:
+                                      MediaQuery.of(context).size.width * 0.7),
+                              child: Text(
+                                // TODO reemplazar por el nombre del usuario
+                                comments[index]["localName"],
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: AppStyles.textTheme.labelLarge!.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 12.0,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              // TODO reemplazar por la fecha del comentario
+                              comments[index]["date"],
+                              overflow: TextOverflow.ellipsis,
+                              style: AppStyles.textTheme.bodySmall!.copyWith(
+                                color: AppColors.appGrey,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 10.0,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
+                    ),
+                    const SizedBox(height: 5),
+
+                    /// Comentario
+                    Text(
+                      // TODO reemplazar por el contenido del comentario
+                      comments[index]["comment"],
+                      textAlign: TextAlign.justify,
+                      style: AppStyles.textTheme.labelSmall!.copyWith(
+                        fontSize: 10.0,
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+
+                    /// Divider
+                    Divider(
+                      color: AppColors.primaryBlue.withOpacity(0.2),
+                      height: 1,
                     ),
                   ],
                 ),
               );
             },
           ),
+
+          /// Ver más
+          Center(
+            child: TextButton(
+              onPressed: () {
+                // Mostrar snackbar por ahora
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("Ver más comentarios"),
+                  ),
+                );
+              },
+              child: Text("Ver más",
+                  style: TextStyle(color: AppColors.primaryBlue)),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _commentTextField(BuildContext context) {
+    return Container(
+      color: AppColors.background,
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+      child: Row(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(100.0),
+            child: Container(
+              width: 35,
+              height: 35,
+              decoration: BoxDecoration(color: AppColors.background),
+              child: Image.network(
+                // TODO Cambiar por la imagen del usuario
+                post.profileImage,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: "Comentar...",
+                hintStyle: AppStyles.textTheme.bodySmall!.copyWith(
+                  color: AppColors.appGrey,
+                ),
+                border: InputBorder.none,
+              ),
+            ),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.send,
+              color: AppColors.primaryBlue,
+            ),
+          ),
         ],
       ),
     );
   }
 }
-
-
-
-
