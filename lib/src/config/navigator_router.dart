@@ -1,5 +1,6 @@
 import 'package:app_merchants_association/src/ui/screens/user/user_manage.dart';
 import 'package:flutter/material.dart';
+import '../model/post.dart';
 import '../ui/screens/auth/sign_in.dart';
 import '../ui/screens/main_holder/home.dart';
 import '../ui/screens/main_holder/profile.dart';
@@ -17,7 +18,7 @@ class AppRouter {
           },
         );
 
-        /// Home
+      /// Home
       case NavigatorRoutes.home:
         return MaterialPageRoute(
           builder: (context) {
@@ -25,11 +26,45 @@ class AppRouter {
           },
         );
 
-        /// Profile
+      /// Main Holder
+      case NavigatorRoutes.mainHolder:
+        return MaterialPageRoute(
+          builder: (context) {
+            return const MainHolder();
+          },
+        );
+
+      /// Notices
+      case NavigatorRoutes.notices:
+        return MaterialPageRoute(
+          builder: (context) {
+            return const Notices();
+          },
+        );
+
+      /// Notifications
+      case NavigatorRoutes.notifications:
+        return MaterialPageRoute(
+          builder: (context) {
+            return const Notifications();
+          },
+        );
+
+      /// Profile
       case NavigatorRoutes.profile:
         return MaterialPageRoute(
           builder: (context) {
             return const Profile();
+          },
+        );
+
+      /// Post Detail with args
+      case NavigatorRoutes.postDetail:
+        return MaterialPageRoute(
+          builder: (context) {
+            // Pasar post seleccionado a la pantalla de detalle
+            final Post args = settings.arguments as Post;
+            return PostDetail(post: args);
           },
         );
       case NavigatorRoutes.userManage:

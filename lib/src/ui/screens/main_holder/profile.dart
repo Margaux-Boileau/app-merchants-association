@@ -49,7 +49,9 @@ class _ProfileState extends State<Profile> {
                       maxWidth: MediaQuery.of(context).size.width * 0.5),
                   child: Text(
                     "Cafè els amics",
-                    style: AppStyles.textTheme.titleLarge,
+                    style: AppStyles.textTheme.titleLarge!.copyWith(
+                      color: Colors.white,
+                    ),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),

@@ -7,7 +7,7 @@ class AppAssets {
   static const String instagramLogo = "assets/images/instagram.png";
   static const String facebookLogo = "assets/images/facebook.png";
   static const String linkedinLogo = "assets/images/linkedin.png";
-
+  static const String sants_place = "assets/images/plaza_sants.png";
 
 
 }
