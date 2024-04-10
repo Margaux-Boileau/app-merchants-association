@@ -47,6 +47,36 @@ class PostDetail extends StatelessWidget {
       "date": "Hace 6",
       "comment": "Comentario 5",
     },
+    {
+      "profileImage": "https://picsum.photos/206",
+      "localName": "Tienda 6",
+      "date": "Hace 7",
+      "comment": "Comentario 6",
+    },
+    {
+      "profileImage": "https://picsum.photos/207",
+      "localName": "Tienda 7",
+      "date": "Hace 8",
+      "comment": "Comentario 7",
+    },
+    {
+      "profileImage": "https://picsum.photos/208",
+      "localName": "Tienda 8",
+      "date": "Hace 9",
+      "comment": "Comentario 8",
+    },
+    {
+      "profileImage": "https://picsum.photos/209",
+      "localName": "Tienda 9",
+      "date": "Hace 10",
+      "comment": "Comentario 9",
+    },
+    {
+      "profileImage": "https://picsum.photos/210",
+      "localName": "Tienda 10",
+      "date": "Hace 11",
+      "comment": "Comentario 10",
+    }
   ];
 
   @override
@@ -203,7 +233,7 @@ class PostDetail extends StatelessWidget {
           ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: comments.length,
+            itemCount: comments.length > 5 ? 5 : comments.length,
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 20.0),
@@ -314,36 +344,48 @@ class PostDetail extends StatelessWidget {
     return Material(
       elevation: 15.0,
       shadowColor: AppColors.black,
-      child: TextField(
-        style: TextStyle(fontSize: 15.0), // Cambia el tamaño del texto aquí
-        textAlign: TextAlign.left, // Centra el texto aquí
-        decoration: InputDecoration(
-          hintText: "Comentar...",
-          hintStyle: AppStyles.textTheme.bodyMedium!.copyWith(
-            color: AppColors.appGrey,
-          ),
-          contentPadding: const EdgeInsets.all(15.0),
-          suffixIcon: IconButton(
-            onPressed: () {
-              // Mostrar snackbar por ahora
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text("Comentario enviado"),
+      child: SizedBox(
+        width: double.infinity,
+        child: Container(
+          constraints: const BoxConstraints(maxHeight: 200),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            reverse: true,
+            child: TextField(
+              minLines: 1,
+              maxLines: null,
+              keyboardType: TextInputType.multiline,
+              style: AppStyles.textTheme.bodyMedium!.copyWith(
+                color: AppColors.black,
+              ),
+              textAlignVertical: TextAlignVertical.center,
+              decoration: InputDecoration(
+                hintText: "Comentar...",
+                hintStyle: AppStyles.textTheme.bodyMedium!.copyWith(
+                  color: AppColors.appGrey,
                 ),
-              );
-            },
-            icon: IconButton(
-              icon: Icon(Icons.send, color: AppColors.primaryBlue),
-              onPressed: () {
-                // Mostrar snackbar por ahora
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("Comentario enviado"),
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Comentario enviado"),
+                      ),
+                    );
+                  },
+                  icon: IconButton(
+                    icon: Icon(Icons.send, color: AppColors.primaryBlue),
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Comentario enviado"),
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
+                  color: AppColors.primaryBlue,
+                ),
+              ),
             ),
-            color: AppColors.primaryBlue,
           ),
         ),
       ),
