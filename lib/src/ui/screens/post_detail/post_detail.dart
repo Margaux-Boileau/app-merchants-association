@@ -246,7 +246,7 @@ class PostDetail extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 style: AppStyles.textTheme.labelLarge!.copyWith(
                                   fontWeight: FontWeight.w700,
-                                  fontSize: 12.0,
+                                  fontSize: 11.0,
                                 ),
                               ),
                             ),
@@ -272,7 +272,7 @@ class PostDetail extends StatelessWidget {
                       comments[index]["comment"],
                       textAlign: TextAlign.justify,
                       style: AppStyles.textTheme.labelSmall!.copyWith(
-                        fontSize: 10.0,
+                        fontSize: 11.8,
                       ),
                     ),
                     const SizedBox(height: 5),
@@ -289,12 +289,13 @@ class PostDetail extends StatelessWidget {
           ),
 
           /// Ver más
-          Center(
+          /// Si los comentarios son mayores a 5, se muestra el botón "Ver más"
+          comments.length > 5 ? Center(
             child: TextButton(
               onPressed: () {
                 // Mostrar snackbar por ahora
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
+                  const SnackBar(
                     content: Text("Ver más comentarios"),
                   ),
                 );
@@ -302,51 +303,49 @@ class PostDetail extends StatelessWidget {
               child: Text("Ver más",
                   style: TextStyle(color: AppColors.primaryBlue)),
             ),
-          ),
+          ) : Container(),
+
         ],
       ),
     );
   }
 
   Widget _commentTextField(BuildContext context) {
-    return Container(
-      color: AppColors.background,
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(100.0),
-            child: Container(
-              width: 35,
-              height: 35,
-              decoration: BoxDecoration(color: AppColors.background),
-              child: Image.network(
-                // TODO Cambiar por la imagen del usuario
-                post.profileImage,
-                fit: BoxFit.cover,
-              ),
-            ),
+    return Material(
+      elevation: 15.0,
+      shadowColor: AppColors.black,
+      child: TextField(
+        style: TextStyle(fontSize: 15.0), // Cambia el tamaño del texto aquí
+        textAlign: TextAlign.left, // Centra el texto aquí
+        decoration: InputDecoration(
+          hintText: "Comentar...",
+          hintStyle: AppStyles.textTheme.bodyMedium!.copyWith(
+            color: AppColors.appGrey,
           ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: "Comentar...",
-                hintStyle: AppStyles.textTheme.bodySmall!.copyWith(
-                  color: AppColors.appGrey,
+          contentPadding: const EdgeInsets.all(15.0),
+          suffixIcon: IconButton(
+            onPressed: () {
+              // Mostrar snackbar por ahora
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Comentario enviado"),
                 ),
-                border: InputBorder.none,
-              ),
+              );
+            },
+            icon: IconButton(
+              icon: Icon(Icons.send, color: AppColors.primaryBlue),
+              onPressed: () {
+                // Mostrar snackbar por ahora
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Comentario enviado"),
+                  ),
+                );
+              },
             ),
+            color: AppColors.primaryBlue,
           ),
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.send,
-              color: AppColors.primaryBlue,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
