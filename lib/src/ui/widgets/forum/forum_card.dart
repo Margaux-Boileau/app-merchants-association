@@ -64,7 +64,6 @@ class ForumCard extends StatelessWidget {
                         child: Text(
                           /// TODO Cambiar por el nombre del usuario
                           post.localName,
-
                           overflow: TextOverflow.ellipsis,
                           style: AppStyles.textTheme.labelLarge!.copyWith(
                               fontWeight: FontWeight.w700, fontSize: 16.0),
