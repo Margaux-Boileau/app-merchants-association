@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import '../model/post.dart';
 import '../ui/screens/auth/sign_in.dart';
 import '../ui/screens/main_holder/home.dart';
+import '../ui/screens/main_holder/main_holder.dart';
+import '../ui/screens/main_holder/notices.dart';
+import '../ui/screens/main_holder/notifications.dart';
 import '../ui/screens/main_holder/profile.dart';
+import '../ui/screens/post_detail/post_detail.dart';
 import 'navigator_routes.dart';
 
 class AppRouter {
