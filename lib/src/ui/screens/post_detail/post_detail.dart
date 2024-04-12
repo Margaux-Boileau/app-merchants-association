@@ -1,17 +1,24 @@
 import 'package:app_merchants_association/src/config/app_styles.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import '../../../config/app_colors.dart';
 import '../../../model/post.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class PostDetail extends StatelessWidget {
-  PostDetail({Key? key, required this.post}) : super(key: key);
+class PostDetail extends StatefulWidget {
+  const PostDetail({Key? key, required this.post}) : super(key: key);
 
   // Atributo para recibir el post seleccionado
   final Post post;
 
+  @override
+  State<PostDetail> createState() => _PostDetailState();
+}
+
+class _PostDetailState extends State<PostDetail> {
+  int _currentIndex = 0;
+
   // Lista Hardcodeada de comentarios.
-  // Imagen | Nombre de la tienda | Hora del comentario | Descripción del comentario
   final List<Map<String, dynamic>> comments = [
     {
       "profileImage": "https://picsum.photos/201",
@@ -126,7 +133,7 @@ class PostDetail extends StatelessWidget {
               decoration: BoxDecoration(color: AppColors.background),
               child: Image.network(
                 // TODO Cambiar por la imagen del usuario
-                post.profileImage,
+                widget.post.profileImage,
                 fit: BoxFit.cover,
               ),
             ),
@@ -140,7 +147,7 @@ class PostDetail extends StatelessWidget {
                 constraints: BoxConstraints(
                     maxWidth: MediaQuery.of(context).size.width * 0.7),
                 child: Text(
-                  post.localName,
+                  widget.post.localName,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: AppStyles.textTheme.labelLarge!.copyWith(
@@ -150,7 +157,7 @@ class PostDetail extends StatelessWidget {
                 ),
               ),
               Text(
-                post.date,
+                widget.post.date,
                 overflow: TextOverflow.ellipsis,
                 style: AppStyles.textTheme.bodySmall!.copyWith(
                   color: AppColors.appGrey,
@@ -170,9 +177,7 @@ class PostDetail extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          post.title,
-          //overflow: TextOverflow.ellipsis,
-          //maxLines: 2,
+          widget.post.title,
           style: AppStyles.textTheme.labelLarge!.copyWith(
             fontWeight: FontWeight.w700,
             fontSize: 17.0,
@@ -180,7 +185,7 @@ class PostDetail extends StatelessWidget {
         ),
         const SizedBox(height: 6),
         Text(
-          post.body,
+          widget.post.body,
           textAlign: TextAlign.justify,
           style: AppStyles.textTheme.labelSmall!.copyWith(
             fontSize: 12.0,
@@ -188,27 +193,65 @@ class PostDetail extends StatelessWidget {
         ),
         const SizedBox(height: 20),
         // Hero images
-        if (post.images.isNotEmpty)
-          SizedBox(
-            height: 200,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: post.images.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(right: 10.0),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: Image.network(
-                      post.images[index].imageUrl,
-                      fit: BoxFit.cover,
-                      height: 200,
-                      width: 200,
+        if (widget.post.images.isNotEmpty)
+          Column(
+            children: [
+              CarouselSlider(
+                options: CarouselOptions(
+                  height: 300, // Ajusta este valor para cambiar el tamaño de la imagen
+                  enlargeCenterPage: true,
+                  autoPlay: true,
+                  aspectRatio: 2.0,
+                  autoPlayCurve: Curves.fastOutSlowIn,
+                  enableInfiniteScroll: true,
+                  autoPlayAnimationDuration: const Duration(milliseconds: 800),
+                  viewportFraction: 0.8,
+                  onPageChanged: (index, reason) {
+                    // Actualiza el estado para reflejar el cambio de página
+                    setState(() {
+                      _currentIndex = index;
+                    });
+                  },
+                ),
+                items: widget.post.images.map((item) {
+                  return Padding(
+                    padding: const EdgeInsets.all(2), // Ajusta este valor según tus necesidades
+                    child: Material(
+                      elevation: 1.0,
+                      borderRadius: BorderRadius.circular(10),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.network(item.imageUrl, fit: BoxFit.cover, width: 1500),
+                        ),
+                      ),
                     ),
-                  ),
-                );
-              },
-            ),
+                  );
+                }).toList(),
+              ),
+
+              /// Indicadores de posición
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: widget.post.images.map((url) {
+                  int index = widget.post.images.indexOf(url);
+                  return Container(
+                    width: 8.0,
+                    height: 8.0,
+                    margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: _currentIndex == index
+                          ? const Color.fromRGBO(0, 0, 0, 0.9)
+                          : const Color.fromRGBO(0, 0, 0, 0.4),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ],
           ),
       ],
     );
@@ -216,7 +259,7 @@ class PostDetail extends StatelessWidget {
 
   Widget _commentsBody(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 25.0, bottom: 70),
+      padding: widget.post.images.isNotEmpty ? const EdgeInsets.only(top: 20.0, bottom: 70) : const EdgeInsets.only(top: 10.0, bottom: 70),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
