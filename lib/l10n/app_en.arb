@@ -20,7 +20,9 @@
   "notifications": "Notifications",
   "profile": "Profile",
 
-  "comments": "Comments"
+  "comments": "Comments",
+
+  "categories": "Categories"
 
 
 }

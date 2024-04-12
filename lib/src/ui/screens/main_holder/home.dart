@@ -77,8 +77,16 @@ class _HomeState extends State<Home> {
             children: [
               const UserAccountsDrawerHeader(
                 // TODO Cambiar el nombre de la cuenta y correo por el del usuario
-                accountName: Text("Fashion Trends", style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),),
-                accountEmail: Text("fashiontrends@gmail.com", style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),),
+                accountName: Text(
+                  "Fashion Trends",
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.w600),
+                ),
+                accountEmail: Text(
+                  "fashiontrends@gmail.com",
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.w400),
+                ),
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     opacity: 0.3,
@@ -89,7 +97,16 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ),
-              // Genera los ListTile para cada categoría
+
+              Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: Text(
+                  AppLocalizations.of(context)!.categories,
+                  style: AppStyles.textTheme.titleLarge!.copyWith(
+                    fontSize: 17.0,
+                  ),
+                ),
+              ),
               // TODO Cambiar lista de items por las categorías reales
               ListView.builder(
                 shrinkWrap: true,
@@ -101,7 +118,7 @@ class _HomeState extends State<Home> {
                       categories[index],
                       style: TextStyle(
                         color: AppColors.black,
-                        fontSize: 15.0,
+                        fontSize: 14.0,
                       ),
                     ),
                     onTap: () {
@@ -149,11 +166,14 @@ class _HomeState extends State<Home> {
                   itemCount: posts.length,
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: const EdgeInsets.only(left: 20.0, right: 20.0,bottom: 20.0),
+                      padding: const EdgeInsets.only(
+                          left: 20.0, right: 20.0, bottom: 20.0),
                       child: InkWell(
                         onTap: () {
                           // TODO Navegar a la pantalla de detalle del foro y pasar el post
-                          Navigator.pushNamed(context, NavigatorRoutes.postDetail, arguments: posts[index]);
+                          Navigator.pushNamed(
+                              context, NavigatorRoutes.postDetail,
+                              arguments: posts[index]);
                         },
                         child: ForumCard(
                           post: posts[index],
