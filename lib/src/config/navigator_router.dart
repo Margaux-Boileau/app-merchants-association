@@ -1,3 +1,4 @@
+import 'package:app_merchants_association/src/ui/screens/create_post/create_post.dart';
 import 'package:app_merchants_association/src/ui/screens/user/user_manage.dart';
 import 'package:flutter/material.dart';
 import '../model/post.dart';
@@ -71,6 +72,15 @@ class AppRouter {
             return PostDetail(post: args);
           },
         );
+
+      /// Create Post
+      case NavigatorRoutes.createPost:
+        return MaterialPageRoute(
+          builder: (context) {
+            return const CreatePost();
+          },
+        );
+
       case NavigatorRoutes.userManage:
         return MaterialPageRoute(
           builder: (context) {

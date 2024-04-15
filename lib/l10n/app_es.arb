@@ -22,7 +22,11 @@
 
   "comments": "Comentarios",
 
-  "categories": "Categorías"
+  "categories": "Categorías",
+
+  "create_post": "Crear Post",
+  "post_title": "Título del post",
+  "post_description": "Descripción"
 
 
 }

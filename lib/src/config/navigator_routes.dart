@@ -14,5 +14,7 @@ class NavigatorRoutes {
 
   static const String postDetail = "/post_detail";
 
+  static const String createPost = "/create_post";
+
 
 }

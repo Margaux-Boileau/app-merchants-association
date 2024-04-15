@@ -57,12 +57,13 @@ class _HomeState extends State<Home> {
         /// Botón flotante para crear un nuevo foro
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            // TODO Mostrar snackbar de momento
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Crear foro'),
-              ),
-            );
+            // // TODO Mostrar snackbar de momento
+            // ScaffoldMessenger.of(context).showSnackBar(
+            //   const SnackBar(
+            //     content: Text('Crear foro'),
+            //   ),
+            // );
+            Navigator.pushNamed(context, NavigatorRoutes.createPost);
           },
           backgroundColor: AppColors.thirdBlue,
           child: Icon(
