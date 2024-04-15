@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_styles.dart';
 import '../../../model/post.dart';
+import '../../../model/post_image.dart';
+import '../image/image_expand.dart';
 
 class ForumCard extends StatelessWidget {
   ForumCard({super.key, required this.post});
@@ -151,9 +153,22 @@ class ForumCard extends StatelessWidget {
                               color: AppColors.background,
                             ),
                             child: post.images.isNotEmpty
-                                ? Image.network(
-                                    post.images[0].imageUrl,
-                                    fit: BoxFit.cover,
+                                ? InkWell(
+                                    onTap: () {
+                                      List<String> listUrls = [];
+
+                                      for(PostImage image in post.images){
+                                        listUrls.add(image.imageUrl);
+                                      }
+
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) => SliderShowFullImages(listUrls, 0) ));
+                                    },
+                                    child: Image.network(
+                                      post.images[0].imageUrl,
+                                      fit: BoxFit.cover,
+                                    ),
                                   )
                                 : Container(),
                           ),
