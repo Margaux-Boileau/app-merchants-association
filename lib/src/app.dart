@@ -1,5 +1,6 @@
 import 'package:app_merchants_association/src/config/app_styles.dart';
 import 'package:app_merchants_association/src/config/navigator_routes.dart';
+import 'package:app_merchants_association/src/helpers/user_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -45,9 +46,25 @@ class _AppComerciantsState extends State<AppComerciants> {
           Locale('en'), // English
           Locale('es'), // Spanish
         ],
-        initialRoute: NavigatorRoutes.mainHolder,
+        initialRoute: setInitialRoute(),
         onGenerateRoute: AppRouter.generateRoute,
       ),
     );
   }
+
+  String setInitialRoute(){
+    getShared();
+    print("ACCEES TOKEN: ${UserHelper.accessToken}");
+    if(UserHelper.accessToken != null){
+      return NavigatorRoutes.mainHolder;
+    }
+    else{
+      return NavigatorRoutes.signIn;
+    }
+  }
+
+  getShared() async {
+    await UserHelper.getTokenFromSharedPreferences();
+  }
+
 }
