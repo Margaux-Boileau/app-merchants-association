@@ -25,42 +25,61 @@ class _AppComerciantsState extends State<AppComerciants> {
       DeviceOrientation.portraitDown,
     ]);
 
-    return GestureDetector(
-      onTap: () {
-        FocusScopeNode currentFocus = FocusScope.of(context);
-        if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
-          currentFocus.focusedChild?.unfocus();
+    return FutureBuilder<String>(
+      future: setInitialRoute(),
+      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator(); // Muestra un indicador de carga mientras se espera
+        } else {
+          return GestureDetector(
+            onTap: () {
+              FocusScopeNode currentFocus = FocusScope.of(context);
+              if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
+                currentFocus.focusedChild?.unfocus();
+              }
+            },
+            child: MaterialApp(
+              title: 'App Comerciants',
+              debugShowCheckedModeBanner: false,
+              theme: AppStyles.mainTheme,
+              localizationsDelegates: const [
+                AppLocalizations.delegate, // Add this line
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: const [
+                Locale('en'), // English
+                Locale('es'), // Spanish
+              ],
+              initialRoute: snapshot.data, // Usa el valor de la función setInitialRoute()
+              onGenerateRoute: AppRouter.generateRoute,
+            ),
+          );
         }
       },
-      child: MaterialApp(
-        title: 'App Comerciants',
-        debugShowCheckedModeBanner: false,
-        theme: AppStyles.mainTheme,
-        localizationsDelegates: const [
-          AppLocalizations.delegate, // Add this line
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: const [
-          Locale('en'), // English
-          Locale('es'), // Spanish
-        ],
-        initialRoute: setInitialRoute(),
-        onGenerateRoute: AppRouter.generateRoute,
-      ),
     );
   }
 
-  String setInitialRoute(){
-    UserHelper.getTokenFromSharedPreferences();
+  // String setInitialRoute(){
+  //   UserHelper.getTokenFromSharedPreferences();
+  //   if(UserHelper.accessToken != null){
+  //     return NavigatorRoutes.mainHolder;
+  //   }
+  //   else{
+  //     print("NAVIGATE");
+  //     return NavigatorRoutes.signIn;
+  //   }}
+  Future<String> setInitialRoute() async {
+    await UserHelper.getTokenFromSharedPreferences();
     if(UserHelper.accessToken != null){
       return NavigatorRoutes.mainHolder;
     }
     else{
       print("NAVIGATE");
       return NavigatorRoutes.signIn;
-    }}
+    }
+  }
 
 
 }
