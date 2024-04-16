@@ -53,18 +53,14 @@ class _AppComerciantsState extends State<AppComerciants> {
   }
 
   String setInitialRoute(){
-    getShared();
-    print("ACCEES TOKEN: ${UserHelper.accessToken}");
+    UserHelper.getTokenFromSharedPreferences();
     if(UserHelper.accessToken != null){
       return NavigatorRoutes.mainHolder;
     }
     else{
+      print("NAVIGATE");
       return NavigatorRoutes.signIn;
-    }
-  }
+    }}
 
-  getShared() async {
-    await UserHelper.getTokenFromSharedPreferences();
-  }
 
 }
