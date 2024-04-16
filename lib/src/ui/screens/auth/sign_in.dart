@@ -1,10 +1,13 @@
 import 'dart:math';
 
+import 'package:app_merchants_association/src/api/api_client.dart';
 import 'package:app_merchants_association/src/config/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../config/app_colors.dart';
+import '../../../config/navigator_routes.dart';
+import '../../../helpers/user_helper.dart';
 import '../../../utils/form_validation.dart';
 
 class SignIn extends StatefulWidget {
@@ -17,7 +20,7 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   final _formKey = GlobalKey<FormState>();
 
-  var mailController = TextEditingController();
+  var usernameController = TextEditingController();
 
   var passwordController = TextEditingController();
 
@@ -25,6 +28,7 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: Stack(
         children: [
@@ -77,7 +81,7 @@ class _SignInState extends State<SignIn> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: TextFormField(
-                    controller: mailController,
+                    controller: usernameController,
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context)!.username_separated,
                       fillColor: Colors.white,
@@ -147,10 +151,16 @@ class _SignInState extends State<SignIn> {
     );
   }
 
-  login(){
+  login() async {
     if(_formKey.currentState!.validate()){
-      ///TODO HACER PETICION A LA API
-      Navigator.pushReplacementNamed(context, "/profile");
+      bool response = await ApiClient().signIn(usernameController.text, passwordController.text);
+
+      if(response){
+        Navigator.pushReplacementNamed(context, NavigatorRoutes.mainHolder);
+      }
+      else{
+        print("error");
+      }
     }
   }
 

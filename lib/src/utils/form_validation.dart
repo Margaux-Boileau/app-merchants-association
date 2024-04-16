@@ -84,7 +84,7 @@ class FormValidation {
     if (value.isEmpty) {
       return AppLocalizations.of(context)!.empty_password_validate;
     }
-    if (value.length < _minimumPasswordLength) {
+    if (value.length < 4) {
       return AppLocalizations.of(context)!.short_password;
     }
     return null;
