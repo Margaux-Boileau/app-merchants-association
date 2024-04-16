@@ -125,23 +125,37 @@ class _CreatePostState extends State<CreatePost> {
                 ),
               ),
             const SizedBox(width: 10),
-            // Si hay más de una imagen mostrar la segunda. En caso de que haya más de 2 mostrar la cantidad de imagenes restantes
             if (imagesUploaded.length > 1)
               Container(
                 width: 150,
                 height: 150,
                 decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: FileImage(imagesUploaded[1]),
-                    fit: BoxFit.cover,
-                  ),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Center(
-                  child: Text(
-                    "+${imagesUploaded.length - 1}",
-                    style: Theme.of(context).textTheme.labelLarge,
-                  ),
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Opacity(
+                      opacity: 0.5,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: FileImage(imagesUploaded[1]),
+                            fit: BoxFit.cover,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        imagesUploaded.length > 2
+                            ? "+${imagesUploaded.length - 2}"
+                            : "",
+                        style: Theme.of(context).textTheme.labelLarge!.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ],
                 ),
               ),
           ],
