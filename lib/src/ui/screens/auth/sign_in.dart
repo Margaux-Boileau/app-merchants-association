@@ -75,7 +75,7 @@ class _SignInState extends State<SignIn> {
                   color: AppColors.primaryBlue,
                   thickness: 4,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Padding(

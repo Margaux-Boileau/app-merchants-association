@@ -26,7 +26,11 @@
 
   "create_post": "Crear Post",
   "post_title": "Título del post",
-  "post_description": "Descripción"
+  "post_description": "Descripción",
+
+  "select_image": "Seleccionar imagen",
+  "gallery": "Galería",
+  "camera": "Cámara"
 
 
 }

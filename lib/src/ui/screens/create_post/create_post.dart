@@ -1,8 +1,20 @@
+import 'dart:io';
+
+import 'package:app_merchants_association/src/utils/image_picker_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:image_picker/image_picker.dart';
 
-class CreatePost extends StatelessWidget {
+class CreatePost extends StatefulWidget {
   const CreatePost({super.key});
+
+  @override
+  State<CreatePost> createState() => _CreatePostState();
+}
+
+class _CreatePostState extends State<CreatePost> {
+  // Lista de imagenes subidas (puede estar vacía o tener una o más imagenes)
+  List<File> imagesUploaded = [];
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +92,7 @@ class CreatePost extends StatelessWidget {
 
             // Cargar imagenes por defecto ahora para mostrar el diseño
             const SizedBox(height: 25),
-            _imageList(context),
+            imagesUploaded.isNotEmpty ? _imageList(context) : Container(),
           ],
         ),
       ),
@@ -100,38 +112,45 @@ class CreatePost extends StatelessWidget {
         // el número de imagenes restantes
         Row(
           children: [
-            Container(
-              width: 100,
-              height: 100,
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(10),
-              ),
-              // TODO: Mostrar la imagen subida de image picker
-              child: const Icon(Icons.image),
-            ),
-            const SizedBox(width: 10),
-            Container(
-              width: 100,
-              height: 100,
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Center(
-                child: Text(
-                  // TODO Poner el número de imagenes restantes de la lista de imagenes subidas
-                  "+1",
-                  style: Theme.of(context).textTheme.labelLarge,
+            if (imagesUploaded.isNotEmpty)
+              Container(
+                width: 150,
+                height: 150,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: FileImage(imagesUploaded[0]),
+                    fit: BoxFit.cover,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
                 ),
               ),
-            ),
+            const SizedBox(width: 10),
+            // Si hay más de una imagen mostrar la segunda. En caso de que haya más de 2 mostrar la cantidad de imagenes restantes
+            if (imagesUploaded.length > 1)
+              Container(
+                width: 150,
+                height: 150,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: FileImage(imagesUploaded[1]),
+                    fit: BoxFit.cover,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: Text(
+                    "+${imagesUploaded.length - 1}",
+                    style: Theme.of(context).textTheme.labelLarge,
+                  ),
+                ),
+              ),
           ],
         ),
         const SizedBox(height: 25),
       ],
     );
   }
+
   /// Bottom Button para subir imagenes y crear el post
   Widget _bottomButton(BuildContext context) {
     return Container(
@@ -142,15 +161,7 @@ class CreatePost extends StatelessWidget {
         children: [
           IconButton(
             icon: const Icon(Icons.image),
-            onPressed: () {
-              // TODO: Implementar la funcionalidad para subir imágenes
-              // TODO Mostrar Snackbar por ahroa
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Subir imagen'),
-                ),
-              );
-            },
+            onPressed: () => _showImagePickerDialog(context),
           ),
           ElevatedButton(
             onPressed: () {
@@ -170,6 +181,48 @@ class CreatePost extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  /// Función para mostrar un dialog para escoger galería o camara
+  _showImagePickerDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(AppLocalizations.of(context)!.select_image),
+          content: Column(
+            children: [
+              ListTile(
+                title: Text(AppLocalizations.of(context)!.gallery),
+                onTap: () {
+                  Navigator.pop(context);
+                  ImagePickerHelper.getImage(source: ImageSource.gallery)
+                      .then((selectedImage) {
+                    setState(() {
+                      imagesUploaded.add(selectedImage!);
+                    });
+                    print(imagesUploaded.length);
+                  });
+                },
+              ),
+              ListTile(
+                title: Text(AppLocalizations.of(context)!.camera),
+                onTap: () {
+                  Navigator.pop(context);
+                  ImagePickerHelper.getImage(source: ImageSource.camera)
+                      .then((selectedImage) {
+                    setState(() {
+                      imagesUploaded.add(selectedImage!);
+                    });
+                    print(imagesUploaded.length);
+                  });
+                },
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

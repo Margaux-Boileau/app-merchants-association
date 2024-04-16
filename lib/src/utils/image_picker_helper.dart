@@ -20,7 +20,6 @@ class ImagePickerHelper {
         maxHeight: 1024,
       );
 
-
       if (pickedFile != null) {
         _image = File(pickedFile.path);
       }
