@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:app_merchants_association/src/api/api_client.dart';
 import 'package:app_merchants_association/src/config/app_styles.dart';
+import 'package:app_merchants_association/src/utils/dialog_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -159,7 +160,11 @@ class _SignInState extends State<SignIn> {
         Navigator.pushReplacementNamed(context, NavigatorRoutes.mainHolder);
       }
       else{
-        print("error");
+        DialogManager().showSimpleDialog(
+          context: context,
+          title: "Atencion!",
+          content: "Ha acurrido un error al iniciar sesion, revisa tus credenciales",
+        );
       }
     }
   }
