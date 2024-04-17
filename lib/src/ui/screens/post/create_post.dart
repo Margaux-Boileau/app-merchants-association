@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:app_merchants_association/src/utils/dialog_manager.dart';
 import 'package:app_merchants_association/src/utils/image_picker_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -197,41 +198,25 @@ class _CreatePostState extends State<CreatePost> {
 
   /// Función para mostrar un dialog para escoger galería o camara
   _showImagePickerDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(AppLocalizations.of(context)!.select_image),
-          content: Column(
-            children: [
-              ListTile(
-                title: Text(AppLocalizations.of(context)!.gallery),
-                onTap: () {
-                  Navigator.pop(context);
-                  ImagePickerHelper.getImage(source: ImageSource.gallery)
-                      .then((selectedImage) {
-                    setState(() {
-                      imagesUploaded.add(selectedImage!);
-                    });
-                  });
-                },
-              ),
-              ListTile(
-                title: Text(AppLocalizations.of(context)!.camera),
-                onTap: () {
-                  Navigator.pop(context);
-                  ImagePickerHelper.getImage(source: ImageSource.camera)
-                      .then((selectedImage) {
-                    setState(() {
-                      imagesUploaded.add(selectedImage!);
-                    });
-                  });
-                },
-              ),
-            ],
-          ),
-        );
-      },
+    DialogManager().showCameraDialog(
+        context: context,
+        title: AppLocalizations.of(context)!.select_image,
+        cameraFunction: (){
+          ImagePickerHelper.getImage(source: ImageSource.camera)
+              .then((selectedImage) {
+            setState(() {
+              imagesUploaded.add(selectedImage!);
+            });
+          });
+        },
+        galleryFunction: (){
+          ImagePickerHelper.getImage(source: ImageSource.gallery)
+              .then((selectedImage) {
+            setState(() {
+              imagesUploaded.add(selectedImage!);
+            });
+          });
+        }
     );
   }
 }

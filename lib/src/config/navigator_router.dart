@@ -1,4 +1,4 @@
-import 'package:app_merchants_association/src/ui/screens/create_post/create_post.dart';
+import 'package:app_merchants_association/src/ui/screens/post/create_post.dart';
 import 'package:app_merchants_association/src/ui/screens/user/user_manage.dart';
 import 'package:flutter/material.dart';
 import '../model/post.dart';
@@ -8,7 +8,7 @@ import '../ui/screens/main_holder/main_holder.dart';
 import '../ui/screens/main_holder/notices.dart';
 import '../ui/screens/main_holder/notifications.dart';
 import '../ui/screens/main_holder/profile.dart';
-import '../ui/screens/post_detail/post_detail.dart';
+import '../ui/screens/post/post_detail.dart';
 import 'navigator_routes.dart';
 
 class AppRouter {
