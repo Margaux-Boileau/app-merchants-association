@@ -14,8 +14,11 @@ class CreatePost extends StatefulWidget {
 }
 
 class _CreatePostState extends State<CreatePost> {
-  // Lista de imagenes subidas (puede estar vacía o tener una o más imagenes)
-  List<File> imagesUploaded = [];
+  final TextEditingController _postTitleController = TextEditingController();
+  final TextEditingController _postDescriptionController =
+      TextEditingController();
+  List<File> imagesUploaded =
+      []; // Lista de imagenes subidas (puede estar vacía o tener una o más imagenes)
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +62,7 @@ class _CreatePostState extends State<CreatePost> {
               style: const TextStyle(fontSize: 12),
               maxLines: 2,
               maxLength: 100,
+              controller: _postTitleController,
               decoration: InputDecoration(
                 filled: true,
                 border: InputBorder.none,
@@ -80,6 +84,7 @@ class _CreatePostState extends State<CreatePost> {
             TextField(
               style: const TextStyle(fontSize: 12),
               maxLines: 18,
+              controller: _postDescriptionController,
               decoration: InputDecoration(
                 filled: true,
                 border: InputBorder.none,
@@ -90,8 +95,6 @@ class _CreatePostState extends State<CreatePost> {
                 fillColor: Colors.grey[300],
               ),
             ),
-
-            // Cargar imagenes por defecto ahora para mostrar el diseño
             const SizedBox(height: 25),
             imagesUploaded.isNotEmpty ? _imageList(context) : Container(),
           ],
@@ -100,6 +103,7 @@ class _CreatePostState extends State<CreatePost> {
     );
   }
 
+  /// Este widget muestra las imagenes subidas en la parte inferior de la pantalla
   Widget _imageList(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,7 +154,8 @@ class _CreatePostState extends State<CreatePost> {
                         imagesUploaded.length > 2
                             ? "+${imagesUploaded.length - 2}"
                             : "",
-                        style: Theme.of(context).textTheme.labelLarge!.copyWith(fontWeight: FontWeight.w700, fontSize: 25),
+                        style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                            fontWeight: FontWeight.w700, fontSize: 25),
                       ),
                     ),
                   ],
@@ -176,14 +181,10 @@ class _CreatePostState extends State<CreatePost> {
             onPressed: () => _showImagePickerDialog(context),
           ),
           ElevatedButton(
-            onPressed: () {
-              // TODO Mostrar Snackbar por ahora
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Crear post'),
-                ),
-              );
-            },
+            onPressed: () => _sendPost(
+                context,
+                _postTitleController.text.toString(),
+                _postDescriptionController.text.toString()),
             style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
@@ -201,7 +202,7 @@ class _CreatePostState extends State<CreatePost> {
     DialogManager().showCameraDialog(
         context: context,
         title: AppLocalizations.of(context)!.select_image,
-        cameraFunction: (){
+        cameraFunction: () {
           ImagePickerHelper.getImage(source: ImageSource.camera)
               .then((selectedImage) {
             setState(() {
@@ -209,14 +210,28 @@ class _CreatePostState extends State<CreatePost> {
             });
           });
         },
-        galleryFunction: (){
+        galleryFunction: () {
           ImagePickerHelper.getImage(source: ImageSource.gallery)
               .then((selectedImage) {
             setState(() {
               imagesUploaded.add(selectedImage!);
             });
           });
-        }
-    );
+        });
+  }
+
+  /// Función para enviar el post
+  _sendPost(BuildContext context, postTitle, postDescription) async {
+    List<String> imagesBase64 = await ImagePickerHelper.imagesToBase64(imagesUploaded);
+
+    /// PRINTS PARA VISUALIZAR EL POST
+    print("Title: $postTitle");
+    print("Description: $postDescription");
+    print("Images: ${imagesBase64.length}");
+    // Bucle para mostrar las imagenes del post
+    for (String image in imagesBase64) {
+      print("Image:");
+      print(image);
+    }
   }
 }
