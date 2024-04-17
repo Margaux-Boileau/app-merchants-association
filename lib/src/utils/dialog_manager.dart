@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../config/app_colors.dart';
 import '../config/app_styles.dart';
 import '../ui/widgets/dialog/create_user_dialog.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DialogManager{
 
@@ -159,6 +160,51 @@ class DialogManager{
     showDialog(
         context: context,
         builder: (_) => const CreateUserDialog()
+    );
+  }
+
+  showCameraDialog({required BuildContext context, required String title, required Function cameraFunction, required Function galleryFunction}){
+    showDialog(
+        context: context,
+        builder: ((_) => Padding(
+          padding: const EdgeInsets.symmetric(vertical: 40,),
+          child: SimpleDialog(
+            backgroundColor: AppColors.white,
+            elevation: 0,
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10.0))),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+            title: Text(
+              title,
+              style: AppStyles.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            children: [
+              const SizedBox(height: 10),
+              ListTile(
+                title: Text(AppLocalizations.of(context)!.gallery),
+                leading: const Icon(
+                  Icons.image_sharp
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  galleryFunction();
+                },
+              ),
+              ListTile(
+                title: Text(AppLocalizations.of(context)!.camera),
+                leading: const Icon(
+                    Icons.camera_alt_rounded
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  cameraFunction();
+                },
+              ),
+              const SizedBox(height: 20,)
+            ],
+          ),
+        ))
     );
   }
 
