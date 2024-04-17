@@ -1,8 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
 class ImagePickerHelper {
-
 
   /// Mostra càmera o galeria per obtenir una imatge
   static Future<File?> getImage({
@@ -25,8 +25,8 @@ class ImagePickerHelper {
       }
 
     } catch(e, s) {
-      //print("Error: $e");
-      //print(s);
+      print("Error: $e");
+      print(s);
     }
 
     return _image;
@@ -50,9 +50,20 @@ class ImagePickerHelper {
         _video = File(pickedFile.path);
       }
     } catch(e, s) {
-      //print("Error: $e");
-      //print(s);
+      print("Error: $e");
+      print(s);
     }
     return _video;
+  }
+
+  /// Transformar lista de imagenes a base64
+  static Future<List<String>> imagesToBase64(List<File> images) async {
+    List<String> imagesBase64 = [];
+    for (File image in images) {
+      List<int> imageBytes = await image.readAsBytes();
+      String base64Image = base64Encode(imageBytes);
+      imagesBase64.add(base64Image);
+    }
+    return imagesBase64;
   }
 }

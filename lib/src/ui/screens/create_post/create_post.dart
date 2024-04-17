@@ -104,12 +104,10 @@ class _CreatePostState extends State<CreatePost> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "",
+          AppLocalizations.of(context)!.images_uploaded,
           style: Theme.of(context).textTheme.labelLarge,
         ),
         const SizedBox(height: 15),
-        // Mostrar la primera imagen. En caso de que haya mas de 1 mostrar la segunda con
-        // el número de imagenes restantes
         Row(
           children: [
             if (imagesUploaded.isNotEmpty)
@@ -133,7 +131,6 @@ class _CreatePostState extends State<CreatePost> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Stack(
-                  fit: StackFit.expand,
                   children: [
                     Opacity(
                       opacity: 0.5,
@@ -164,10 +161,6 @@ class _CreatePostState extends State<CreatePost> {
       ],
     );
   }
-
-  // La primer
-
-
 
   /// Bottom Button para subir imagenes y crear el post
   Widget _bottomButton(BuildContext context) {
@@ -201,7 +194,6 @@ class _CreatePostState extends State<CreatePost> {
       ),
     );
   }
-
 
   /// Función para mostrar un dialog para escoger galería o camara
   _showImagePickerDialog(BuildContext context) {

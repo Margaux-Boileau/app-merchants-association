@@ -30,10 +30,7 @@ class ApiClient{
     }else{
       return false;
     }
-
-
   }
-
 
   Future<dynamic> _requestGET(
       {bool needsAuth = true,
