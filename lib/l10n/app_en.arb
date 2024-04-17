@@ -30,6 +30,7 @@
 
   "select_image" : "Choose an image",
   "gallery" : "Gallery",
-  "camera" : "Camera"
+  "camera" : "Camera",
+  "images_uploaded" : "Images uploaded"
 
 }

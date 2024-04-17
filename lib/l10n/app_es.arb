@@ -30,7 +30,8 @@
 
   "select_image": "Seleccionar imagen",
   "gallery": "Galería",
-  "camera": "Cámara"
+  "camera": "Cámara",
+  "images_uploaded" : "Imagenes subidas"
 
 
 }

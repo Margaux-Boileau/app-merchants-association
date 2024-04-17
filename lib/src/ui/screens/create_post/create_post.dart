@@ -104,7 +104,7 @@ class _CreatePostState extends State<CreatePost> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Imagenes subidas",
+          "",
           style: Theme.of(context).textTheme.labelLarge,
         ),
         const SizedBox(height: 15),
@@ -152,7 +152,7 @@ class _CreatePostState extends State<CreatePost> {
                         imagesUploaded.length > 2
                             ? "+${imagesUploaded.length - 2}"
                             : "",
-                        style: Theme.of(context).textTheme.labelLarge!.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+                        style: Theme.of(context).textTheme.labelLarge!.copyWith(fontWeight: FontWeight.w700, fontSize: 25),
                       ),
                     ),
                   ],
@@ -164,6 +164,10 @@ class _CreatePostState extends State<CreatePost> {
       ],
     );
   }
+
+  // La primer
+
+
 
   /// Bottom Button para subir imagenes y crear el post
   Widget _bottomButton(BuildContext context) {
@@ -198,6 +202,7 @@ class _CreatePostState extends State<CreatePost> {
     );
   }
 
+
   /// Función para mostrar un dialog para escoger galería o camara
   _showImagePickerDialog(BuildContext context) {
     showDialog(
@@ -216,7 +221,6 @@ class _CreatePostState extends State<CreatePost> {
                     setState(() {
                       imagesUploaded.add(selectedImage!);
                     });
-                    print(imagesUploaded.length);
                   });
                 },
               ),
@@ -229,7 +233,6 @@ class _CreatePostState extends State<CreatePost> {
                     setState(() {
                       imagesUploaded.add(selectedImage!);
                     });
-                    print(imagesUploaded.length);
                   });
                 },
               ),
