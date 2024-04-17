@@ -61,15 +61,7 @@ class _AppComerciantsState extends State<AppComerciants> {
     );
   }
 
-  // String setInitialRoute(){
-  //   UserHelper.getTokenFromSharedPreferences();
-  //   if(UserHelper.accessToken != null){
-  //     return NavigatorRoutes.mainHolder;
-  //   }
-  //   else{
-  //     print("NAVIGATE");
-  //     return NavigatorRoutes.signIn;
-  //   }}
+
   Future<String> setInitialRoute() async {
     await UserHelper.getTokenFromSharedPreferences();
     if(UserHelper.accessToken != null){
