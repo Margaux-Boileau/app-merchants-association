@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import '../helpers/user_helper.dart';
+import '../utils/image_picker_helper.dart';
 import 'api_routes.dart';
 
 class ApiClient{
@@ -32,6 +33,40 @@ class ApiClient{
     }
   }
 
+  // Create Post with base64 images
+  Future createForumPost(int forumPk, String title, String date, String body, List<String> mediaNames, List<String> mediaContents) async {
+    Map<String, dynamic> params = {
+      "title": title,
+      "date": date,
+      "body": body,
+      "media_names": mediaNames,
+      "media_contents": mediaContents,
+    };
+
+    //var _response = await _requestPOST(
+    //         needsAuth: true, path: "${routes["forums"]}/$forumPk/${routes["posts"]}/", formData: params, show: true);
+
+    var _response = await _requestPOST(
+        needsAuth: true, path: "/forums/$forumPk/posts/", formData: params, show: true);
+
+    if(_response != null){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  /// Get all forums
+  Future getForums() async {
+    var _response = await _requestGET(needsAuth: true, path: routes["forums"], show: true);
+
+    if(_response != null){
+      return _response;
+    }else{
+      return false;
+    }
+  }
+
   Future<dynamic> _requestGET(
       {bool needsAuth = true,
         String? path,
@@ -41,7 +76,7 @@ class ApiClient{
         bool extend = false}) async {
     try {
       if (extend) {
-        _dio.options.receiveTimeout = Duration(seconds: 30);
+        _dio.options.receiveTimeout = const Duration(seconds: 30);
       }
       // Realitzem la request
       Response response = await _dio.get(
@@ -51,7 +86,7 @@ class ApiClient{
           headers: needsAuth != null
               ? {
             HttpHeaders.authorizationHeader:
-            "Bearer ${UserHelper.accessToken}",
+            "Token ${UserHelper.accessToken}",
           }
               : null,
           contentType: Headers.jsonContentType,
@@ -98,7 +133,7 @@ class ApiClient{
           headers: needsAuth != null
               ? {
             HttpHeaders.authorizationHeader:
-            "Bearer ${UserHelper.accessToken}",
+            "Token ${UserHelper.accessToken}",
           }
               : null,
           contentType: Headers.jsonContentType,
@@ -143,7 +178,7 @@ class ApiClient{
           headers: needsAuth != null
               ? {
             HttpHeaders.authorizationHeader:
-            "Bearer ${UserHelper.accessToken}",
+            "Token ${UserHelper.accessToken}",
           }
               : null,
           contentType: Headers.jsonContentType,
@@ -189,7 +224,7 @@ class ApiClient{
           headers: needsAuth != null
               ? {
             HttpHeaders.authorizationHeader:
-            "Bearer ${UserHelper.accessToken}",
+            "Token ${UserHelper.accessToken}",
           }
               : null,
           contentType: Headers.jsonContentType,
@@ -236,7 +271,7 @@ class ApiClient{
           headers: needsAuth != null
               ? {
             HttpHeaders.authorizationHeader:
-            "Bearer ${UserHelper.accessToken}",
+            "Token ${UserHelper.accessToken}",
           }
               : null,
           contentType: Headers.jsonContentType,

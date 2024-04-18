@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../api/api_client.dart';
+import '../../../helpers/user_helper.dart';
+
 class CreatePost extends StatefulWidget {
   const CreatePost({super.key});
 
@@ -222,16 +225,28 @@ class _CreatePostState extends State<CreatePost> {
 
   /// Función para enviar el post
   _sendPost(BuildContext context, postTitle, postDescription) async {
-    List<String> imagesBase64 = await ImagePickerHelper.imagesToBase64(imagesUploaded);
+    if (postTitle.isEmpty || postDescription.isEmpty) {
+      DialogManager().showSimpleDialog(
+        context: context,
+        title: "Campos vacíos",
+        content: "AppLocalizations.of(context)!.empty_fields",
+      );
+    } else {
+      // Convertir las imágenes a base64
+      List<String> mediaContents = await ImagePickerHelper.imagesToBase64(imagesUploaded);
 
-    /// PRINTS PARA VISUALIZAR EL POST
-    print("Title: $postTitle");
-    print("Description: $postDescription");
-    print("Images: ${imagesBase64.length}");
-    // Bucle para mostrar las imagenes del post
-    for (String image in imagesBase64) {
-      print("Image:");
-      print(image);
+      // Obtener los nombres de los archivos de las imágenes
+      List<String> mediaNames = imagesUploaded.map((image) => image.path.split("/").last).toList();
+
+      // Llamar a la API para crear el post
+      bool result = await ApiClient().createForumPost(
+        1, // forumPk
+        postTitle,
+        "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}",
+        postDescription,
+        mediaNames,
+        mediaContents,
+      );
     }
   }
 }
