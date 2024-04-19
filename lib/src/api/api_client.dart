@@ -34,10 +34,9 @@ class ApiClient{
   }
 
   // Create Post with base64 images
-  Future createForumPost(int forumPk, String title, String date, String body, List<String> mediaNames, List<String> mediaContents) async {
+  Future createForumPost(int forumPk, String title, String body, List<String> mediaNames, List<String> mediaContents) async {
     Map<String, dynamic> params = {
       "title": title,
-      "date": date,
       "body": body,
       "media_names": mediaNames,
       "media_contents": mediaContents,

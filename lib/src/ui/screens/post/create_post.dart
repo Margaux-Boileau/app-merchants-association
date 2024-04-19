@@ -95,7 +95,7 @@ class _CreatePostState extends State<CreatePost> {
                   borderRadius: BorderRadius.circular(10),
                   borderSide: BorderSide.none,
                 ),
-                fillColor: Colors.grey[300],
+                fillColor: Colors.grey[200],
               ),
             ),
             const SizedBox(height: 25),
@@ -229,7 +229,7 @@ class _CreatePostState extends State<CreatePost> {
       DialogManager().showSimpleDialog(
         context: context,
         title: "Campos vacíos",
-        content: "AppLocalizations.of(context)!.empty_fields",
+        content: "Debes introducir un título y una descripción para el post.",
       );
     } else {
       // Convertir las imágenes a base64
@@ -242,7 +242,6 @@ class _CreatePostState extends State<CreatePost> {
       bool result = await ApiClient().createForumPost(
         1, // forumPk
         postTitle,
-        "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}",
         postDescription,
         mediaNames,
         mediaContents,
