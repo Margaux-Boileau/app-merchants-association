@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import '../helpers/user_helper.dart';
-import '../utils/image_picker_helper.dart';
 import 'api_routes.dart';
 
 class ApiClient{
@@ -66,6 +65,7 @@ class ApiClient{
     }
   }
 
+
   Future<dynamic> _requestGET(
       {bool needsAuth = true,
         String? path,
@@ -75,7 +75,7 @@ class ApiClient{
         bool extend = false}) async {
     try {
       if (extend) {
-        _dio.options.receiveTimeout = const Duration(seconds: 30);
+        _dio.options.receiveTimeout = Duration(seconds: 30);
       }
       // Realitzem la request
       Response response = await _dio.get(
@@ -85,7 +85,7 @@ class ApiClient{
           headers: needsAuth != null
               ? {
             HttpHeaders.authorizationHeader:
-            "Token ${UserHelper.accessToken}",
+            "Bearer ${UserHelper.accessToken}",
           }
               : null,
           contentType: Headers.jsonContentType,
@@ -132,7 +132,7 @@ class ApiClient{
           headers: needsAuth != null
               ? {
             HttpHeaders.authorizationHeader:
-            "Token ${UserHelper.accessToken}",
+            "Bearer ${UserHelper.accessToken}",
           }
               : null,
           contentType: Headers.jsonContentType,
@@ -177,7 +177,7 @@ class ApiClient{
           headers: needsAuth != null
               ? {
             HttpHeaders.authorizationHeader:
-            "Token ${UserHelper.accessToken}",
+            "Bearer ${UserHelper.accessToken}",
           }
               : null,
           contentType: Headers.jsonContentType,
@@ -223,7 +223,7 @@ class ApiClient{
           headers: needsAuth != null
               ? {
             HttpHeaders.authorizationHeader:
-            "Token ${UserHelper.accessToken}",
+            "Bearer ${UserHelper.accessToken}",
           }
               : null,
           contentType: Headers.jsonContentType,
@@ -270,7 +270,7 @@ class ApiClient{
           headers: needsAuth != null
               ? {
             HttpHeaders.authorizationHeader:
-            "Token ${UserHelper.accessToken}",
+            "Bearer ${UserHelper.accessToken}",
           }
               : null,
           contentType: Headers.jsonContentType,
@@ -331,6 +331,4 @@ class ApiClient{
     }
     return false;
   }
-
-
 }
