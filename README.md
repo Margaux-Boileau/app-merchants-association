@@ -1,16 +1,3 @@
-# app_merchants_association
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# App per als comerciants de l'associació de Sants de Creu coberta
+## [Link al document de les reunions 'daily'](https://docs.google.com/document/d/1zI_hmcGqmSW9f7VDPBhu5CrNaKiX6EYcbxGyyrRqMms/edit?usp=drive_link)
+## [Link al vídeo de la demo 1](https://drive.google.com/file/d/1a2-2fYGBAlG_Kf2jA3iJ-jDS3jjFYrkf/view?usp=sharing)
