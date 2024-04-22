@@ -2,6 +2,7 @@ import 'package:app_merchants_association/src/api/api_client.dart';
 import 'package:app_merchants_association/src/config/app_assets.dart';
 import 'package:app_merchants_association/src/config/app_styles.dart';
 import 'package:app_merchants_association/src/model/post.dart';
+import 'package:app_merchants_association/src/utils/helpers/user_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../config/app_colors.dart';
@@ -28,7 +29,12 @@ class _HomeState extends State<Home> {
   }
 
   getForums() async {
-    //final response = await ApiClient().getForums();
+    var response = await ApiClient().getShopForums(UserHelper.shop!.id!);
+    if (response != null) {
+      setState(() {
+        forums = response;
+      });
+    }
 
   }
 

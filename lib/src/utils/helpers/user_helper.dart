@@ -1,6 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import '../model/shop.dart';
-import '../model/user.dart';
+
+import '../../model/shop.dart';
+import '../../model/user.dart';
 
 class UserHelper {
 
@@ -11,7 +12,6 @@ class UserHelper {
 
   /// Access token de l'usuari que ha iniciat la sessió.
   static String? _accessToken;
-
 
   /// Retorna dades de l'usuari que ha iniciat sessió.
   static User? get user => _user;
