@@ -1,3 +1,4 @@
+import 'package:app_merchants_association/src/api/api_client.dart';
 import 'package:app_merchants_association/src/config/app_styles.dart';
 import 'package:app_merchants_association/src/config/navigator_routes.dart';
 import 'package:app_merchants_association/src/helpers/user_helper.dart';
@@ -65,6 +66,12 @@ class _AppComerciantsState extends State<AppComerciants> {
   Future<String> setInitialRoute() async {
     await UserHelper.getTokenFromSharedPreferences();
     if(UserHelper.accessToken != null){
+
+      String username = await UserHelper.getUsernameFromSharedPreferences();
+      Map<String, dynamic> response = await ApiClient().getUsernameData(username);
+      print("RESPONSE $response");
+      UserHelper.setUser(response);
+
       return NavigatorRoutes.mainHolder;
     }
     else{

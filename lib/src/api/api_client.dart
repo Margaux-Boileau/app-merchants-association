@@ -4,7 +4,8 @@ import 'package:dio/dio.dart';
 import '../helpers/user_helper.dart';
 import 'api_routes.dart';
 
-class ApiClient {
+class ApiClient{
+
   final Dio _dio = Dio(BaseOptions(
     baseUrl: "http://172.23.6.211:8000",
     connectTimeout: const Duration(milliseconds: 20000),
@@ -18,73 +19,35 @@ class ApiClient {
       "password": password,
     };
 
-    var _response = await _requestPOST(
+    var response = await _requestPOST(
         needsAuth: false, path: routes["login"], formData: params, show: true);
 
-    if (_response != null) {
-      String _accesToken = _response["token"];
-      UserHelper.saveTokenOnSharedPreferences(_accesToken);
-      UserHelper.setUser(_response["user"]);
+    if(response != null){
+      String accessToken = response["token"];
+      print(response);
+      UserHelper.saveTokenOnSharedPreferences(accessToken, response["user"]["username"]);
+      UserHelper.setUser(response);
       return true;
-    } else {
+    }else{
       return false;
     }
   }
 
-  /// Get all post from forums
-  /// 'forums/all/'
-  Future getForums() async {
-    try {
-      var _response = await _requestGET(
-          needsAuth: true, path: routes["forums"], show: true);
-
-      if (_response.statusCode == 200) {
-        List<String> forumsList = List<String>.from(jsonDecode(_response.body));
-        return forumsList;
-      } else {
-        print('Error: Failed to load forums');
-      }
-    } catch(e) {
-      print(e);
-    }
-  }
-
-  /// Create Post with base64 images
-  Future createForumPost(int forumPk, String title, String body,
-      List<String> mediaNames, List<String> mediaContents) async {
-    Map<String, dynamic> params = {
-      "title": title,
-      "body": body,
-      "media_names": mediaNames,
-      "media_contents": mediaContents,
-    };
-
-    //var _response = await _requestPOST(
-    //         needsAuth: true, path: "${routes["forums"]}/$forumPk/${routes["posts"]}/", formData: params, show: true);
-
-    var _response = await _requestPOST(
-        needsAuth: true,
-        path: "/forums/$forumPk/posts/",
-        formData: params,
-        show: true);
-
-    if (_response != null) {
-      return true;
-    } else {
-      return false;
-    }
+  Future<Map<String, dynamic>> getUsernameData(String username) async {
+    var response = await _requestGET(path: "${routes["accounts"]}/$username/", show: true);
+    return response;
   }
 
   Future<dynamic> _requestGET(
       {bool needsAuth = true,
-      String? path,
-      Map<String, dynamic>? params,
-      bool show = false,
-      bool connectionError = true,
-      bool extend = false}) async {
+        String? path,
+        Map<String, dynamic>? params,
+        bool show = false,
+        bool connectionError = true,
+        bool extend = false}) async {
     try {
       if (extend) {
-        _dio.options.receiveTimeout = const Duration(seconds: 30);
+        _dio.options.receiveTimeout = Duration(seconds: 30);
       }
       // Realitzem la request
       Response response = await _dio.get(
@@ -93,9 +56,9 @@ class ApiClient {
         options: Options(
           headers: needsAuth
               ? {
-                  HttpHeaders.authorizationHeader:
-                      "Token ${UserHelper.accessToken}",
-                }
+            HttpHeaders.authorizationHeader:
+            "Token ${UserHelper.accessToken}",
+          }
               : null,
           contentType: Headers.jsonContentType,
           responseType: ResponseType.json,
@@ -122,15 +85,16 @@ class ApiClient {
     }
   }
 
+
   Future<dynamic> _requestPUT(
       {bool needsAuth = true,
-      String? path,
-      Map<String, dynamic>? params,
-      bool show = false,
-      bool extend = false}) async {
+        String? path,
+        Map<String, dynamic>? params,
+        bool show = false,
+        bool extend = false}) async {
     try {
       if (extend) {
-        _dio.options.receiveTimeout = const Duration(seconds: 30);
+        _dio.options.receiveTimeout = Duration(seconds: 30);
       }
       // Realitzem la request
       Response response = await _dio.put(
@@ -167,13 +131,14 @@ class ApiClient {
     }
   }
 
+
   Future<dynamic> _requestPOST(
       {bool needsAuth = true,
-      String? path,
-      Map<String, dynamic>? formData,
-      Map<String, dynamic>? getParams,
-      bool connectionError = true,
-      bool show = false}) async {
+        String? path,
+        Map<String, dynamic>? formData,
+        Map<String, dynamic>? getParams,
+        bool connectionError = true,
+        bool show = false}) async {
     try {
       // Realitzem la request
       Response response = await _dio.post(
@@ -307,7 +272,9 @@ class ApiClient {
     }
   }
 
+
   void _printDioError(DioException e) {
+
     // Comprovem si la request té paràmetres, per fer print
     if (e.requestOptions.data != null) {
       //print(":.Params: ${e.requestOptions?.data}");
@@ -336,4 +303,6 @@ class ApiClient {
     }
     return false;
   }
+
+
 }

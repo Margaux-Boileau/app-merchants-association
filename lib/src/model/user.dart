@@ -1,3 +1,5 @@
+import 'package:app_merchants_association/src/model/shop.dart';
+
 class User{
 
   int? id;
@@ -7,6 +9,7 @@ class User{
   String? schedule;
   String? image;
   int? sector;
+  //Shop? shop;
 
   User({required this.id,
     required this.name,
@@ -14,7 +17,9 @@ class User{
     required this.address,
     required this.schedule,
     required this.image,
-    required this.sector});
+    required this.sector,
+    //required this.shop
+  });
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
@@ -24,7 +29,8 @@ class User{
         address: json["address"],
         schedule: json["schedule"],
         image: json["image"],
-        sector: json["sector"]
+        sector: json["sector"],
+        //shop: Shop.fromJson(json["shop"])
     );
   }
 
