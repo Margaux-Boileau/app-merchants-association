@@ -48,7 +48,7 @@ class ForumCard extends StatelessWidget {
                       decoration: BoxDecoration(color: AppColors.background),
                       child: Image.network(
                         // TODO Cambiar por la imagen del usuario
-                        post.profileImage,
+                        post.title,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -65,7 +65,7 @@ class ForumCard extends StatelessWidget {
                         ),
                         child: Text(
                           /// TODO Cambiar por el nombre del usuario
-                          post.localName,
+                          post.title,
                           overflow: TextOverflow.ellipsis,
                           style: AppStyles.textTheme.labelLarge!.copyWith(
                               fontWeight: FontWeight.w700, fontSize: 16.0),
@@ -87,7 +87,7 @@ class ForumCard extends StatelessWidget {
                                   vertical: 5, horizontal: 10),
                               child: Text(
                                 // TODO Cambiar por el nombre del usuario
-                                post.category,
+                                post.title,
                                 overflow: TextOverflow.ellipsis,
                                 style: AppStyles.textTheme.bodySmall!.copyWith(
                                   color: AppColors.white,
@@ -141,7 +141,7 @@ class ForumCard extends StatelessWidget {
               /// Si el foro tiene imagenes cargarlas, de lo contrario se quedaría así
               /// Por ahora se ha creado un booleano provisional que simula si hay imágenes o no.
 
-              post.images.isNotEmpty
+              post.media.isNotEmpty
                   ? Row(
                       children: [
                         ClipRRect(
@@ -152,21 +152,21 @@ class ForumCard extends StatelessWidget {
                             decoration: BoxDecoration(
                               color: AppColors.background,
                             ),
-                            child: post.images.isNotEmpty
+                            child: post.media.isNotEmpty
                                 ? InkWell(
                                     onTap: () {
                                       List<String> listUrls = [];
 
-                                      for(PostImage image in post.images){
-                                        listUrls.add(image.imageUrl);
-                                      }
+                                      // for(PostImage image in post.media){
+                                      //   listUrls.add(image.imageUrl);
+                                      // }
 
                                       Navigator.of(context).push(
                                           MaterialPageRoute(
                                               builder: (context) => SliderShowFullImages(listUrls, 0) ));
                                     },
                                     child: Image.network(
-                                      post.images[0].imageUrl,
+                                      "https://www.ikea.com/images/eket-storage-combination-with-feet-white-50449997-5e9b0b4b4b3b3b0008b3f3b3.jpg",
                                       fit: BoxFit.cover,
                                     ),
                                   )
@@ -184,9 +184,9 @@ class ForumCard extends StatelessWidget {
                             child: Stack(
                               fit: StackFit.expand,
                               children: [
-                                post.images.isNotEmpty
+                                post.media.isNotEmpty
                                     ? Image.network(
-                                        post.images[1].imageUrl,
+                                        "post.images[1].imageUrl",
                                         fit: BoxFit.cover,
                                       )
                                     : Container(),
@@ -197,9 +197,9 @@ class ForumCard extends StatelessWidget {
                                   ),
                                 ),
                                 Center(
-                                  child: post.images.isNotEmpty
+                                  child: post.media.isNotEmpty
                                       ? Text(
-                                          "+${post.images.length - 1}",
+                                          "+${post.media.length - 1}",
                                           style: AppStyles.textTheme.labelLarge!
                                               .copyWith(
                                             color: AppColors.black,

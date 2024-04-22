@@ -11,7 +11,7 @@ import '../../../utils/form_validation.dart';
 import '../../../utils/helpers/user_helper.dart';
 
 class SignIn extends StatefulWidget {
-  SignIn({super.key});
+  const SignIn({super.key});
 
   @override
   State<SignIn> createState() => _SignInState();

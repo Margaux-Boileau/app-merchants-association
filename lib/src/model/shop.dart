@@ -9,8 +9,10 @@ class Shop {
   String? instagram;
   String? facebook;
   String? webpage;
+  String? bio;
+  String? mail;
 
-  Shop({this.id, this.name, this.address, this.schedule, this.phone, this.sector, this.image, this.instagram, this.facebook, this.webpage});
+  Shop({this.id, this.name, this.address, this.schedule, this.phone, this.sector, this.image, this.instagram, this.facebook, this.webpage, this.bio, this.mail});
 
   Shop.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -23,7 +25,8 @@ class Shop {
     instagram = json['instagram'];
     facebook = json['facebook'];
     webpage = json['webpage'];
+    bio = json["bio"];
+    mail = json["mail"];
   }
 
 }
-

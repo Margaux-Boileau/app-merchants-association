@@ -1,6 +1,6 @@
 final Map<String, String> routes = {
   "login": "/accounts/login/",
-  "posts" : "/posts",
+  "posts" : "/posts/",
   "accounts": "/accounts",
   "shopForums": "/shops/",
   "forums" : "/forums/",

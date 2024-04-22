@@ -44,7 +44,7 @@ class _AppComerciantsState extends State<AppComerciants> {
               debugShowCheckedModeBanner: false,
               theme: AppStyles.mainTheme,
               localizationsDelegates: const [
-                AppLocalizations.delegate, // Add this line
+                AppLocalizations.delegate,
                 GlobalMaterialLocalizations.delegate,
                 GlobalWidgetsLocalizations.delegate,
                 GlobalCupertinoLocalizations.delegate,

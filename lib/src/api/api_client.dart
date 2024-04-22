@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import '../model/forums.dart';
+import '../model/post.dart';
 import '../utils/helpers/user_helper.dart';
 import 'api_routes.dart';
 
@@ -39,10 +41,26 @@ class ApiClient {
     return response;
   }
 
-  /// Obtenemos los foros de un usuario
-  Future<dynamic> getShopForums(int shopId) async {
-    var response = await _requestGET(path: "${routes["shopForums"]}$shopId${routes["forums"]}", show: true);
-    return response;
+  /// Obtener los foros del usuario de la app
+  Future<List<Forums>> getShopForums(int shopId) async {
+    var response = await _requestGET(
+        path: "${routes["shopForums"]}$shopId${routes["forums"]}", show: true);
+    if (response is List) {
+      return response.map((json) => Forums.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load forums');
+    }
+  }
+
+  /// Obtener los post del foro seleccionado por el usuario
+  Future<List<Post>> getForumPosts(int forumId) async {
+    var response = await _requestGET(
+        path: "${routes["forums"]}$forumId${routes["posts"]}", show: true);
+    if (response is List) {
+      return response.map((json) => Post.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load posts');
+    }
   }
 
   Future<dynamic> _requestGET(

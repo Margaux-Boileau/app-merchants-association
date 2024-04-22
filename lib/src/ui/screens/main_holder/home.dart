@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/navigator_routes.dart';
+import '../../../model/forums.dart';
 import '../../../model/post_image.dart';
 import '../../widgets/card/forum_card.dart';
 
@@ -20,23 +21,30 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   // Llave para el Scaffold para poder abrir el drawer desde el appbar.
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  List<String> forums = [];
+
+  List<Forums> forums = [];
+  late String currentCategory;
+  List<Post> posts = [];
 
   @override
   void initState() {
     super.initState();
-    getForums();
+    _getForums();
   }
 
-  getForums() async {
-    var response = await ApiClient().getShopForums(UserHelper.shop!.id!);
-    if (response != null) {
-      setState(() {
-        forums = response;
-      });
+  void _getForums() async {
+    try {
+      forums = await ApiClient().getShopForums(UserHelper.shop!.id!);
+      if (forums.isNotEmpty) {
+        posts = await ApiClient().getForumPosts(forums[0].id);
+      }
+      setState(() {});
+    } catch (e) {
+      print(e);
     }
-
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -71,15 +79,15 @@ class _HomeState extends State<Home> {
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
-              const UserAccountsDrawerHeader(
+              UserAccountsDrawerHeader(
                 // TODO Cambiar el nombre de la cuenta y correo por el del usuario
                 accountName: Text(
-                  "Fashion Trends",
-                  style: TextStyle(
+                  "UserHelper.user!.name!",
+                  style: const TextStyle(
                       color: Colors.black, fontWeight: FontWeight.w600),
                 ),
                 accountEmail: Text(
-                  "fashiontrends@gmail.com",
+                  UserHelper.shop!.name!,
                   style: TextStyle(
                       color: Colors.black, fontWeight: FontWeight.w400),
                 ),
@@ -111,7 +119,7 @@ class _HomeState extends State<Home> {
                 itemBuilder: (context, index) {
                   return ListTile(
                     title: Text(
-                      forums[index],
+                      forums[index].title, // Muestra el título del foro
                       style: TextStyle(
                         color: AppColors.black,
                         fontSize: 14.0,
@@ -119,7 +127,7 @@ class _HomeState extends State<Home> {
                     ),
                     onTap: () {
                       setState(() {
-                        currentCategory = forums[index]; // Actualiza la categoría actual
+                        currentCategory = forums[index].title; // Actualiza la categoría actual
                       });
                       Navigator.pop(context);
                     },
@@ -183,189 +191,5 @@ class _HomeState extends State<Home> {
         ),
       ],
     );
-  }
-
-  /// ---- PRUEBAS HARDCODED ----////
-
-  /// Lista [HARDCODED] de posts para pruebas
-  List<Post> posts = [
-    Post(
-      id: 1,
-      profileImage: 'https://picsum.photos/501',
-      category: 'Cafetería',
-      localName: 'El Aroma',
-      title: 'Cafetería "El Aroma"',
-      date: 'Hace 1 h',
-      body:
-          ' ¡Disfruta del mejor café de la ciudad en un ambiente acogedor! En Café El Aroma, nos enorgullecemos de servir café de alta calidad y deliciosos pasteles caseros. ¡Ven y relájate con nosotros!',
-      images: [],
-      idCreator: 1,
-    ),
-    Post(
-      id: 1,
-      profileImage: 'https://picsum.photos/502',
-      category: 'Tienda de Ropa',
-      localName: 'Fashion Trends',
-      title: 'Sobre nosotros',
-      date: 'Hace 2 h',
-      body:
-          'Descubre las últimas tendencias en moda en nuestra tienda Fashion Trends. Desde elegantes vestidos hasta cómodos conjuntos casuales, tenemos todo lo que necesitas para lucir fabuloso en cualquier ocasión.',
-      images: [
-        PostImage(
-          id: 1,
-          imageUrl: 'https://picsum.photos/102',
-          idPost: 2,
-        ),
-        PostImage(
-          id: 2,
-          imageUrl: 'https://picsum.photos/103',
-          idPost: 2,
-        ),
-      ],
-      idCreator: 1,
-    ),
-    Post(
-      id: 1,
-      profileImage: 'https://picsum.photos/503',
-      category: 'Zapatería',
-      localName: 'Footwear Haven',
-      title: 'Nuestros zapatos más cool de Sants',
-      date: 'Hace 3 h',
-      body:
-          'Encuentra el par de zapatos perfecto para complementar tu estilo en Footwear Haven. Con una amplia selección de calzado de marcas reconocidas, estamos aquí para satisfacer todas tus necesidades de calzado.',
-      images: [
-        PostImage(
-          id: 1,
-          imageUrl: 'https://picsum.photos/104',
-          idPost: 3,
-        ),
-        PostImage(
-          id: 2,
-          imageUrl: 'https://picsum.photos/105',
-          idPost: 3,
-        ),
-        PostImage(
-          id: 2,
-          imageUrl: 'https://picsum.photos/106',
-          idPost: 3,
-        ),
-        PostImage(
-          id: 2,
-          imageUrl: 'https://picsum.photos/107',
-          idPost: 3,
-        ),
-        PostImage(
-          id: 2,
-          imageUrl: 'https://picsum.photos/108',
-          idPost: 3,
-        ),
-      ],
-      idCreator: 1,
-    ),
-    Post(
-      id: 1,
-      profileImage: 'https://picsum.photos/504',
-      category: 'Restaurante',
-      localName: 'La Parrilla Dorada',
-      title: 'La Parrilla Dorada: ¡Satisfacción garantizada!',
-      date: 'Hace 3 h',
-      body:
-          'Satisface tus antojos culinarios en nuestro restaurante La Parrilla Dorada',
-      images: [
-        PostImage(
-          id: 1,
-          imageUrl: 'https://picsum.photos/109',
-          idPost: 3,
-        ),
-        PostImage(
-          id: 2,
-          imageUrl: 'https://picsum.photos/110',
-          idPost: 3,
-        ),
-        PostImage(
-          id: 2,
-          imageUrl: 'https://picsum.photos/111',
-          idPost: 3,
-        ),
-      ],
-      idCreator: 1,
-    ),
-    Post(
-      id: 5,
-      profileImage: 'https://picsum.photos/505',
-      category: 'Bar de tapes',
-      localName: 'Tapas deliciosas',
-      title: 'Ven a disfrutar de nuestras tapas exquisitas',
-      date: 'Hace 4 h',
-      body:
-          'En Tapas deliciosas, te ofrecemos una amplia variedad de tapas españolas tradicionales y creativas para satisfacer tu paladar. ¡No te lo pierdas!',
-      images: [
-        PostImage(
-          id: 1,
-          imageUrl: 'https://picsum.photos/112',
-          idPost: 5,
-        ),
-        PostImage(
-          id: 2,
-          imageUrl: 'https://picsum.photos/113',
-          idPost: 5,
-        ),
-      ],
-      idCreator: 1,
-    ),
-    // Post para la categoría de "Escola"
-    Post(
-      id: 6,
-      profileImage: 'https://picsum.photos/506',
-      category: 'Escola',
-      localName: 'Academia de idiomas Bright',
-      title: 'Aprende idiomas con los mejores profesionales',
-      date: 'Hace 5 h',
-      body:
-          'En Academia de idiomas Bright, ofrecemos cursos de idiomas impartidos por profesores altamente calificados y con amplia experiencia. ¡Únete a nosotros y mejora tus habilidades lingüísticas!',
-      images: [],
-      idCreator: 1,
-    ),
-    Post(
-      id: 7,
-      profileImage: 'https://picsum.photos/507',
-      category: 'Joieria, rellotjeria i bijuteria',
-      localName: 'Gems & Watches',
-      title: 'Descubre las joyas más elegantes y los relojes más finos',
-      date: 'Hace 6 h',
-      body:
-          'En Gems & Watches, te ofrecemos una selección exclusiva de joyas preciosas y relojes de lujo de las mejores marcas. Visítanos y encuentra la pieza perfecta para complementar tu estilo.',
-      images: [
-        PostImage(
-          id: 1,
-          imageUrl: 'https://picsum.photos/114',
-          idPost: 7,
-        ),
-        PostImage(
-          id: 2,
-          imageUrl: 'https://picsum.photos/115',
-          idPost: 7,
-        ),
-      ],
-      idCreator: 1,
-    ),
-  ];
-
-  /// Todas estas variables son temporales y se eliminarán cuando se implemente la lógica real.
-  /// Se han añadido para poder crear el diseño del widget del card del foro.
-  /// También se ha añadido la lista de categorías para el menú lateral.
-  // Lista de categorías para el menú lateral (temporal)
-  final List<String> categories = [
-    'General',
-    'Tecnicos',
-    'Tiendas',
-  ];
-
-  // Categoría por defecto seleccionada. Será la primera de la lista [categories].
-  late String currentCategory;
-
-  // Constructor de la clase _HomeState para inicializar la categoría actual.
-  _HomeState() {
-    currentCategory = categories[0];
   }
 }

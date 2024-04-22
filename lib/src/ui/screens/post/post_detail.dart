@@ -133,7 +133,7 @@ class _PostDetailState extends State<PostDetail> {
               decoration: BoxDecoration(color: AppColors.background),
               child: Image.network(
                 // TODO Cambiar por la imagen del usuario
-                widget.post.profileImage,
+                widget.post.title,
                 fit: BoxFit.cover,
               ),
             ),
@@ -147,7 +147,7 @@ class _PostDetailState extends State<PostDetail> {
                 constraints: BoxConstraints(
                     maxWidth: MediaQuery.of(context).size.width * 0.7),
                 child: Text(
-                  widget.post.localName,
+                  widget.post.title,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: AppStyles.textTheme.labelLarge!.copyWith(
@@ -193,7 +193,7 @@ class _PostDetailState extends State<PostDetail> {
         ),
         const SizedBox(height: 20),
         // Hero images
-        if (widget.post.images.isNotEmpty)
+        if (widget.post.media.isNotEmpty)
           Column(
             children: [
               CarouselSlider(
@@ -213,7 +213,7 @@ class _PostDetailState extends State<PostDetail> {
                     });
                   },
                 ),
-                items: widget.post.images.map((item) {
+                items: widget.post.media.map((item) {
                   return Padding(
                     padding: const EdgeInsets.all(2), // Ajusta este valor según tus necesidades
                     child: Material(
@@ -225,7 +225,7 @@ class _PostDetailState extends State<PostDetail> {
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                          child: Image.network(item.imageUrl, fit: BoxFit.cover, width: 1500),
+                          child: Image.network("", fit: BoxFit.cover, width: 1500),
                         ),
                       ),
                     ),
@@ -236,8 +236,8 @@ class _PostDetailState extends State<PostDetail> {
               /// Indicadores de posición
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: widget.post.images.map((url) {
-                  int index = widget.post.images.indexOf(url);
+                children: widget.post.media.map((url) {
+                  int index = widget.post.media.indexOf(url);
                   return Container(
                     width: 8.0,
                     height: 8.0,
@@ -259,7 +259,7 @@ class _PostDetailState extends State<PostDetail> {
 
   Widget _commentsBody(BuildContext context) {
     return Padding(
-      padding: widget.post.images.isNotEmpty ? const EdgeInsets.only(top: 20.0, bottom: 70) : const EdgeInsets.only(top: 10.0, bottom: 70),
+      padding: widget.post.media.isNotEmpty ? const EdgeInsets.only(top: 20.0, bottom: 70) : const EdgeInsets.only(top: 10.0, bottom: 70),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

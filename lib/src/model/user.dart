@@ -5,6 +5,7 @@ class User{
   int? id;
   String? name;
   String? password;
+  bool shopOwner;
   String? address;
   String? schedule;
   String? image;
@@ -18,6 +19,7 @@ class User{
     required this.schedule,
     required this.image,
     required this.sector,
+    required this.shopOwner
     //required this.shop
   });
 
@@ -30,7 +32,8 @@ class User{
         schedule: json["schedule"],
         image: json["image"],
         sector: json["sector"],
-        //shop: Shop.fromJson(json["shop"])
+        shopOwner: json["is_owner_of_shop"]
+      //shop: Shop.fromJson(json["shop"])
     );
   }
 
