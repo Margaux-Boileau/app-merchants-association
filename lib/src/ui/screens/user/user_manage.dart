@@ -1,7 +1,9 @@
+import 'package:app_merchants_association/src/api/api_client.dart';
 import 'package:app_merchants_association/src/model/user.dart';
 import 'package:app_merchants_association/src/ui/widgets/card/user_card.dart';
 import 'package:app_merchants_association/src/ui/widgets/dialog/create_user_dialog.dart';
 import 'package:app_merchants_association/src/utils/dialog_manager.dart';
+import 'package:app_merchants_association/src/utils/helpers/user_helper.dart';
 import 'package:flutter/material.dart';
 import '../../../config/app_colors.dart';
 
@@ -13,11 +15,11 @@ class UserManage extends StatefulWidget {
 }
 
 class _UserManageState extends State<UserManage> {
-  List<User> users = [];
+  List<String> users = [];
 
   @override
   void initState() {
-    users = getUsers();
+    getUsers();
     super.initState();
   }
 
@@ -40,7 +42,7 @@ class _UserManageState extends State<UserManage> {
           color: AppColors.white,
         ),
       ),
-      body: _content(),
+      body: users.isNotEmpty ? _content() : Text("No hay empleados"),
     );
   }
 
@@ -61,371 +63,17 @@ class _UserManageState extends State<UserManage> {
     DialogManager().showRegisterDialog(context);
   }
 
-  List<User> getUsers() {
-    List<User> usersList = [
-      // User(
-      //     id: 1,
-      //     name: "Manel",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null
-      // ),
-      // User(
-      //     id: 1,
-      //     name: "Manel",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null    ),
-      // User(
-      //     id: 1,
-      //     name: "Oscar",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null    ),
-      // User(
-      //     id: 1,
-      //     name: "Manel",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "Lorenzo",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "Manel",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "Marguax",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "Manel",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "A",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "Manel",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "Aduwuwfw",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "Manel",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name:
-      //         "efuieuieigueueueueueueueueueueueueueueueueueueueueueueueueueeueueuu",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "Manel",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "AAAFwf",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "Manel",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "Cpcp",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "Manel",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "Coco",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "Manel",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "Albaro",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "Manel",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "Joseluis",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "Manel",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "Luci",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "Manel",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "Carla",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "Manel",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "Gay",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "Manel",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "ooooo",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "Manel",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "increible",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "Manel",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "qqqqoqqqq",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "Manel",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "eeeeeoeeeeoeeeeoeeeeoeeeeeo",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "Manel",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "aaaaaaaaaoaaaaoaaaaoaaao",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-      // User(
-      //     id: 1,
-      //     name: "Manel",
-      //     password: "password",
-      //     address: "address",
-      //     schedule: "schedule",
-      //     image: "image",
-      //     sector: 1,
-      //     shop: null),
-    ];
-    return usersList;
+  getUsers() async {
+    var employeesList = await ApiClient().getShopEmployees(UserHelper.shop!.id!);
+    users = employeesList;
+    setState(() {
+      
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:app_merchants_association/src/model/user.dart';
 import 'package:dio/dio.dart';
 import '../utils/helpers/user_helper.dart';
 import 'api_routes.dart';
@@ -40,9 +41,6 @@ class ApiClient{
   Future<String?> getShopImage(int shopId) async{
     try{
       var response = await _requestGET(path: "${routes["shops"]}$shopId${routes["image"]}");
-      print("IMAGE RESPONSE");
-      print("${routes["shops"]}$shopId${routes["image"]}");
-      print(response);
       if(response != null){
         return response;
       }
@@ -51,6 +49,41 @@ class ApiClient{
       print("Error at get shop image $e");
     }
     return null;
+  }
+
+  Future<List<String>> getShopEmployees(int shopId) async {
+    try{
+      var response = await _requestGET(path: "${routes["shops"]}$shopId${routes["employees"]}");
+      if(response != null){
+        List<String> list = response.cast<String>();
+        return list;
+      }
+
+    }catch(e){
+      print("Error at get shop employees $e");
+    }
+    return [];
+  }
+
+  Future registerEmployer(String username, String password) async {
+    Map<String, dynamic> params = {
+      "username": username,
+      "password": password,
+    };
+
+    try{
+      var response = await _requestPOST(
+          path: routes["registerEmployer"], formData: params, show: true);
+
+      if(response != null){
+        return true;
+      }else{
+        return false;
+      }
+    }catch(e){
+      print(e);
+      return null;
+    }
   }
 
   Future<dynamic> _requestGET(

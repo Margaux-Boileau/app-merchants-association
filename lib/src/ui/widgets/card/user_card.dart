@@ -7,7 +7,7 @@ import '../../../model/user.dart';
 class UserCard extends StatefulWidget {
   const UserCard({super.key, required this.user});
 
-  final User user;
+  final String user;
 
   @override
   State<UserCard> createState() => _UserCardState();
@@ -39,7 +39,7 @@ class _UserCardState extends State<UserCard> {
 
   Widget _cardContent(){
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       child: Row(
         children: [
           const Icon(
@@ -50,7 +50,7 @@ class _UserCardState extends State<UserCard> {
             child: Padding(
               padding: const EdgeInsets.only(left: 15),
               child: Text(
-                widget.user.name!,
+                widget.user,
                 style: AppStyles.textTheme.titleMedium,
                 overflow: TextOverflow.ellipsis,
               ),

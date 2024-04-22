@@ -4,5 +4,7 @@ final Map<String, String> routes = {
   "posts" : "/posts",
   "accounts": "/accounts",
   "shops": "/shops/",
-  "image": "/image/"
+  "image": "/image/",
+  "employees": "/employees/",
+  "registerEmployer": "/accounts/register/"
 };
