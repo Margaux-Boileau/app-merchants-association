@@ -28,7 +28,7 @@ class _HomeState extends State<Home> {
   }
 
   getForums() async {
-    final response = await ApiClient().getForums();
+    //final response = await ApiClient().getForums();
 
   }
 

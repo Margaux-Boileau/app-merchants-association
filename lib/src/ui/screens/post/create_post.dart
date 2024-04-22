@@ -239,13 +239,13 @@ class _CreatePostState extends State<CreatePost> {
       List<String> mediaNames = imagesUploaded.map((image) => image.path.split("/").last).toList();
 
       // Llamar a la API para crear el post
-      bool result = await ApiClient().createForumPost(
-        1, // forumPk
-        postTitle,
-        postDescription,
-        mediaNames,
-        mediaContents,
-      );
+      // bool result = await ApiClient().createForumPost(
+      //   1, // forumPk
+      //   postTitle,
+      //   postDescription,
+      //   mediaNames,
+      //   mediaContents,
+      // );
     }
   }
 }
