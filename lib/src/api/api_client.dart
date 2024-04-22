@@ -35,15 +35,14 @@ class ApiClient {
   /// 'forums/all/'
   Future getForums() async {
     try {
-      // var _response = await _requestGET(
-      //     needsAuth: true, path: "${routes["forums"]}${"all"}", show: true);
       var _response = await _requestGET(
           needsAuth: true, path: routes["forums"], show: true);
 
-      if (_response != null) {
-        return _response;
+      if (_response.statusCode == 200) {
+        List<String> forumsList = List<String>.from(jsonDecode(_response.body));
+        return forumsList;
       } else {
-        return false;
+        print('Error: Failed to load forums');
       }
     } catch(e) {
       print(e);

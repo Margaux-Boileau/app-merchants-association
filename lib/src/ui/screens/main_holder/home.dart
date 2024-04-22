@@ -19,19 +19,16 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   // Llave para el Scaffold para poder abrir el drawer desde el appbar.
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  List<String> forums = [];
 
   @override
   void initState() {
     super.initState();
-    getForumPosts();
+    getForums();
   }
 
-  // {"title": "test", "read_members": "test", "read_write_members": ["test1.jpg", "test2.jpg"],}
-  getForumPosts() async {
+  getForums() async {
     final response = await ApiClient().getForums();
-    print("FORUMS");
-    print(response);
-
 
   }
 
@@ -104,11 +101,11 @@ class _HomeState extends State<Home> {
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: categories.length,
+                itemCount: forums.length,
                 itemBuilder: (context, index) {
                   return ListTile(
                     title: Text(
-                      categories[index],
+                      forums[index],
                       style: TextStyle(
                         color: AppColors.black,
                         fontSize: 14.0,
@@ -116,8 +113,7 @@ class _HomeState extends State<Home> {
                     ),
                     onTap: () {
                       setState(() {
-                        currentCategory =
-                            categories[index]; // Actualiza la categoría actual
+                        currentCategory = forums[index]; // Actualiza la categoría actual
                       });
                       Navigator.pop(context);
                     },
