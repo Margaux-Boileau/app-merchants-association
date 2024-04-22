@@ -1,3 +1,4 @@
+import 'package:app_merchants_association/src/api/api_client.dart';
 import 'package:app_merchants_association/src/config/app_assets.dart';
 import 'package:app_merchants_association/src/config/app_styles.dart';
 import 'package:app_merchants_association/src/model/post.dart';
@@ -19,22 +20,19 @@ class _HomeState extends State<Home> {
   // Llave para el Scaffold para poder abrir el drawer desde el appbar.
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  /// Todas estas variables son temporales y se eliminarán cuando se implemente la lógica real.
-  /// Se han añadido para poder crear el diseño del widget del card del foro.
-  /// También se ha añadido la lista de categorías para el menú lateral.
-  // Lista de categorías para el menú lateral (temporal)
-  final List<String> categories = [
-    'General',
-    'Tecnicos',
-    'Tiendas',
-  ];
+  @override
+  void initState() {
+    super.initState();
+    getForumPosts();
+  }
 
-  // Categoría por defecto seleccionada. Será la primera de la lista [categories].
-  late String currentCategory;
+  // {"title": "test", "read_members": "test", "read_write_members": ["test1.jpg", "test2.jpg"],}
+  getForumPosts() async {
+    final response = await ApiClient().getForums();
+    print("FORUMS");
+    print(response);
 
-  // Constructor de la clase _HomeState para inicializar la categoría actual.
-  _HomeState() {
-    currentCategory = categories[0];
+
   }
 
   @override
@@ -57,12 +55,6 @@ class _HomeState extends State<Home> {
         /// Botón flotante para crear un nuevo foro
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            // // TODO Mostrar snackbar de momento
-            // ScaffoldMessenger.of(context).showSnackBar(
-            //   const SnackBar(
-            //     content: Text('Crear foro'),
-            //   ),
-            // );
             Navigator.pushNamed(context, NavigatorRoutes.createPost);
           },
           backgroundColor: AppColors.thirdBlue,
@@ -356,4 +348,22 @@ class _HomeState extends State<Home> {
       idCreator: 1,
     ),
   ];
+
+  /// Todas estas variables son temporales y se eliminarán cuando se implemente la lógica real.
+  /// Se han añadido para poder crear el diseño del widget del card del foro.
+  /// También se ha añadido la lista de categorías para el menú lateral.
+  // Lista de categorías para el menú lateral (temporal)
+  final List<String> categories = [
+    'General',
+    'Tecnicos',
+    'Tiendas',
+  ];
+
+  // Categoría por defecto seleccionada. Será la primera de la lista [categories].
+  late String currentCategory;
+
+  // Constructor de la clase _HomeState para inicializar la categoría actual.
+  _HomeState() {
+    currentCategory = categories[0];
+  }
 }

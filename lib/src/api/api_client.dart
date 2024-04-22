@@ -4,8 +4,7 @@ import 'package:dio/dio.dart';
 import '../helpers/user_helper.dart';
 import 'api_routes.dart';
 
-class ApiClient{
-
+class ApiClient {
   final Dio _dio = Dio(BaseOptions(
     baseUrl: "http://172.23.6.211:8000",
     connectTimeout: const Duration(milliseconds: 20000),
@@ -22,18 +21,38 @@ class ApiClient{
     var _response = await _requestPOST(
         needsAuth: false, path: routes["login"], formData: params, show: true);
 
-    if(_response != null){
+    if (_response != null) {
       String _accesToken = _response["token"];
       UserHelper.saveTokenOnSharedPreferences(_accesToken);
       UserHelper.setUser(_response["user"]);
       return true;
-    }else{
+    } else {
       return false;
     }
   }
 
-  // Create Post with base64 images
-  Future createForumPost(int forumPk, String title, String body, List<String> mediaNames, List<String> mediaContents) async {
+  /// Get all post from forums
+  /// 'forums/all/'
+  Future getForums() async {
+    try {
+      // var _response = await _requestGET(
+      //     needsAuth: true, path: "${routes["forums"]}${"all"}", show: true);
+      var _response = await _requestGET(
+          needsAuth: true, path: routes["forums"], show: true);
+
+      if (_response != null) {
+        return _response;
+      } else {
+        return false;
+      }
+    } catch(e) {
+      print(e);
+    }
+  }
+
+  /// Create Post with base64 images
+  Future createForumPost(int forumPk, String title, String body,
+      List<String> mediaNames, List<String> mediaContents) async {
     Map<String, dynamic> params = {
       "title": title,
       "body": body,
@@ -45,48 +64,39 @@ class ApiClient{
     //         needsAuth: true, path: "${routes["forums"]}/$forumPk/${routes["posts"]}/", formData: params, show: true);
 
     var _response = await _requestPOST(
-        needsAuth: true, path: "/forums/$forumPk/posts/", formData: params, show: true);
+        needsAuth: true,
+        path: "/forums/$forumPk/posts/",
+        formData: params,
+        show: true);
 
-    if(_response != null){
+    if (_response != null) {
       return true;
-    }else{
+    } else {
       return false;
     }
   }
-
-  /// Get all forums
-  Future getForums() async {
-    var _response = await _requestGET(needsAuth: true, path: routes["forums"], show: true);
-
-    if(_response != null){
-      return _response;
-    }else{
-      return false;
-    }
-  }
-
 
   Future<dynamic> _requestGET(
       {bool needsAuth = true,
-        String? path,
-        Map<String, dynamic>? params,
-        bool show = false,
-        bool connectionError = true,
-        bool extend = false}) async {
+      String? path,
+      Map<String, dynamic>? params,
+      bool show = false,
+      bool connectionError = true,
+      bool extend = false}) async {
     try {
       if (extend) {
-        _dio.options.receiveTimeout = Duration(seconds: 30);
+        _dio.options.receiveTimeout = const Duration(seconds: 30);
       }
       // Realitzem la request
       Response response = await _dio.get(
         path ?? "",
         queryParameters: params,
         options: Options(
-          headers: needsAuth != null
+          headers: needsAuth
               ? {
-            HttpHeaders.authorizationHeader:
-            "Bearer ${UserHelper.accessToken}",
-          }
+                  HttpHeaders.authorizationHeader:
+                      "Token ${UserHelper.accessToken}",
+                }
               : null,
           contentType: Headers.jsonContentType,
           responseType: ResponseType.json,
@@ -113,26 +123,25 @@ class ApiClient{
     }
   }
 
-
   Future<dynamic> _requestPUT(
       {bool needsAuth = true,
-        String? path,
-        Map<String, dynamic>? params,
-        bool show = false,
-        bool extend = false}) async {
+      String? path,
+      Map<String, dynamic>? params,
+      bool show = false,
+      bool extend = false}) async {
     try {
       if (extend) {
-        _dio.options.receiveTimeout = Duration(seconds: 30);
+        _dio.options.receiveTimeout = const Duration(seconds: 30);
       }
       // Realitzem la request
       Response response = await _dio.put(
         path ?? "",
         queryParameters: params,
         options: Options(
-          headers: needsAuth != null
+          headers: needsAuth
               ? {
             HttpHeaders.authorizationHeader:
-            "Bearer ${UserHelper.accessToken}",
+            "Token ${UserHelper.accessToken}",
           }
               : null,
           contentType: Headers.jsonContentType,
@@ -159,14 +168,13 @@ class ApiClient{
     }
   }
 
-
   Future<dynamic> _requestPOST(
       {bool needsAuth = true,
-        String? path,
-        Map<String, dynamic>? formData,
-        Map<String, dynamic>? getParams,
-        bool connectionError = true,
-        bool show = false}) async {
+      String? path,
+      Map<String, dynamic>? formData,
+      Map<String, dynamic>? getParams,
+      bool connectionError = true,
+      bool show = false}) async {
     try {
       // Realitzem la request
       Response response = await _dio.post(
@@ -174,10 +182,10 @@ class ApiClient{
         data: formData != null ? FormData.fromMap(formData) : null,
         queryParameters: getParams ?? null,
         options: Options(
-          headers: needsAuth != null
+          headers: needsAuth
               ? {
             HttpHeaders.authorizationHeader:
-            "Bearer ${UserHelper.accessToken}",
+            "Token ${UserHelper.accessToken}",
           }
               : null,
           contentType: Headers.jsonContentType,
@@ -220,10 +228,10 @@ class ApiClient{
         data: formData != null ? FormData.fromMap(formData) : null,
         queryParameters: getParams ?? null,
         options: Options(
-          headers: needsAuth != null
+          headers: needsAuth
               ? {
             HttpHeaders.authorizationHeader:
-            "Bearer ${UserHelper.accessToken}",
+            "Token ${UserHelper.accessToken}",
           }
               : null,
           contentType: Headers.jsonContentType,
@@ -267,10 +275,10 @@ class ApiClient{
         data: formData != null ? FormData.fromMap(formData) : null,
         queryParameters: getParams ?? null,
         options: Options(
-          headers: needsAuth != null
+          headers: needsAuth
               ? {
             HttpHeaders.authorizationHeader:
-            "Bearer ${UserHelper.accessToken}",
+            "Token ${UserHelper.accessToken}",
           }
               : null,
           contentType: Headers.jsonContentType,
@@ -300,9 +308,7 @@ class ApiClient{
     }
   }
 
-
   void _printDioError(DioException e) {
-
     // Comprovem si la request té paràmetres, per fer print
     if (e.requestOptions.data != null) {
       //print(":.Params: ${e.requestOptions?.data}");
