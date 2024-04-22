@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import '../model/shop.dart';
-import '../model/user.dart';
+import '../../model/shop.dart';
+import '../../model/user.dart';
 
 class UserHelper {
 
@@ -24,6 +24,8 @@ class UserHelper {
     ///En caso de que haya cambios dede la BBDD de un usuario que puedan romperlo, finaliza la sesión
     try {
       _user = User.fromJson(json["user"]);
+      print("SHOP");
+      print(json["shop"]);
       _shop = Shop.fromJson(json["shop"]);
     }catch(e){
      print(".:USER HELPER ERROR AT SET USER $e");

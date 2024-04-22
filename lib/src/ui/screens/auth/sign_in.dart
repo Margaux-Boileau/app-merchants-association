@@ -5,10 +5,9 @@ import 'package:app_merchants_association/src/config/app_styles.dart';
 import 'package:app_merchants_association/src/utils/dialog_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import '../../../config/app_colors.dart';
 import '../../../config/navigator_routes.dart';
-import '../../../helpers/user_helper.dart';
+import 'package:app_merchants_association/src/utils/helpers/user_helper.dart';
 import '../../../utils/form_validation.dart';
 
 class SignIn extends StatefulWidget {

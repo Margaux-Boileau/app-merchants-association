@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
-import '../helpers/user_helper.dart';
+import '../utils/helpers/user_helper.dart';
 import 'api_routes.dart';
 
 class ApiClient{
@@ -24,7 +24,6 @@ class ApiClient{
 
     if(response != null){
       String accessToken = response["token"];
-      print(response);
       UserHelper.saveTokenOnSharedPreferences(accessToken, response["user"]["username"]);
       UserHelper.setUser(response);
       return true;
@@ -36,6 +35,22 @@ class ApiClient{
   Future<Map<String, dynamic>> getUsernameData(String username) async {
     var response = await _requestGET(path: "${routes["accounts"]}/$username/", show: true);
     return response;
+  }
+
+  Future<String?> getShopImage(int shopId) async{
+    try{
+      var response = await _requestGET(path: "${routes["shops"]}$shopId${routes["image"]}");
+      print("IMAGE RESPONSE");
+      print("${routes["shops"]}$shopId${routes["image"]}");
+      print(response);
+      if(response != null){
+        return response;
+      }
+
+    }catch(e){
+      print("Error at get shop image $e");
+    }
+    return null;
   }
 
   Future<dynamic> _requestGET(
