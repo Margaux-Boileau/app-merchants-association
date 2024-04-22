@@ -157,6 +157,11 @@ class _SignInState extends State<SignIn> {
       bool response = await ApiClient().signIn(usernameController.text, passwordController.text);
 
       if(response){
+
+        String username = await UserHelper.getUsernameFromSharedPreferences();
+        Map<String, dynamic> response = await ApiClient().getUsernameData(username);
+        UserHelper.setUser(response);
+
         Navigator.pushReplacementNamed(context, NavigatorRoutes.mainHolder);
       }
       else{

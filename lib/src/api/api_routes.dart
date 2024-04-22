@@ -1,3 +1,4 @@
 final Map<String, String> routes = {
-  "login": "/accounts/login/"
+  "login": "/accounts/login/",
+  "accounts": "/accounts"
 };

@@ -19,21 +19,24 @@ class ApiClient{
       "password": password,
     };
 
-    var _response = await _requestPOST(
+    var response = await _requestPOST(
         needsAuth: false, path: routes["login"], formData: params, show: true);
 
-    if(_response != null){
-      String _accesToken = _response["token"];
-      UserHelper.saveTokenOnSharedPreferences(_accesToken);
-      UserHelper.setUser(_response["user"]);
+    if(response != null){
+      String accessToken = response["token"];
+      print(response);
+      UserHelper.saveTokenOnSharedPreferences(accessToken, response["user"]["username"]);
+      UserHelper.setUser(response);
       return true;
     }else{
       return false;
     }
-
-
   }
 
+  Future<Map<String, dynamic>> getUsernameData(String username) async {
+    var response = await _requestGET(path: "${routes["accounts"]}/$username/", show: true);
+    return response;
+  }
 
   Future<dynamic> _requestGET(
       {bool needsAuth = true,
@@ -51,10 +54,10 @@ class ApiClient{
         path ?? "",
         queryParameters: params,
         options: Options(
-          headers: needsAuth != null
+          headers: needsAuth
               ? {
             HttpHeaders.authorizationHeader:
-            "Bearer ${UserHelper.accessToken}",
+            "Token ${UserHelper.accessToken}",
           }
               : null,
           contentType: Headers.jsonContentType,
@@ -98,10 +101,10 @@ class ApiClient{
         path ?? "",
         queryParameters: params,
         options: Options(
-          headers: needsAuth != null
+          headers: needsAuth
               ? {
             HttpHeaders.authorizationHeader:
-            "Bearer ${UserHelper.accessToken}",
+            "Token ${UserHelper.accessToken}",
           }
               : null,
           contentType: Headers.jsonContentType,
@@ -143,10 +146,10 @@ class ApiClient{
         data: formData != null ? FormData.fromMap(formData) : null,
         queryParameters: getParams ?? null,
         options: Options(
-          headers: needsAuth != null
+          headers: needsAuth
               ? {
             HttpHeaders.authorizationHeader:
-            "Bearer ${UserHelper.accessToken}",
+            "Token ${UserHelper.accessToken}",
           }
               : null,
           contentType: Headers.jsonContentType,
@@ -189,10 +192,10 @@ class ApiClient{
         data: formData != null ? FormData.fromMap(formData) : null,
         queryParameters: getParams ?? null,
         options: Options(
-          headers: needsAuth != null
+          headers: needsAuth
               ? {
             HttpHeaders.authorizationHeader:
-            "Bearer ${UserHelper.accessToken}",
+            "Token ${UserHelper.accessToken}",
           }
               : null,
           contentType: Headers.jsonContentType,
@@ -236,10 +239,10 @@ class ApiClient{
         data: formData != null ? FormData.fromMap(formData) : null,
         queryParameters: getParams ?? null,
         options: Options(
-          headers: needsAuth != null
+          headers: needsAuth
               ? {
             HttpHeaders.authorizationHeader:
-            "Bearer ${UserHelper.accessToken}",
+            "Token ${UserHelper.accessToken}",
           }
               : null,
           contentType: Headers.jsonContentType,
