@@ -30,7 +30,7 @@ class _AppComerciantsState extends State<AppComerciants> {
       future: setInitialRoute(),
       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator(); // Muestra un indicador de carga mientras se espera
+          return Container(); // Muestra un indicador de carga mientras se espera
         } else {
           return GestureDetector(
             onTap: () {

@@ -1,12 +1,12 @@
 import 'package:app_merchants_association/src/model/post_image.dart';
 
 class Post {
-  final String title;
-  final String date;
-  final String body;
-  final List<String> media;
-  final List<String> comments; //TODO Por ahora se dejará un String
-  final int idCreator;
+  final String? title;
+  final String? date;
+  final String? body;
+  final List<String?>? media;
+  final List<String?>? comments; //TODO Por ahora se dejará un String
+  final int? idCreator;
 
   Post({
     required this.title,

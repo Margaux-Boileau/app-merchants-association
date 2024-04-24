@@ -18,74 +18,13 @@ class PostDetail extends StatefulWidget {
 class _PostDetailState extends State<PostDetail> {
   int _currentIndex = 0;
 
-  // Lista Hardcodeada de comentarios.
-  final List<Map<String, dynamic>> comments = [
-    {
-      "profileImage": "https://picsum.photos/201",
-      "localName": "Zapatería los 3 hermanos",
-      "date": "Hace 2",
-      "comment":
-          "Me encanta La Parrilla Dorada! Siempre que voy me atienden muy bien y la comida es deliciosa. Recomiendo el corte de carne especial.",
-    },
-    {
-      "profileImage": "https://picsum.photos/202",
-      "localName": "Ropa de moda para viejas como tú!",
-      "date": "Hace 3",
-      "comment":
-          "A todas las abuelas les encanta vuestra comida. A las abuelas de verdad les encanta La Parrilla Dorada! (Y el pollo frito)",
-    },
-    {
-      "profileImage": "https://picsum.photos/203",
-      "localName": "La tienda de la esquina",
-      "date": "Hace 4",
-      "comment":
-          "He ido un par de veces y me ha gustado mucho. La comida es muy buena y el servicio es excelente. Recomiendo el pollo frito.",
-    },
-    {
-      "profileImage": "https://picsum.photos/204",
-      "localName": "Pescadería MePeronas?",
-      "date": "Hace 5",
-      "comment":
-          "Me encanta La Parrilla Dorada! Siempre que voy me atienden muy bien y la comida es deliciosa. Recomiendo el corte de carne especial.",
-    },
-    {
-      "profileImage": "https://picsum.photos/205",
-      "localName": "Tienda 5",
-      "date": "Hace 6",
-      "comment": "Comentario 5",
-    },
-    {
-      "profileImage": "https://picsum.photos/206",
-      "localName": "Tienda 6",
-      "date": "Hace 7",
-      "comment": "Comentario 6",
-    },
-    {
-      "profileImage": "https://picsum.photos/207",
-      "localName": "Tienda 7",
-      "date": "Hace 8",
-      "comment": "Comentario 7",
-    },
-    {
-      "profileImage": "https://picsum.photos/208",
-      "localName": "Tienda 8",
-      "date": "Hace 9",
-      "comment": "Comentario 8",
-    },
-    {
-      "profileImage": "https://picsum.photos/209",
-      "localName": "Tienda 9",
-      "date": "Hace 10",
-      "comment": "Comentario 9",
-    },
-    {
-      "profileImage": "https://picsum.photos/210",
-      "localName": "Tienda 10",
-      "date": "Hace 11",
-      "comment": "Comentario 10",
+  @override
+  void initState() {
+    super.initState();
+    for(String? image in widget.post!.media!){
+      print(image);
     }
-  ];
-
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -133,7 +72,7 @@ class _PostDetailState extends State<PostDetail> {
               decoration: BoxDecoration(color: AppColors.background),
               child: Image.network(
                 // TODO Cambiar por la imagen del usuario
-                widget.post.title,
+                ,
                 fit: BoxFit.cover,
               ),
             ),
@@ -147,7 +86,7 @@ class _PostDetailState extends State<PostDetail> {
                 constraints: BoxConstraints(
                     maxWidth: MediaQuery.of(context).size.width * 0.7),
                 child: Text(
-                  widget.post.title,
+                  widget.post!.title!,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: AppStyles.textTheme.labelLarge!.copyWith(
@@ -157,7 +96,7 @@ class _PostDetailState extends State<PostDetail> {
                 ),
               ),
               Text(
-                widget.post.date,
+                widget.post!.date!,
                 overflow: TextOverflow.ellipsis,
                 style: AppStyles.textTheme.bodySmall!.copyWith(
                   color: AppColors.appGrey,
@@ -177,7 +116,7 @@ class _PostDetailState extends State<PostDetail> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          widget.post.title,
+          widget.post!.title!,
           style: AppStyles.textTheme.labelLarge!.copyWith(
             fontWeight: FontWeight.w700,
             fontSize: 17.0,
@@ -185,7 +124,7 @@ class _PostDetailState extends State<PostDetail> {
         ),
         const SizedBox(height: 6),
         Text(
-          widget.post.body,
+          widget.post!.body!,
           textAlign: TextAlign.justify,
           style: AppStyles.textTheme.labelSmall!.copyWith(
             fontSize: 12.0,
@@ -193,7 +132,7 @@ class _PostDetailState extends State<PostDetail> {
         ),
         const SizedBox(height: 20),
         // Hero images
-        if (widget.post.media.isNotEmpty)
+        if (widget.post.media!.isNotEmpty)
           Column(
             children: [
               CarouselSlider(
@@ -213,7 +152,7 @@ class _PostDetailState extends State<PostDetail> {
                     });
                   },
                 ),
-                items: widget.post.media.map((item) {
+                items: widget.post.media!.map((item) {
                   return Padding(
                     padding: const EdgeInsets.all(2), // Ajusta este valor según tus necesidades
                     child: Material(
@@ -236,8 +175,8 @@ class _PostDetailState extends State<PostDetail> {
               /// Indicadores de posición
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: widget.post.media.map((url) {
-                  int index = widget.post.media.indexOf(url);
+                children: widget.post.media!.map((url) {
+                  int index = widget.post.media!.indexOf(url);
                   return Container(
                     width: 8.0,
                     height: 8.0,
@@ -259,7 +198,7 @@ class _PostDetailState extends State<PostDetail> {
 
   Widget _commentsBody(BuildContext context) {
     return Padding(
-      padding: widget.post.media.isNotEmpty ? const EdgeInsets.only(top: 20.0, bottom: 70) : const EdgeInsets.only(top: 10.0, bottom: 70),
+      padding: widget.post.media!.isNotEmpty ? const EdgeInsets.only(top: 20.0, bottom: 70) : const EdgeInsets.only(top: 10.0, bottom: 70),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -434,4 +373,76 @@ class _PostDetailState extends State<PostDetail> {
       ),
     );
   }
+
+
+  /// Comentarios hardcoded
+  // Lista Hardcodeada de comentarios.
+  final List<Map<String, dynamic>> comments = [
+    {
+      "profileImage": "https://picsum.photos/201",
+      "localName": "Zapatería los 3 hermanos",
+      "date": "Hace 2",
+      "comment":
+      "Me encanta La Parrilla Dorada! Siempre que voy me atienden muy bien y la comida es deliciosa. Recomiendo el corte de carne especial.",
+    },
+    {
+      "profileImage": "https://picsum.photos/202",
+      "localName": "Ropa de moda para viejas como tú!",
+      "date": "Hace 3",
+      "comment":
+      "A todas las abuelas les encanta vuestra comida. A las abuelas de verdad les encanta La Parrilla Dorada! (Y el pollo frito)",
+    },
+    {
+      "profileImage": "https://picsum.photos/203",
+      "localName": "La tienda de la esquina",
+      "date": "Hace 4",
+      "comment":
+      "He ido un par de veces y me ha gustado mucho. La comida es muy buena y el servicio es excelente. Recomiendo el pollo frito.",
+    },
+    {
+      "profileImage": "https://picsum.photos/204",
+      "localName": "Pescadería MePeronas?",
+      "date": "Hace 5",
+      "comment":
+      "Me encanta La Parrilla Dorada! Siempre que voy me atienden muy bien y la comida es deliciosa. Recomiendo el corte de carne especial.",
+    },
+    {
+      "profileImage": "https://picsum.photos/205",
+      "localName": "Tienda 5",
+      "date": "Hace 6",
+      "comment": "Comentario 5",
+    },
+    {
+      "profileImage": "https://picsum.photos/206",
+      "localName": "Tienda 6",
+      "date": "Hace 7",
+      "comment": "Comentario 6",
+    },
+    {
+      "profileImage": "https://picsum.photos/207",
+      "localName": "Tienda 7",
+      "date": "Hace 8",
+      "comment": "Comentario 7",
+    },
+    {
+      "profileImage": "https://picsum.photos/208",
+      "localName": "Tienda 8",
+      "date": "Hace 9",
+      "comment": "Comentario 8",
+    },
+    {
+      "profileImage": "https://picsum.photos/209",
+      "localName": "Tienda 9",
+      "date": "Hace 10",
+      "comment": "Comentario 9",
+    },
+    {
+      "profileImage": "https://picsum.photos/210",
+      "localName": "Tienda 10",
+      "date": "Hace 11",
+      "comment": "Comentario 10",
+    }
+  ];
 }
+
+

@@ -23,28 +23,29 @@ class _HomeState extends State<Home> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   List<Forums> forums = [];
-  late String currentCategory;
+  late Forums currentCategory;
   List<Post> posts = [];
 
   @override
   void initState() {
-    super.initState();
     _getForums();
+    super.initState();
   }
 
   void _getForums() async {
     try {
-      forums = await ApiClient().getShopForums(UserHelper.shop!.id!);
+      await Future.delayed(const Duration(seconds: 5));
+      forums = await ApiClient().getShopForums(UserHelper.shop!.id!); // Petition for the shop forums for the drawer
+      print("Forums: ${forums.length}");
       if (forums.isNotEmpty) {
-        posts = await ApiClient().getForumPosts(forums[0].id);
+        currentCategory = forums.first; // Initialize currentCategory
+        posts = await ApiClient().getForumPosts(currentCategory.id); // Petition to get the posts
       }
       setState(() {});
     } catch (e) {
       print(e);
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -81,17 +82,17 @@ class _HomeState extends State<Home> {
             children: [
               UserAccountsDrawerHeader(
                 // TODO Cambiar el nombre de la cuenta y correo por el del usuario
-                accountName: Text(
+                accountName: const Text(
                   "UserHelper.user!.name!",
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: Colors.black, fontWeight: FontWeight.w600),
                 ),
                 accountEmail: Text(
                   UserHelper.shop!.name!,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.black, fontWeight: FontWeight.w400),
                 ),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   image: DecorationImage(
                     opacity: 0.3,
                     image: AssetImage(
@@ -127,7 +128,7 @@ class _HomeState extends State<Home> {
                     ),
                     onTap: () {
                       setState(() {
-                        currentCategory = forums[index].title; // Actualiza la categoría actual
+                        currentCategory = forums[index]; // Actualiza la categoría actual
                       });
                       Navigator.pop(context);
                     },
@@ -142,13 +143,13 @@ class _HomeState extends State<Home> {
   }
 
   Widget _body() {
-    return Column(
+    return forums.isNotEmpty ? Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
           child: Text(
-            currentCategory, // Usa la categoría actual
+            currentCategory.title, // Usa la categoría actual
             style: AppStyles.textTheme.titleLarge,
           ),
         ),
@@ -190,6 +191,6 @@ class _HomeState extends State<Home> {
           ),
         ),
       ],
-    );
+    ): const CircularProgressIndicator();
   }
 }

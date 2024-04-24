@@ -54,14 +54,18 @@ class ApiClient {
 
   /// Obtener los post del foro seleccionado por el usuario
   Future<List<Post>> getForumPosts(int forumId) async {
+    print("Get Froum Post");
     var response = await _requestGET(
         path: "${routes["forums"]}$forumId${routes["posts"]}", show: true);
+
     if (response is List) {
       return response.map((json) => Post.fromJson(json)).toList();
     } else {
       throw Exception('Failed to load posts');
     }
   }
+
+
 
   Future<dynamic> _requestGET(
       {bool needsAuth = true,
