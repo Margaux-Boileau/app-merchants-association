@@ -1,5 +1,7 @@
+import 'package:app_merchants_association/src/api/api_client.dart';
 import 'package:app_merchants_association/src/config/app_styles.dart';
 import 'package:app_merchants_association/src/utils/dialog_manager.dart';
+import 'package:app_merchants_association/src/utils/helpers/user_helper.dart';
 import 'package:flutter/material.dart';
 import '../../../config/app_colors.dart';
 import '../../../model/user.dart';
@@ -84,7 +86,7 @@ class _UserCardState extends State<UserCard> {
     );
   }
 
-  deleteUser(){
-
+  deleteUser() async {
+    var response = await ApiClient().deleteEmployer(widget.user, UserHelper.shop!.id!);
   }
 }

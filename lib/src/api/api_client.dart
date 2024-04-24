@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:app_merchants_association/src/model/user.dart';
 import 'package:dio/dio.dart';
 import '../utils/helpers/user_helper.dart';
 import 'api_routes.dart';
@@ -20,17 +19,23 @@ class ApiClient{
       "password": password,
     };
 
-    var response = await _requestPOST(
-        needsAuth: false, path: routes["login"], formData: params, show: true);
+    try{
+      var response = await _requestPOST(
+          needsAuth: false, path: routes["login"], formData: params, show: true);
 
-    if(response != null){
-      String accessToken = response["token"];
-      UserHelper.saveTokenOnSharedPreferences(accessToken, response["user"]["username"]);
-      UserHelper.setUser(response);
-      return true;
-    }else{
-      return false;
+      if(response != null){
+        String accessToken = response["token"];
+        UserHelper.saveTokenOnSharedPreferences(accessToken, response["user"]["username"]);
+        UserHelper.setUser(response);
+        return true;
+      }else{
+        return false;
+      }
     }
+    catch(e){
+      print("Error at login: $e");
+    }
+
   }
 
   Future<Map<String, dynamic>> getUsernameData(String username) async {
@@ -74,6 +79,26 @@ class ApiClient{
     try{
       var response = await _requestPOST(
           path: routes["registerEmployer"], formData: params, show: true);
+
+      if(response != null){
+        return true;
+      }else{
+        return false;
+      }
+    }catch(e){
+      print(e);
+      return null;
+    }
+  }
+
+  Future deleteEmployer(String username, int shopId) async {
+    Map<String, dynamic> params = {
+      "worker": username,
+    };
+
+    try{
+      var response = await _requestDELETE(
+          path: "${routes["shops"]}$shopId${routes["employees"]}", formData: params);
 
       if(response != null){
         return true;

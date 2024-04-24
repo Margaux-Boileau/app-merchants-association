@@ -74,7 +74,6 @@ class _AppComerciantsState extends State<AppComerciants> {
       return NavigatorRoutes.mainHolder;
     }
     else{
-      print("NAVIGATE");
       return NavigatorRoutes.signIn;
     }
   }
