@@ -21,8 +21,8 @@ class UserHelper {
   static String? get accessToken => _accessToken;
 
   static setUser(Map<String, dynamic> json) async{
-    ///En caso de que haya cambios dede la BBDD de un usuario que puedan romperlo, finaliza la sesión
     try {
+      print(json);
       _user = User.fromJson(json["user"]);
       _shop = Shop.fromJson(json["shop"]);
     }catch(e){
@@ -34,7 +34,7 @@ class UserHelper {
     _accessToken = token;
   }
 
-  static void saveTokenOnSharedPreferences(String accesToken, String username) async {
+  static saveTokenOnSharedPreferences(String accesToken, String username) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString("access_token", accesToken);
     prefs.setString("username", username);

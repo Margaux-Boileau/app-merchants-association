@@ -20,8 +20,6 @@ class _ProfileState extends State<Profile> {
 
   @override
   void initState() {
-    print("OWNER");
-    print(UserHelper.user!.shopOwner);
     super.initState();
   }
 

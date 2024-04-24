@@ -25,8 +25,8 @@ class ApiClient{
 
       if(response != null){
         String accessToken = response["token"];
-        UserHelper.saveTokenOnSharedPreferences(accessToken, response["user"]["username"]);
-        UserHelper.setUser(response);
+        await UserHelper.saveTokenOnSharedPreferences(accessToken, response["user"]["username"]);
+        await UserHelper.setUser(response);
         return true;
       }else{
         return false;

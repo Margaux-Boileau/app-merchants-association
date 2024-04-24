@@ -159,7 +159,7 @@ class _SignInState extends State<SignIn> {
 
         String username = await UserHelper.getUsernameFromSharedPreferences();
         Map<String, dynamic> response = await ApiClient().getUsernameData(username);
-        UserHelper.setUser(response);
+        await UserHelper.setUser(response);
 
         Navigator.pushReplacementNamed(context, NavigatorRoutes.mainHolder);
       }
