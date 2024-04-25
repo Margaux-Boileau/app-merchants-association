@@ -32,9 +32,16 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    forums.clear();
+    posts.clear();
+  }
+
   void _getForums() async {
     try {
-      await Future.delayed(const Duration(seconds: 5));
+      await Future.delayed(Duration.zero);
       forums = await ApiClient().getShopForums(UserHelper.shop!.id!); // Petition for the shop forums for the drawer
       print("Forums: ${forums.length}");
       if (forums.isNotEmpty) {
@@ -176,10 +183,10 @@ class _HomeState extends State<Home> {
                           // TODO Navegar a la pantalla de detalle del foro y pasar el post
                           Navigator.pushNamed(
                               context, NavigatorRoutes.postDetail,
-                              arguments: posts[index]);
+                              arguments: posts[index], );
                         },
                         child: ForumCard(
-                          post: posts[index],
+                          post: posts[index], forum: currentCategory,
                         ),
                       ),
                     );

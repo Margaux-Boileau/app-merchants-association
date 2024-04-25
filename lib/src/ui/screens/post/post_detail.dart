@@ -1,4 +1,5 @@
 import 'package:app_merchants_association/src/config/app_styles.dart';
+import 'package:app_merchants_association/src/model/forums.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import '../../../config/app_colors.dart';
@@ -8,10 +9,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../utils/helpers/user_helper.dart';
 
 class PostDetail extends StatefulWidget {
-  const PostDetail({Key? key, required this.post}) : super(key: key);
+  const PostDetail({Key? key, required this.post, required this.forum}) : super(key: key);
 
   // Atributo para recibir el post seleccionado
   final Post post;
+  final Forums forum;
 
   @override
   State<PostDetail> createState() => _PostDetailState();
@@ -166,7 +168,7 @@ class _PostDetailState extends State<PostDetail> {
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                          child: Image.network("", fit: BoxFit.cover, width: 1500),
+                          child: Image.network("http://172.23.6.211:8000/forums/${widget.forum.id}/posts/${widget.post.id}/media/${widget.post.media![1]}/", fit: BoxFit.cover, width: 1500),
                         ),
                       ),
                     ),
@@ -198,6 +200,7 @@ class _PostDetailState extends State<PostDetail> {
     );
   }
 
+  /// Comentarios
   Widget _commentsBody(BuildContext context) {
     return Padding(
       padding: widget.post.media!.isNotEmpty ? const EdgeInsets.only(top: 20.0, bottom: 70) : const EdgeInsets.only(top: 10.0, bottom: 70),
@@ -324,6 +327,7 @@ class _PostDetailState extends State<PostDetail> {
     );
   }
 
+  /// Textfield para escribir un comentario
   Widget _commentTextField(BuildContext context) {
     return Material(
       elevation: 15.0,

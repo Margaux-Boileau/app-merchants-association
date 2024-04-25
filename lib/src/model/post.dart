@@ -1,14 +1,16 @@
 import 'package:app_merchants_association/src/model/post_image.dart';
 
 class Post {
-  final String? title;
-  final String? date;
-  final String? body;
-  final List<String?>? media;
-  final List<String?>? comments; //TODO Por ahora se dejará un String
-  final int? idCreator;
+  int id;
+  String? title;
+  String? date;
+  String? body;
+  List<String?>? media;
+  List<String?>? comments; //TODO Por ahora se dejará un String
+  int? idCreator;
 
   Post({
+    required this.id,
     required this.title,
     required this.date,
     required this.body,
@@ -19,6 +21,7 @@ class Post {
 
   factory Post.fromJson(Map<String, dynamic> json) {
     return Post(
+      id: json["id"],
       title: json['title'],
       date: json['date'],
       body: json['body'],

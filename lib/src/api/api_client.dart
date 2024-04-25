@@ -35,6 +35,7 @@ class ApiClient {
     }
   }
 
+  /// Obtener los datos del user
   Future<Map<String, dynamic>> getUsernameData(String username) async {
     var response =
         await _requestGET(path: "${routes["accounts"]}/$username/", show: true);
@@ -58,14 +59,14 @@ class ApiClient {
     var response = await _requestGET(
         path: "${routes["forums"]}$forumId${routes["posts"]}", show: true);
 
+
+    print("Response -> $response");
     if (response is List) {
       return response.map((json) => Post.fromJson(json)).toList();
     } else {
       throw Exception('Failed to load posts');
     }
   }
-
-
 
   Future<dynamic> _requestGET(
       {bool needsAuth = true,

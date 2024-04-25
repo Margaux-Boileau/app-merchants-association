@@ -1,3 +1,4 @@
+import 'package:app_merchants_association/src/model/forums.dart';
 import 'package:app_merchants_association/src/utils/helpers/user_helper.dart';
 import 'package:flutter/material.dart';
 import '../../../config/app_colors.dart';
@@ -6,10 +7,24 @@ import '../../../model/post.dart';
 import '../../../model/post_image.dart';
 import '../image/image_expand.dart';
 
-class ForumCard extends StatelessWidget {
-  ForumCard({super.key, required this.post});
+class ForumCard extends StatefulWidget {
+  ForumCard({super.key, required this.post, required this.forum});
 
   Post post;
+  Forums forum;
+
+  @override
+  State<ForumCard> createState() => _ForumCardState();
+}
+
+class _ForumCardState extends State<ForumCard> {
+
+  @override
+  void initState() {
+    super.initState();
+    print("Post media: ${widget.post.media!.length}");
+    print(widget.post.media);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +64,7 @@ class ForumCard extends StatelessWidget {
                       decoration: BoxDecoration(color: AppColors.background),
                       child: Image.network(
                         // Cargar la imagen del usuario
-                        UserHelper.shop!.image!,
+                        "http://172.23.6.211:8000/shops/${UserHelper.shop!.id}/image/",
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -65,8 +80,7 @@ class ForumCard extends StatelessWidget {
                           maxWidth: MediaQuery.of(context).size.width * 0.6,
                         ),
                         child: Text(
-                          /// TODO Cambiar por el nombre del usuario
-                          post.title!,
+                          widget.post.title!,
                           overflow: TextOverflow.ellipsis,
                           style: AppStyles.textTheme.labelLarge!.copyWith(
                               fontWeight: FontWeight.w700, fontSize: 16.0),
@@ -87,8 +101,7 @@ class ForumCard extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(
                                   vertical: 5, horizontal: 10),
                               child: Text(
-                                // TODO Cambiar por el nombre del usuario
-                                post.title!,
+                                widget.post.title!,
                                 overflow: TextOverflow.ellipsis,
                                 style: AppStyles.textTheme.bodySmall!.copyWith(
                                   color: AppColors.white,
@@ -100,8 +113,7 @@ class ForumCard extends StatelessWidget {
                           ),
                           const SizedBox(width: 10.0),
                           Text(
-                            // TODO Cambiar por la fecha de envío
-                            post.date!,
+                            widget.post.date!,
                             overflow: TextOverflow.ellipsis,
                             style: AppStyles.textTheme.bodySmall!.copyWith(
                               color: AppColors.appGrey,
@@ -118,8 +130,7 @@ class ForumCard extends StatelessWidget {
               const SizedBox(height: 10.0),
               // Título del foro
               Text(
-                // TODO Cambiar por el título del foro
-                post.title!,
+                widget.post.title!,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: AppStyles.textTheme.labelLarge!.copyWith(
@@ -131,7 +142,7 @@ class ForumCard extends StatelessWidget {
 
               // Descripción del foro
               Text(
-                post.body!,
+                widget.post.body!,
                 textAlign: TextAlign.justify,
                 style: AppStyles.textTheme.labelSmall,
               ),
@@ -142,80 +153,79 @@ class ForumCard extends StatelessWidget {
               /// Si el foro tiene imagenes cargarlas, de lo contrario se quedaría así
               /// Por ahora se ha creado un booleano provisional que simula si hay imágenes o no.
 
-              post.media!.isNotEmpty
+              widget.post.media!.isNotEmpty
                   ? Row(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10.0),
-                          child: Container(
-                            width: 120,
-                            height: 120,
-                            decoration: BoxDecoration(
+                children: [
+                  /// IMAGEN 1
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10.0),
+                    child: Container(
+                      width: 120,
+                      height: 120,
+                      decoration: BoxDecoration(
+                        color: AppColors.background,
+                      ),
+                      child: widget.post.media!.isNotEmpty
+                          ? InkWell(
+                        onTap: () {
+                          List<String?> listUrls = widget.post.media!;
+
+                          Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => SliderShowFullImages(listUrls, 0) ));
+                        },
+                        child: Image.network(
+                          "http://172.23.6.211:8000/forums/${widget.forum.id}/posts/${widget.post.id}/media/${widget.post.media!.first}/",
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                          : Container(),
+                    ),
+                  ),
+                  const SizedBox(width: 10.0),
+                  // Si hay más de una imagen, mostrar el número de imágenes restantes y la imagen con opacidad
+                  // Si no, no mostrar nada
+
+                  /// IMAGEN 2
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10.0),
+                    child: Container(
+                      width: 120,
+                      height: 120,
+                      child: Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          widget.post.media!.length > 1
+                              ? Image.network(
+                            "http://172.23.6.211:8000/forums/${widget.forum.id}/posts/${widget.post.id}/media/${widget.post.media![1]}/",
+                            fit: BoxFit.cover,
+                          )
+                              : Container(),
+                          Opacity(
+                            opacity: 0.5,
+                            child: Container(
                               color: AppColors.background,
                             ),
-                            child: post.media!.isNotEmpty
-                                ? InkWell(
-                                    onTap: () {
-                                      List<String> listUrls = [];
-
-                                      // for(PostImage image in post.media){
-                                      //   listUrls.add(image.imageUrl);
-                                      // }
-
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) => SliderShowFullImages(listUrls, 0) ));
-                                    },
-                                    child: Image.network(
-                                      "https://www.ikea.com/images/eket-storage-combination-with-feet-white-50449997-5e9b0b4b4b3b3b0008b3f3b3.jpg",
-                                      fit: BoxFit.cover,
-                                    ),
-                                  )
+                          ),
+                          Center(
+                            child: widget.post.media!.length > 1
+                                ? Text(
+                              "+${widget.post.media!.length - 1}",
+                              style: AppStyles.textTheme.labelLarge!
+                                  .copyWith(
+                                color: AppColors.black,
+                                fontSize: 30.0,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            )
                                 : Container(),
                           ),
-                        ),
-                        const SizedBox(width: 10.0),
-                        // Si hay más de una imagen, mostrar el número de imágenes restantes y la imagen con opacidad
-                        // Si no, no mostrar nada
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10.0),
-                          child: Container(
-                            width: 120,
-                            height: 120,
-                            child: Stack(
-                              fit: StackFit.expand,
-                              children: [
-                                post.media!.isNotEmpty
-                                    ? Image.network(
-                                        post.media!.first!,
-                                        fit: BoxFit.cover,
-                                      )
-                                    : Container(),
-                                Opacity(
-                                  opacity: 0.5,
-                                  child: Container(
-                                    color: AppColors.background,
-                                  ),
-                                ),
-                                Center(
-                                  child: post.media!.isNotEmpty
-                                      ? Text(
-                                          "+${post.media!.length - 1}",
-                                          style: AppStyles.textTheme.labelLarge!
-                                              .copyWith(
-                                            color: AppColors.black,
-                                            fontSize: 30.0,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        )
-                                      : Container(),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              )
                   : Container(),
             ],
           ),
