@@ -1,3 +1,4 @@
+import 'package:app_merchants_association/src/utils/helpers/user_helper.dart';
 import 'package:flutter/material.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_styles.dart';
@@ -47,8 +48,8 @@ class ForumCard extends StatelessWidget {
                       height: 55,
                       decoration: BoxDecoration(color: AppColors.background),
                       child: Image.network(
-                        // TODO Cambiar por la imagen del usuario
-                        post.title!,
+                        // Cargar la imagen del usuario
+                        UserHelper.shop!.image!,
                         fit: BoxFit.cover,
                       ),
                     ),

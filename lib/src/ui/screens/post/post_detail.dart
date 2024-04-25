@@ -5,6 +5,8 @@ import '../../../config/app_colors.dart';
 import '../../../model/post.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../../utils/helpers/user_helper.dart';
+
 class PostDetail extends StatefulWidget {
   const PostDetail({Key? key, required this.post}) : super(key: key);
 
@@ -72,7 +74,7 @@ class _PostDetailState extends State<PostDetail> {
               decoration: BoxDecoration(color: AppColors.background),
               child: Image.network(
                 // TODO Cambiar por la imagen del usuario
-                ,
+                UserHelper.shop!.image!,
                 fit: BoxFit.cover,
               ),
             ),

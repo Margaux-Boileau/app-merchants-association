@@ -162,7 +162,6 @@ class _HomeState extends State<Home> {
                 /// Por ahora se creará un card provisional para poder crear el diseño
                 /// del widget del card del foro. Después, ya se creará el ListView.builder.
 
-                /// Card provisional
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
