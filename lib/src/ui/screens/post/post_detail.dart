@@ -76,7 +76,7 @@ class _PostDetailState extends State<PostDetail> {
               decoration: BoxDecoration(color: AppColors.background),
               child: Image.network(
                 // TODO Cambiar por la imagen del usuario
-                UserHelper.shop!.image!,
+                "http://172.23.6.211:8000/shops/${UserHelper.shop!.id}/image/",
                 fit: BoxFit.cover,
               ),
             ),
@@ -168,7 +168,7 @@ class _PostDetailState extends State<PostDetail> {
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                          child: Image.network("http://172.23.6.211:8000/forums/${widget.forum.id}/posts/${widget.post.id}/media/${widget.post.media![1]}/", fit: BoxFit.cover, width: 1500),
+                          child: Image.network("http://172.23.6.211:8000/forums/${widget.forum.id}/posts/${widget.post.id}/media/$item/", fit: BoxFit.cover, width: 1500),
                         ),
                       ),
                     ),

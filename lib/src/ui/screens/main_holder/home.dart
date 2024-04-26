@@ -183,7 +183,7 @@ class _HomeState extends State<Home> {
                           // TODO Navegar a la pantalla de detalle del foro y pasar el post
                           Navigator.pushNamed(
                               context, NavigatorRoutes.postDetail,
-                              arguments: posts[index], );
+                              arguments: [posts[index], currentCategory]);
                         },
                         child: ForumCard(
                           post: posts[index], forum: currentCategory,

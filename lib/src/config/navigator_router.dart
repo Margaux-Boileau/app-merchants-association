@@ -68,10 +68,11 @@ class AppRouter {
       case NavigatorRoutes.postDetail:
         return MaterialPageRoute(
           builder: (context) {
+            List<dynamic> args = settings.arguments as List<dynamic>;
             // Pasar post seleccionado a la pantalla de detalle
-            final Post args = settings.arguments as Post;
-            final Forums forum = settings.arguments as Forums;
-            return PostDetail(post: args, forum: forum);
+            final Post argumentsPost = args[0] as Post;
+            final Forums forum = args[1] as Forums;
+            return PostDetail(post: argumentsPost, forum: forum);
           },
         );
 
