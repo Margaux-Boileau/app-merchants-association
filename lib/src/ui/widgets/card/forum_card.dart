@@ -168,6 +168,7 @@ class _ForumCardState extends State<ForumCard> {
                       child: widget.post.media!.isNotEmpty
                           ? InkWell(
                         onTap: () {
+                          // Bucle que añada la lista de imagenes al listado de imagenes y cargarlas con la url como hemos hecho hasta ahora
                           List<String?> listUrls = widget.post.media!;
 
                           Navigator.of(context).push(

@@ -1,12 +1,12 @@
-import 'package:app_merchants_association/src/model/post_image.dart';
+import 'package:app_merchants_association/src/model/comment.dart';
 
 class Post {
   int id;
   String? title;
   String? date;
   String? body;
-  List<String?>? media;
-  List<String?>? comments; //TODO Por ahora se dejará un String
+  List<String>? media;
+  List<Comment?>? comments; //TODO Por ahora se dejará un String
   int? idCreator;
 
   Post({
@@ -20,14 +20,21 @@ class Post {
   });
 
   factory Post.fromJson(Map<String, dynamic> json) {
+    // Lista de comments
+    var comments = json['comments'] as List;
+    List<Comment> commentsList = comments.map((i) => Comment.fromJson(i)).toList();
+
+
     return Post(
-      id: json["id"],
+      id: json['id'],
       title: json['title'],
       date: json['date'],
       body: json['body'],
       media: List<String>.from(json['media']),
-      comments: List<String>.from(json['comments']), //TODO Por ahora se dejará un String
+      comments: commentsList,
       idCreator: json['idCreator'],
     );
   }
+
+
 }
