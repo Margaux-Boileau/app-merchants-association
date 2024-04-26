@@ -22,11 +22,11 @@ class ApiClient{
     try{
       var response = await _requestPOST(
           needsAuth: false, path: routes["login"], formData: params, show: true);
-
+      print("LOGIN RESPONSE: $response");
       if(response != null){
         String accessToken = response["token"];
         await UserHelper.saveTokenOnSharedPreferences(accessToken, response["user"]["username"]);
-        await UserHelper.setUser(response);
+        //await UserHelper.setUser(response);
         return true;
       }else{
         return false;
@@ -99,7 +99,8 @@ class ApiClient{
     try{
       var response = await _requestDELETE(
           path: "${routes["shops"]}$shopId${routes["employees"]}", formData: params);
-
+      print("response delete");
+      print(response);
       if(response != null){
         return true;
       }else{

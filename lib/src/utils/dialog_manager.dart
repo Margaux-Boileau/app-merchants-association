@@ -156,8 +156,8 @@ class DialogManager{
     );
   }
 
-  showRegisterDialog(BuildContext context){
-    showDialog(
+  showRegisterDialog(BuildContext context) async {
+    await showDialog(
         context: context,
         builder: (_) => const CreateUserDialog()
     );

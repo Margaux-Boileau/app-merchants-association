@@ -22,9 +22,11 @@ class UserHelper {
 
   static setUser(Map<String, dynamic> json) async{
     try {
-      print(json);
-      _user = User.fromJson(json["user"]);
-      _shop = Shop.fromJson(json["shop"]);
+      if(json["user"]!=null){
+        _user = User.fromJson(json["user"]);
+      }if(json["shop"]!=null){
+        _shop = Shop.fromJson(json["shop"]);
+      }
     }catch(e){
      print(".:USER HELPER ERROR AT SET USER $e");
     }
@@ -36,8 +38,8 @@ class UserHelper {
 
   static saveTokenOnSharedPreferences(String accesToken, String username) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString("access_token", accesToken);
-    prefs.setString("username", username);
+    await prefs.setString("access_token", accesToken);
+    await prefs.setString("username", username);
     _accessToken = accessToken;
   }
 

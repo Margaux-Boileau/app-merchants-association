@@ -7,9 +7,10 @@ import '../../../config/app_colors.dart';
 import '../../../model/user.dart';
 
 class UserCard extends StatefulWidget {
-  const UserCard({super.key, required this.user});
+  const UserCard({super.key, required this.user, required this.reloadScreen});
 
   final String user;
+  final Function reloadScreen;
 
   @override
   State<UserCard> createState() => _UserCardState();
@@ -60,7 +61,7 @@ class _UserCardState extends State<UserCard> {
           ),
           const SizedBox(width: 5,),
           ElevatedButton(
-            onPressed: () => showDeleteDialog(),
+            onPressed: () async => await showDeleteDialog(),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primaryRed,
               shape: RoundedRectangleBorder(
@@ -77,8 +78,8 @@ class _UserCardState extends State<UserCard> {
     );
   }
 
-  showDeleteDialog(){
-    DialogManager().showDeleteDialog(
+  showDeleteDialog() async {
+    await DialogManager().showDeleteDialog(
       context: context,
       title: "Advertencia",
       text: "¿Estas seguro que quieres eliminar este usuario?",
@@ -88,5 +89,8 @@ class _UserCardState extends State<UserCard> {
 
   deleteUser() async {
     var response = await ApiClient().deleteEmployer(widget.user, UserHelper.shop!.id!);
+
+
+    widget.reloadScreen();
   }
 }

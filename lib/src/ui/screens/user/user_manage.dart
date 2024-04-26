@@ -53,26 +53,23 @@ class _UserManageState extends State<UserManage> {
         shrinkWrap: true,
         itemCount: users.length,
         itemBuilder: (BuildContext context, int index) {
-          return UserCard(user: users[index]);
+          return UserCard(user: users[index], reloadScreen: getUsers,);
         },
       ),
     );
   }
 
-  void showCreateDialog(){
-    DialogManager().showRegisterDialog(context);
+  Future<void> showCreateDialog() async {
+    await DialogManager().showRegisterDialog(context);
+    getUsers();
   }
 
   getUsers() async {
+    users = [];
     var employeesList = await ApiClient().getShopEmployees(UserHelper.shop!.id!);
     users = employeesList;
     setState(() {
       
     });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }
