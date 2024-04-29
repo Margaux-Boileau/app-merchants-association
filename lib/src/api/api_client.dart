@@ -140,6 +140,40 @@ class ApiClient{
     }
   }
 
+  /// Create POST
+  Future<bool> createForumPost(int forumPk, String title, String description, List<String> mediaNames, List<String> mediaContents) async {
+    Map<String, dynamic> params = {
+      "title": title,
+      "body": description,
+      "media_names": mediaNames,
+      "media_contents": mediaContents,
+    };
+
+    print("ID -> $forumPk");
+    print("Title -> $title");
+    print("Body -> $description");
+    print("Media -> ${mediaNames} - ${mediaNames.length}");
+    print("Media Contents -> ${mediaContents.length}");
+
+    try {
+      var response = await _requestPOST(
+          path: "${routes["forums"]}$forumPk${routes["posts"]}", formData: params, show: true);
+
+      print("Response : $response");
+
+      if (response != null) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  /// REQUESTS
+
   Future<dynamic> _requestGET(
       {bool needsAuth = true,
         String? path,

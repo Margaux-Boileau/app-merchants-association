@@ -80,7 +80,9 @@ class AppRouter {
       case NavigatorRoutes.createPost:
         return MaterialPageRoute(
           builder: (context) {
-            return const CreatePost();
+            // Pasar forum por argumentos
+            final Forums forum = settings.arguments as Forums;
+            return CreatePost(forum: forum);
           },
         );
 

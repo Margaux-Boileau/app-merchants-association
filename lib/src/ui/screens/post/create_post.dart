@@ -1,15 +1,18 @@
 import 'dart:io';
 
+import 'package:app_merchants_association/src/model/forums.dart';
 import 'package:app_merchants_association/src/utils/dialog_manager.dart';
 import 'package:app_merchants_association/src/utils/image_picker_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../api/api_client.dart';
-import 'package:app_merchants_association/src/utils/helpers/user_helper.dart';
 
 class CreatePost extends StatefulWidget {
-  const CreatePost({super.key});
+  const CreatePost({super.key, required this.forum});
+
+  // Recibir el forum
+  final Forums forum;
 
   @override
   State<CreatePost> createState() => _CreatePostState();
@@ -17,10 +20,8 @@ class CreatePost extends StatefulWidget {
 
 class _CreatePostState extends State<CreatePost> {
   final TextEditingController _postTitleController = TextEditingController();
-  final TextEditingController _postDescriptionController =
-      TextEditingController();
-  List<File> imagesUploaded =
-      []; // Lista de imagenes subidas (puede estar vacía o tener una o más imagenes)
+  final TextEditingController _postDescriptionController = TextEditingController();
+  List<File> imagesUploaded = []; // Lista de imagenes subidas (puede estar vacía o tener una o más imagenes)
 
   @override
   Widget build(BuildContext context) {
@@ -227,8 +228,8 @@ class _CreatePostState extends State<CreatePost> {
     if (postTitle.isEmpty || postDescription.isEmpty) {
       DialogManager().showSimpleDialog(
         context: context,
-        title: "Campos vacíos",
-        content: "Debes introducir un título y una descripción para el post.",
+        title: "Campos vacíos", // TODO Cambiar por el texto de la localización
+        content: "Debes introducir un título y una descripción para el post.", // TODO Cambiar por el texto de la localización
       );
     } else {
       // Convertir las imágenes a base64
@@ -238,13 +239,16 @@ class _CreatePostState extends State<CreatePost> {
       List<String> mediaNames = imagesUploaded.map((image) => image.path.split("/").last).toList();
 
       // Llamar a la API para crear el post
-      // bool result = await ApiClient().createForumPost(
-      //   1, // forumPk
-      //   postTitle,
-      //   postDescription,
-      //   mediaNames,
-      //   mediaContents,
-      // );
+      bool response = await ApiClient().createForumPost(
+        // TODO PASAR LA ID DEL FORO
+        widget.forum.id,
+        postTitle,
+        postDescription,
+        mediaNames,
+        mediaContents,
+      );
+
+      print(response);
     }
   }
 }

@@ -42,11 +42,13 @@ class _HomeState extends State<Home> {
   void _getForums() async {
     try {
       await Future.delayed(Duration.zero);
-      forums = await ApiClient().getShopForums(UserHelper.shop!.id!); // Petition for the shop forums for the drawer
-      print("Forums: ${forums.length}");
-      if (forums.isNotEmpty) {
-        currentCategory = forums.first; // Initialize currentCategory
-        posts = await ApiClient().getForumPosts(currentCategory.id); // Petition to get the posts
+      if (UserHelper.shop != null && UserHelper.shop!.id != null) {
+        forums = await ApiClient().getShopForums(UserHelper.shop!.id!);
+        print("Forums: ${forums.length}");
+        if (forums.isNotEmpty) {
+          currentCategory = forums.first;
+          posts = await ApiClient().getForumPosts(currentCategory.id);
+        }
       }
       setState(() {});
     } catch (e) {
@@ -74,7 +76,9 @@ class _HomeState extends State<Home> {
         /// Botón flotante para crear un nuevo foro
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.pushNamed(context, NavigatorRoutes.createPost);
+            // Pasar el forum seleccionado para crear un nuevo post
+            Navigator.pushNamed(context, NavigatorRoutes.createPost,
+                arguments: currentCategory);
           },
           backgroundColor: AppColors.thirdBlue,
           child: Icon(
@@ -88,14 +92,13 @@ class _HomeState extends State<Home> {
             padding: EdgeInsets.zero,
             children: [
               UserAccountsDrawerHeader(
-                // TODO Cambiar el nombre de la cuenta y correo por el del usuario
                 accountName: const Text(
                   "UserHelper.user!.name!",
                   style: TextStyle(
                       color: Colors.black, fontWeight: FontWeight.w600),
                 ),
                 accountEmail: Text(
-                  UserHelper.shop!.name!,
+                  UserHelper.shop!.name! ?? "",
                   style: const TextStyle(
                       color: Colors.black, fontWeight: FontWeight.w400),
                 ),
@@ -109,7 +112,6 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.only(left: 15.0),
                 child: Text(
@@ -119,28 +121,39 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: forums.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(
-                      forums[index].title, // Muestra el título del foro
-                      style: TextStyle(
-                        color: AppColors.black,
-                        fontSize: 14.0,
+              forums.isNotEmpty
+                  ? ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: forums.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text(
+                            forums[index].title, // Muestra el título del foro
+                            style: TextStyle(
+                              color: AppColors.black,
+                              fontSize: 14.0,
+                            ),
+                          ),
+                          onTap: () {
+                            setState(() {
+                              currentCategory = forums[
+                                  index]; // Actualiza la categoría actual
+                            });
+                            Navigator.pop(context);
+                          },
+                        );
+                      },
+                    )
+                  : const Padding(
+                      padding: EdgeInsets.only(top: 20.0),
+                      child: Center(
+                        child: Text(
+                          "No tienes foros disponibles",
+                          style: TextStyle(color: Colors.black),
+                        ),
                       ),
                     ),
-                    onTap: () {
-                      setState(() {
-                        currentCategory = forums[index]; // Actualiza la categoría actual
-                      });
-                      Navigator.pop(context);
-                    },
-                  );
-                },
-              ),
             ],
           ),
         ),
@@ -149,48 +162,57 @@ class _HomeState extends State<Home> {
   }
 
   Widget _body() {
-    return forums.isNotEmpty ? Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
-          child: Text(
-            currentCategory.title, // Usa la categoría actual
-            style: AppStyles.textTheme.titleLarge,
-          ),
-        ),
-        const SizedBox(height: 5.0),
-        Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  //Si queremos que haga scroll toda la pantalla [desomentarlo]
-                  itemCount: posts.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(
-                          left: 20.0, right: 20.0, bottom: 20.0),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, NavigatorRoutes.postDetail,
-                              arguments: [posts[index], currentCategory]);
-                        },
-                        child: ForumCard(
-                          post: posts[index], forum: currentCategory,
-                        ),
-                      ),
-                    );
-                  },
+    return forums.isNotEmpty
+        ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
+                child: Text(
+                  currentCategory.title, // Usa la categoría actual
+                  style: AppStyles.textTheme.titleLarge,
                 ),
-              ],
+              ),
+              const SizedBox(height: 5.0),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        //Si queremos que haga scroll toda la pantalla [desomentarlo]
+                        itemCount: posts.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(
+                                left: 20.0, right: 20.0, bottom: 20.0),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, NavigatorRoutes.postDetail,
+                                    arguments: [posts[index], currentCategory]);
+                              },
+                              child: ForumCard(
+                                post: posts[index],
+                                forum: currentCategory,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          )
+        : const Center(
+            child: Text(
+              "No hay foros disponibles",
+              style: TextStyle(color: Colors.black),
             ),
-          ),
-        ),
-      ],
-    ): const CircularProgressIndicator();
+          );
   }
 }
