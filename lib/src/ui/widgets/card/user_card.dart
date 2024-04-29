@@ -4,7 +4,7 @@ import 'package:app_merchants_association/src/utils/dialog_manager.dart';
 import 'package:app_merchants_association/src/utils/helpers/user_helper.dart';
 import 'package:flutter/material.dart';
 import '../../../config/app_colors.dart';
-import '../../../model/user.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UserCard extends StatefulWidget {
   const UserCard({super.key, required this.user, required this.reloadScreen});
@@ -69,8 +69,8 @@ class _UserCardState extends State<UserCard> {
 
               ),
             ),
-            child: const Text(
-              "Eliminar"
+            child: Text(
+                AppLocalizations.of(context)!.delete
             ),
           )
         ],
@@ -81,8 +81,8 @@ class _UserCardState extends State<UserCard> {
   showDeleteDialog() async {
     await DialogManager().showDeleteDialog(
       context: context,
-      title: "Advertencia",
-      text: "¿Estas seguro que quieres eliminar este usuario?",
+      title: AppLocalizations.of(context)!.atention,
+      text: AppLocalizations.of(context)!.delete_user_confirm,
       onDelete: deleteUser
     );
   }

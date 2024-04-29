@@ -167,8 +167,8 @@ class _SignInState extends State<SignIn> {
       else{
         DialogManager().showSimpleDialog(
           context: context,
-          title: "Atencion!",
-          content: "Ha acurrido un error al iniciar sesion, revisa tus credenciales",
+          title: AppLocalizations.of(context)!.atention,
+          content: AppLocalizations.of(context)!.login_error,
         );
       }
     }

@@ -127,8 +127,7 @@ class ApiClient{
     try{
       var response = await _requestDELETE(
           path: "${routes["shops"]}$shopId${routes["employees"]}", formData: params);
-      print("response delete");
-      print(response);
+
       if(response != null){
         return true;
       }else{

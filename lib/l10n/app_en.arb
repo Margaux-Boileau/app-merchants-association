@@ -31,6 +31,17 @@
   "select_image" : "Choose an image",
   "gallery" : "Gallery",
   "camera" : "Camera",
-  "images_uploaded" : "Images uploaded"
+  "images_uploaded" : "Images uploaded",
 
+  "atention" : "Attention!",
+  "login_error" : "An error occurred while logging in, check your credentials",
+  "users" : "Users",
+  "no_employees" : "There are no employees",
+  "delete" : "Delete",
+  "delete_user_confirm" : "Are you sure you want to delete this user?",
+  "create_user" : "Create User",
+  "user_created" : "Successfully created user",
+  "register_error" : "An error occurred while registering a user, please try again later",
+  "cancel" : "Cancel",
+  "accept" : "Accept"
 }

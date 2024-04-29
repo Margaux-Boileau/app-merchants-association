@@ -50,8 +50,8 @@ class DialogManager{
                         }
                         Navigator.pop(context);
                       },
-                      child: const Text(
-                        "Cancelar",
+                      child: Text(
+                        AppLocalizations.of(context)!.cancel,
                       ),
                     ),
                     TextButton(
@@ -61,8 +61,8 @@ class DialogManager{
                         }
                         Navigator.pop(context);
                       },
-                      child: const Text(
-                        "Aceptar",
+                      child: Text(
+                        AppLocalizations.of(context)!.accept,
                       ),
                     ),
                   ],
@@ -125,8 +125,8 @@ class DialogManager{
 
                       ),
                     ),
-                    child: const Text(
-                        "Cancelar"
+                    child: Text(
+                        AppLocalizations.of(context)!.cancel
                     ),
                   ),
                   ElevatedButton(
@@ -143,8 +143,8 @@ class DialogManager{
 
                       ),
                     ),
-                    child: const Text(
-                        "Eliminar"
+                    child: Text(
+                        AppLocalizations.of(context)!.delete
                     ),
                   )
                 ],

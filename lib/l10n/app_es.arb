@@ -14,6 +14,7 @@
   "social_networks": "Redes Sociales",
 
   "forums": "Foros",
+  "forums": "Foros",
   "general": "General",
 
   "news": "Noticias",
@@ -31,7 +32,17 @@
   "select_image": "Seleccionar imagen",
   "gallery": "Galería",
   "camera": "Cámara",
-  "images_uploaded" : "Imagenes subidas"
+  "images_uploaded" : "Imagenes subidas",
 
-
+  "atention" : "Atencion!",
+  "login_error" : "Ha acurrido un error al iniciar sesion, revisa tus credentials",
+  "users" : "Usuarios",
+  "no_employees" : "No hay empleados",
+  "delete" : "Eliminar",
+  "delete_user_confirm" : "¿Estas seguro que quieres eliminar este usuario?",
+  "create_user" : "Crear Usuario",
+  "user_created" : "Usuario creado correctamente",
+  "register_error" : "Ha acurrido un error al registrar un usuario, intentalo de nuevo mas tarde",
+  "cancel" : "Cancelar",
+  "accept" : "Aceptar"
 }

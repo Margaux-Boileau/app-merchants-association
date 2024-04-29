@@ -6,6 +6,7 @@ import 'package:app_merchants_association/src/utils/dialog_manager.dart';
 import 'package:app_merchants_association/src/utils/helpers/user_helper.dart';
 import 'package:flutter/material.dart';
 import '../../../config/app_colors.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UserManage extends StatefulWidget {
   const UserManage({super.key});
@@ -27,7 +28,7 @@ class _UserManageState extends State<UserManage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Usuarios"),
+        title: Text(AppLocalizations.of(context)!.users),
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
@@ -42,7 +43,7 @@ class _UserManageState extends State<UserManage> {
           color: AppColors.white,
         ),
       ),
-      body: users.isNotEmpty ? _content() : Text("No hay empleados"),
+      body: users.isNotEmpty ? _content() : Center(child: Text(AppLocalizations.of(context)!.no_employees)),
     );
   }
 
