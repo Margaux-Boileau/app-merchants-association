@@ -18,7 +18,6 @@ class ForumCard extends StatefulWidget {
 }
 
 class _ForumCardState extends State<ForumCard> {
-
   @override
   void initState() {
     super.initState();
@@ -148,85 +147,87 @@ class _ForumCardState extends State<ForumCard> {
               ),
 
               const SizedBox(height: 20.0),
-              // Imagenes del foro
-
-              /// Si el foro tiene imagenes cargarlas, de lo contrario se quedaría así
-              /// Por ahora se ha creado un booleano provisional que simula si hay imágenes o no.
-
               widget.post.media!.isNotEmpty
                   ? Row(
-                children: [
-                  /// IMAGEN 1
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: Container(
-                      width: 120,
-                      height: 120,
-                      decoration: BoxDecoration(
-                        color: AppColors.background,
-                      ),
-                      child: widget.post.media!.isNotEmpty
-                          ? InkWell(
-                        onTap: () {
-                          // Bucle que añada la lista de imagenes al listado de imagenes y cargarlas con la url como hemos hecho hasta ahora
-                          List<String?> listUrls = widget.post.media!;
-
-                          Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) => SliderShowFullImages(listUrls, 0) ));
-                        },
-                        child: Image.network(
-                          "http://172.23.6.211:8000/forums/${widget.forum.id}/posts/${widget.post.id}/media/${widget.post.media!.first}/",
-                          fit: BoxFit.cover,
-                        ),
-                      )
-                          : Container(),
-                    ),
-                  ),
-                  const SizedBox(width: 10.0),
-                  // Si hay más de una imagen, mostrar el número de imágenes restantes y la imagen con opacidad
-                  // Si no, no mostrar nada
-
-                  /// IMAGEN 2
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: Container(
-                      width: 120,
-                      height: 120,
-                      child: Stack(
-                        fit: StackFit.expand,
-                        children: [
-                          widget.post.media!.length > 1
-                              ? Image.network(
-                            "http://172.23.6.211:8000/forums/${widget.forum.id}/posts/${widget.post.id}/media/${widget.post.media![1]}/",
-                            fit: BoxFit.cover,
-                          )
-                              : Container(),
-                          Opacity(
-                            opacity: 0.5,
-                            child: Container(
+                      children: [
+                        /// IMAGEN 1
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10.0),
+                          child: Container(
+                            width: 120,
+                            height: 120,
+                            decoration: BoxDecoration(
                               color: AppColors.background,
                             ),
-                          ),
-                          Center(
-                            child: widget.post.media!.length > 1
-                                ? Text(
-                              "+${widget.post.media!.length - 1}",
-                              style: AppStyles.textTheme.labelLarge!
-                                  .copyWith(
-                                color: AppColors.black,
-                                fontSize: 30.0,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            )
+                            child: widget.post.media!.isNotEmpty
+                                ? InkWell(
+                                    onTap: () {
+                                      // Crear una lista de URLs de imágenes
+                                      List<String> images =
+                                          widget.post.media!.map((media) {
+                                        return "http://172.23.6.211:8000/forums/${widget.forum.id}/posts/${widget.post.id}/media/$media/";
+                                      }).toList();
+
+                                      // Navegar a SliderShowFullImages con la lista de imágenes
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              SliderShowFullImages(images, 0),
+                                        ),
+                                      );
+                                    },
+                                    child: Image.network(
+                                      "http://172.23.6.211:8000/forums/${widget.forum.id}/posts/${widget.post.id}/media/${widget.post.media!.first}/",
+                                      fit: BoxFit.cover,
+                                    ),
+                                  )
                                 : Container(),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              )
+                        ),
+                        const SizedBox(width: 10.0),
+                        // Si hay más de una imagen, mostrar el número de imágenes restantes y la imagen con opacidad
+                        // Si no, no mostrar nada
+
+                        /// IMAGEN 2
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10.0),
+                          child: Container(
+                            width: 120,
+                            height: 120,
+                            child: Stack(
+                              fit: StackFit.expand,
+                              children: [
+                                widget.post.media!.length > 1
+                                    ? Image.network(
+                                        "http://172.23.6.211:8000/forums/${widget.forum.id}/posts/${widget.post.id}/media/${widget.post.media![1]}/",
+                                        fit: BoxFit.cover,
+                                      )
+                                    : Container(),
+                                Opacity(
+                                  opacity: 0.5,
+                                  child: Container(
+                                    color: AppColors.background,
+                                  ),
+                                ),
+                                Center(
+                                  child: widget.post.media!.length > 1
+                                      ? Text(
+                                          "+${widget.post.media!.length - 1}",
+                                          style: AppStyles.textTheme.labelLarge!
+                                              .copyWith(
+                                            color: AppColors.black,
+                                            fontSize: 30.0,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        )
+                                      : Container(),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
                   : Container(),
             ],
           ),

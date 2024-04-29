@@ -1,3 +1,4 @@
+import 'package:app_merchants_association/src/config/app_colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
@@ -60,10 +61,12 @@ class SliderShowFullImagesState extends State<SliderShowFullImages>  {
                           children: <Widget>[
                             ClipRRect(
                               borderRadius: BorderRadius.all(Radius.circular(0.0)),
-                              child: Image.network(
-                                url,
-                                fit: BoxFit.fill,
-                                height: 400.0,
+                              child: AspectRatio(
+                                aspectRatio: 1.0,
+                                child: Image.network(
+                                  url,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             )
                           ]
@@ -81,7 +84,7 @@ class SliderShowFullImagesState extends State<SliderShowFullImages>  {
                         margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: (_current == index) ? Colors.redAccent : Colors.grey,
+                          color: (_current == index) ? AppColors.primaryBlue : AppColors.white,
                         ),
                       );
                     }),

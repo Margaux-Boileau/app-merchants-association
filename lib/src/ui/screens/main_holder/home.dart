@@ -119,7 +119,6 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ),
-              // TODO Cambiar lista de items por las categorías reales
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -165,10 +164,6 @@ class _HomeState extends State<Home> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                /// TODO Aquí irá el ListView.builder de los foros.
-                /// Por ahora se creará un card provisional para poder crear el diseño
-                /// del widget del card del foro. Después, ya se creará el ListView.builder.
-
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -180,7 +175,6 @@ class _HomeState extends State<Home> {
                           left: 20.0, right: 20.0, bottom: 20.0),
                       child: InkWell(
                         onTap: () {
-                          // TODO Navegar a la pantalla de detalle del foro y pasar el post
                           Navigator.pushNamed(
                               context, NavigatorRoutes.postDetail,
                               arguments: [posts[index], currentCategory]);
