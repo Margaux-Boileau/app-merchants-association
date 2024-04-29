@@ -86,8 +86,9 @@ class _CreatePostState extends State<CreatePost> {
             const SizedBox(height: 15),
             TextField(
               style: const TextStyle(fontSize: 12),
-              maxLines: 18,
               controller: _postDescriptionController,
+              minLines: 1, // new line
+              maxLines: null, // new line
               decoration: InputDecoration(
                 filled: true,
                 border: InputBorder.none,
@@ -228,8 +229,8 @@ class _CreatePostState extends State<CreatePost> {
     if (postTitle.isEmpty || postDescription.isEmpty) {
       DialogManager().showSimpleDialog(
         context: context,
-        title: "Campos vacíos", // TODO Cambiar por el texto de la localización
-        content: "Debes introducir un título y una descripción para el post.", // TODO Cambiar por el texto de la localización
+        title: "Campos vacíos",
+        content: "Debes introducir un título y una descripción para el post.",
       );
     } else {
       // Convertir las imágenes a base64
@@ -240,7 +241,6 @@ class _CreatePostState extends State<CreatePost> {
 
       // Llamar a la API para crear el post
       bool response = await ApiClient().createForumPost(
-        // TODO PASAR LA ID DEL FORO
         widget.forum.id,
         postTitle,
         postDescription,
