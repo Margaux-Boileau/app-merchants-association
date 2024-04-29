@@ -1,4 +1,6 @@
+import 'package:app_merchants_association/src/api/api_client.dart';
 import 'package:app_merchants_association/src/config/app_styles.dart';
+import 'package:app_merchants_association/src/utils/dialog_manager.dart';
 import 'package:flutter/material.dart';
 import '../../../config/app_colors.dart';
 import '../../../utils/form_validation.dart';
@@ -12,8 +14,8 @@ class CreateUserDialog extends StatefulWidget {
 }
 
 class _CreateUserDialogState extends State<CreateUserDialog> {
-
-  var mailController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  var usernameController = TextEditingController();
 
   var passwordController = TextEditingController();
 
@@ -38,90 +40,112 @@ class _CreateUserDialogState extends State<CreateUserDialog> {
     );
   }
 
-  // return Padding(
-  // padding: const EdgeInsets.all(38),
-  // child: Container(
-  // color: AppColors.white,
-  // child: dialogContent(),
-  // ),
-  // );
-
   Widget dialogContent(){
-    return Column(
-      children: [
-        Divider(
-          thickness: 3,
-          color: AppColors.primaryBlue,
-        ),
-        const Icon(
-          Icons.person,
-          size: 120,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20),
-          child: TextFormField(
-              controller: mailController,
-              decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!.username_separated,
-                fillColor: Colors.white,
-                hintText: AppLocalizations.of(context)!.username_separated,
-                hintStyle: const TextStyle(
-                    fontSize: 15
-                ),
-                prefixIcon: const Icon(
-                  Icons.person,
-                ),
-              ),
-              validator: (value) => FormValidation.validateUsername(value!, context)
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          Divider(
+            thickness: 3,
+            color: AppColors.primaryBlue,
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20),
-          child: TextFormField(
-              controller: passwordController,
-              obscureText: hintPassw,
-              decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!.password,
-                fillColor: Colors.white,
-                hintText: AppLocalizations.of(context)!.password,
-                hintStyle: const TextStyle(
-                    fontSize: 15
-                ),
-                prefixIcon: const Icon(
-                  Icons.lock,
-                ),
-                suffixIcon: IconButton(
-                  onPressed: (){
-                    setState(() {
-                      hintPassw = !hintPassw;
-                    });
-                  },
-                  icon: Icon(
-                    hintPassw ? Icons.visibility : Icons.visibility_off_rounded,
-                    color: AppColors.outline,
+          const Icon(
+            Icons.person,
+            size: 120,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: TextFormField(
+                controller: usernameController,
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.username_separated,
+                  fillColor: Colors.white,
+                  hintText: AppLocalizations.of(context)!.username_separated,
+                  hintStyle: const TextStyle(
+                      fontSize: 15
+                  ),
+                  prefixIcon: const Icon(
+                    Icons.person,
                   ),
                 ),
-              ),
-              validator: (value) => FormValidation.validatePassword(value!, context)
-          ),
-        ),
-        const SizedBox(height: 50,),
-        ElevatedButton(
-          onPressed: () {
-
-          },
-          style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+                validator: (value) => FormValidation.validateUsername(value!, context)
             ),
           ),
-          child: Text(
-            "Crear Usuario",
-            style: AppStyles.textTheme.titleSmall,
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: TextFormField(
+                controller: passwordController,
+                obscureText: hintPassw,
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.password,
+                  fillColor: Colors.white,
+                  hintText: AppLocalizations.of(context)!.password,
+                  hintStyle: const TextStyle(
+                      fontSize: 15
+                  ),
+                  prefixIcon: const Icon(
+                    Icons.lock,
+                  ),
+                  suffixIcon: IconButton(
+                    onPressed: (){
+                      setState(() {
+                        hintPassw = !hintPassw;
+                      });
+                    },
+                    icon: Icon(
+                      hintPassw ? Icons.visibility : Icons.visibility_off_rounded,
+                      color: AppColors.outline,
+                    ),
+                  ),
+                ),
+                validator: (value) => FormValidation.validatePassword(value!, context)
+            ),
           ),
-        ),
-        SizedBox(height: 25,)
-      ],
+          const SizedBox(height: 50,),
+          ElevatedButton(
+            onPressed: () {
+              registerUser();
+            },
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            child: Text(
+              "Crear Usuario",
+              style: AppStyles.textTheme.titleSmall,
+            ),
+          ),
+          SizedBox(height: 25,)
+        ],
+      ),
     );
+  }
+
+  registerUser() async {
+    if(_formKey.currentState!.validate()){
+      bool? response = await ApiClient().registerEmployer(usernameController.text, passwordController.text);
+      if(response!){
+        DialogManager().showSimpleDialog(
+          context: context,
+          title: "Informacion!",
+          content: "Usuario creado correctamente",
+          onAccept: (){
+            Navigator.pop(context);
+          }
+        );
+      }
+      else{
+        DialogManager().showSimpleDialog(
+            context: context,
+            title: "Atencion!",
+            content: "Ha acurrido un error al registrar un usuario, intentalo de nuevo mas tarde",
+            onAccept: (){
+              Navigator.pop(context);
+            }
+        );
+
+      }
+    }
   }
 }

@@ -69,13 +69,11 @@ class _AppComerciantsState extends State<AppComerciants> {
 
       String username = await UserHelper.getUsernameFromSharedPreferences();
       Map<String, dynamic> response = await ApiClient().getUsernameData(username);
-      print("RESPONSE $response");
       UserHelper.setUser(response);
 
       return NavigatorRoutes.mainHolder;
     }
     else{
-      print("NAVIGATE");
       return NavigatorRoutes.signIn;
     }
   }

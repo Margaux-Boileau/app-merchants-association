@@ -6,7 +6,8 @@ import '../model/post.dart';
 import '../utils/helpers/user_helper.dart';
 import 'api_routes.dart';
 
-class ApiClient {
+class ApiClient{
+
   final Dio _dio = Dio(BaseOptions(
     baseUrl: "http://172.23.6.211:8000",
     connectTimeout: const Duration(milliseconds: 20000),
@@ -20,25 +21,27 @@ class ApiClient {
       "password": password,
     };
 
-    var response = await _requestPOST(
-        needsAuth: false, path: routes["login"], formData: params, show: true);
-
-    if (response != null) {
-      String accessToken = response["token"];
-      print(response);
-      UserHelper.saveTokenOnSharedPreferences(
-          accessToken, response["user"]["username"]);
-      UserHelper.setUser(response);
-      return true;
-    } else {
-      return false;
+    try{
+      var response = await _requestPOST(
+          needsAuth: false, path: routes["login"], formData: params, show: true);
+      print("LOGIN RESPONSE: $response");
+      if(response != null){
+        String accessToken = response["token"];
+        await UserHelper.saveTokenOnSharedPreferences(accessToken, response["user"]["username"]);
+        //await UserHelper.setUser(response);
+        return true;
+      }else{
+        return false;
+      }
     }
+    catch(e){
+      print("Error at login: $e");
+    }
+
   }
 
-  /// Obtener los datos del user
   Future<Map<String, dynamic>> getUsernameData(String username) async {
-    var response =
-        await _requestGET(path: "${routes["accounts"]}/$username/", show: true);
+    var response = await _requestGET(path: "${routes["accounts"]}/$username/", show: true);
     return response;
   }
 
@@ -68,16 +71,85 @@ class ApiClient {
     }
   }
 
+  Future<String?> getShopImage(int shopId) async{
+    try{
+      var response = await _requestGET(path: "${routes["shops"]}$shopId${routes["image"]}");
+      if(response != null){
+        return response;
+      }
+
+    }catch(e){
+      print("Error at get shop image $e");
+    }
+    return null;
+  }
+
+  Future<List<String>> getShopEmployees(int shopId) async {
+    try{
+      var response = await _requestGET(path: "${routes["shops"]}$shopId${routes["employees"]}");
+      if(response != null){
+        List<String> list = response.cast<String>();
+        return list;
+      }
+
+    }catch(e){
+      print("Error at get shop employees $e");
+    }
+    return [];
+  }
+
+  Future registerEmployer(String username, String password) async {
+    Map<String, dynamic> params = {
+      "username": username,
+      "password": password,
+    };
+
+    try{
+      var response = await _requestPOST(
+          path: routes["registerEmployer"], formData: params, show: true);
+
+      if(response != null){
+        return true;
+      }else{
+        return false;
+      }
+    }catch(e){
+      print(e);
+      return null;
+    }
+  }
+
+  Future deleteEmployer(String username, int shopId) async {
+    Map<String, dynamic> params = {
+      "worker": username,
+    };
+
+    try{
+      var response = await _requestDELETE(
+          path: "${routes["shops"]}$shopId${routes["employees"]}", formData: params);
+      print("response delete");
+      print(response);
+      if(response != null){
+        return true;
+      }else{
+        return false;
+      }
+    }catch(e){
+      print(e);
+      return null;
+    }
+  }
+
   Future<dynamic> _requestGET(
       {bool needsAuth = true,
-      String? path,
-      Map<String, dynamic>? params,
-      bool show = false,
-      bool connectionError = true,
-      bool extend = false}) async {
+        String? path,
+        Map<String, dynamic>? params,
+        bool show = false,
+        bool connectionError = true,
+        bool extend = false}) async {
     try {
       if (extend) {
-        _dio.options.receiveTimeout = const Duration(seconds: 30);
+        _dio.options.receiveTimeout = Duration(seconds: 30);
       }
       // Realitzem la request
       Response response = await _dio.get(
@@ -86,9 +158,9 @@ class ApiClient {
         options: Options(
           headers: needsAuth
               ? {
-                  HttpHeaders.authorizationHeader:
-                      "Token ${UserHelper.accessToken}",
-                }
+            HttpHeaders.authorizationHeader:
+            "Token ${UserHelper.accessToken}",
+          }
               : null,
           contentType: Headers.jsonContentType,
           responseType: ResponseType.json,
@@ -115,15 +187,16 @@ class ApiClient {
     }
   }
 
+
   Future<dynamic> _requestPUT(
       {bool needsAuth = true,
-      String? path,
-      Map<String, dynamic>? params,
-      bool show = false,
-      bool extend = false}) async {
+        String? path,
+        Map<String, dynamic>? params,
+        bool show = false,
+        bool extend = false}) async {
     try {
       if (extend) {
-        _dio.options.receiveTimeout = const Duration(seconds: 30);
+        _dio.options.receiveTimeout = Duration(seconds: 30);
       }
       // Realitzem la request
       Response response = await _dio.put(
@@ -132,9 +205,9 @@ class ApiClient {
         options: Options(
           headers: needsAuth
               ? {
-                  HttpHeaders.authorizationHeader:
-                      "Token ${UserHelper.accessToken}",
-                }
+            HttpHeaders.authorizationHeader:
+            "Token ${UserHelper.accessToken}",
+          }
               : null,
           contentType: Headers.jsonContentType,
           responseType: ResponseType.json,
@@ -160,13 +233,14 @@ class ApiClient {
     }
   }
 
+
   Future<dynamic> _requestPOST(
       {bool needsAuth = true,
-      String? path,
-      Map<String, dynamic>? formData,
-      Map<String, dynamic>? getParams,
-      bool connectionError = true,
-      bool show = false}) async {
+        String? path,
+        Map<String, dynamic>? formData,
+        Map<String, dynamic>? getParams,
+        bool connectionError = true,
+        bool show = false}) async {
     try {
       // Realitzem la request
       Response response = await _dio.post(
@@ -176,9 +250,9 @@ class ApiClient {
         options: Options(
           headers: needsAuth
               ? {
-                  HttpHeaders.authorizationHeader:
-                      "Token ${UserHelper.accessToken}",
-                }
+            HttpHeaders.authorizationHeader:
+            "Token ${UserHelper.accessToken}",
+          }
               : null,
           contentType: Headers.jsonContentType,
           responseType: ResponseType.json,
@@ -222,9 +296,9 @@ class ApiClient {
         options: Options(
           headers: needsAuth
               ? {
-                  HttpHeaders.authorizationHeader:
-                      "Token ${UserHelper.accessToken}",
-                }
+            HttpHeaders.authorizationHeader:
+            "Token ${UserHelper.accessToken}",
+          }
               : null,
           contentType: Headers.jsonContentType,
           responseType: ResponseType.json,
@@ -269,9 +343,9 @@ class ApiClient {
         options: Options(
           headers: needsAuth
               ? {
-                  HttpHeaders.authorizationHeader:
-                      "Token ${UserHelper.accessToken}",
-                }
+            HttpHeaders.authorizationHeader:
+            "Token ${UserHelper.accessToken}",
+          }
               : null,
           contentType: Headers.jsonContentType,
           responseType: ResponseType.json,
@@ -300,7 +374,9 @@ class ApiClient {
     }
   }
 
+
   void _printDioError(DioException e) {
+
     // Comprovem si la request té paràmetres, per fer print
     if (e.requestOptions.data != null) {
       //print(":.Params: ${e.requestOptions?.data}");
@@ -329,4 +405,6 @@ class ApiClient {
     }
     return false;
   }
+
+
 }

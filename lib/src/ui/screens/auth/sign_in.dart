@@ -7,11 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/navigator_routes.dart';
+import 'package:app_merchants_association/src/utils/helpers/user_helper.dart';
 import '../../../utils/form_validation.dart';
-import '../../../utils/helpers/user_helper.dart';
 
 class SignIn extends StatefulWidget {
-  const SignIn({super.key});
+  SignIn({super.key});
 
   @override
   State<SignIn> createState() => _SignInState();
@@ -156,10 +156,11 @@ class _SignInState extends State<SignIn> {
       bool response = await ApiClient().signIn(usernameController.text, passwordController.text);
 
       if(response){
-
         String username = await UserHelper.getUsernameFromSharedPreferences();
+        await UserHelper.getTokenFromSharedPreferences();
+        print("USername: $username");
         Map<String, dynamic> response = await ApiClient().getUsernameData(username);
-        UserHelper.setUser(response);
+        await UserHelper.setUser(response);
 
         Navigator.pushReplacementNamed(context, NavigatorRoutes.mainHolder);
       }

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../api/api_client.dart';
+import 'package:app_merchants_association/src/utils/helpers/user_helper.dart';
 
 class CreatePost extends StatefulWidget {
   const CreatePost({super.key});

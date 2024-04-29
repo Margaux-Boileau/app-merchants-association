@@ -33,7 +33,7 @@ class User{
         image: json["image"],
         sector: json["sector"],
         shopOwner: json["is_owner_of_shop"]
-      //shop: Shop.fromJson(json["shop"])
+        //shop: Shop.fromJson(json["shop"])
     );
   }
 

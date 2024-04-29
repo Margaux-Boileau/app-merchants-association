@@ -1,13 +1,16 @@
+import 'package:app_merchants_association/src/api/api_client.dart';
 import 'package:app_merchants_association/src/config/app_styles.dart';
 import 'package:app_merchants_association/src/utils/dialog_manager.dart';
+import 'package:app_merchants_association/src/utils/helpers/user_helper.dart';
 import 'package:flutter/material.dart';
 import '../../../config/app_colors.dart';
 import '../../../model/user.dart';
 
 class UserCard extends StatefulWidget {
-  const UserCard({super.key, required this.user});
+  const UserCard({super.key, required this.user, required this.reloadScreen});
 
-  final User user;
+  final String user;
+  final Function reloadScreen;
 
   @override
   State<UserCard> createState() => _UserCardState();
@@ -39,7 +42,7 @@ class _UserCardState extends State<UserCard> {
 
   Widget _cardContent(){
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       child: Row(
         children: [
           const Icon(
@@ -50,7 +53,7 @@ class _UserCardState extends State<UserCard> {
             child: Padding(
               padding: const EdgeInsets.only(left: 15),
               child: Text(
-                widget.user.name!,
+                widget.user,
                 style: AppStyles.textTheme.titleMedium,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -58,7 +61,7 @@ class _UserCardState extends State<UserCard> {
           ),
           const SizedBox(width: 5,),
           ElevatedButton(
-            onPressed: () => showDeleteDialog(),
+            onPressed: () async => await showDeleteDialog(),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primaryRed,
               shape: RoundedRectangleBorder(
@@ -75,8 +78,8 @@ class _UserCardState extends State<UserCard> {
     );
   }
 
-  showDeleteDialog(){
-    DialogManager().showDeleteDialog(
+  showDeleteDialog() async {
+    await DialogManager().showDeleteDialog(
       context: context,
       title: "Advertencia",
       text: "¿Estas seguro que quieres eliminar este usuario?",
@@ -84,7 +87,10 @@ class _UserCardState extends State<UserCard> {
     );
   }
 
-  deleteUser(){
+  deleteUser() async {
+    var response = await ApiClient().deleteEmployer(widget.user, UserHelper.shop!.id!);
 
+
+    widget.reloadScreen();
   }
 }
