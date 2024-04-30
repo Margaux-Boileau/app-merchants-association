@@ -45,6 +45,11 @@ class ApiClient{
     return response;
   }
 
+  Future<Map<String, dynamic>> getShopData(int shopId) async {
+    var response = await _requestGET(path: "${routes["shops"]}/$shopId/", show: true);
+    return response;
+  }
+
   /// Obtener los foros del usuario de la app
   Future<List<Forums>> getShopForums(int shopId) async {
     var response = await _requestGET(
@@ -59,6 +64,7 @@ class ApiClient{
   /// Obtener los post del foro seleccionado por el usuario
   Future<List<Post>> getForumPosts(int forumId) async {
     print("Get Froum Post");
+    print("${routes["forums"]}$forumId${routes["posts"]}");
     var response = await _requestGET(
         path: "${routes["forums"]}$forumId${routes["posts"]}", show: true);
 
@@ -68,6 +74,17 @@ class ApiClient{
       return response.map((json) => Post.fromJson(json)).toList();
     } else {
       throw Exception('Failed to load posts');
+    }
+  }
+
+  Future<Post> getPostDetail(int forumId, int postId) async {
+    var response = await _requestGET(
+        path: "${routes["forums"]}/$forumId${routes["posts"]}$postId/", show: true);
+
+    if (response != null) {
+      return Post.fromJson(response);
+    } else {
+      throw Exception('Failed to load post detail');
     }
   }
 
@@ -128,6 +145,27 @@ class ApiClient{
       var response = await _requestDELETE(
           path: "${routes["shops"]}$shopId${routes["employees"]}", formData: params);
 
+      if(response != null){
+        return true;
+      }else{
+        return false;
+      }
+    }catch(e){
+      print(e);
+      return null;
+    }
+  }
+
+  Future publishComment({required int forumId, required int postId, required String content}) async {
+    try{
+      Map<String, dynamic> params = {
+        "content": content,
+      };
+
+      var response = await _requestPOST(
+          path: "${routes["forums"]}/$forumId${routes["posts"]}$postId/${routes["comments"]}", show: true, formData: params);
+      print("Message response");
+      print(response);
       if(response != null){
         return true;
       }else{

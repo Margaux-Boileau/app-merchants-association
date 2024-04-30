@@ -10,8 +10,8 @@ import '../image/image_expand.dart';
 class ForumCard extends StatefulWidget {
   ForumCard({super.key, required this.post, required this.forum});
 
-  Post post;
-  Forums forum;
+  final Post post;
+  final Forums forum;
 
   @override
   State<ForumCard> createState() => _ForumCardState();
@@ -22,8 +22,6 @@ class _ForumCardState extends State<ForumCard> {
   @override
   void initState() {
     super.initState();
-    print("Post media: ${widget.post.media!.length}");
-    print(widget.post.media);
   }
 
   @override
@@ -64,7 +62,7 @@ class _ForumCardState extends State<ForumCard> {
                       decoration: BoxDecoration(color: AppColors.background),
                       child: Image.network(
                         // Cargar la imagen del usuario
-                        "http://172.23.6.211:8000/shops/${UserHelper.shop!.id}/image/",
+                        "http://172.23.6.211:8000/shops/${widget.post.idCreator}/image/",
                         fit: BoxFit.cover,
                       ),
                     ),

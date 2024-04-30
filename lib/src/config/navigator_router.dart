@@ -1,4 +1,5 @@
 import 'package:app_merchants_association/src/model/forums.dart';
+import 'package:app_merchants_association/src/ui/screens/post/commetns.dart';
 import 'package:app_merchants_association/src/ui/screens/post/create_post.dart';
 import 'package:app_merchants_association/src/ui/screens/user/user_manage.dart';
 import 'package:flutter/material.dart';
@@ -73,6 +74,18 @@ class AppRouter {
             final Post argumentsPost = args[0] as Post;
             final Forums forum = args[1] as Forums;
             return PostDetail(post: argumentsPost, forum: forum);
+          },
+        );
+
+      case NavigatorRoutes.comments:
+        return MaterialPageRoute(
+          builder: (context) {
+            List<dynamic> args = settings.arguments as List<dynamic>;
+            // Pasar post seleccionado a la pantalla de detalle
+            final Post post = args[0] as Post;
+            final Forums forum = args[1] as Forums;
+
+            return CommentsScreen(post: post, forum: forum);
           },
         );
 

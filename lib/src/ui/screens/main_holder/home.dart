@@ -95,7 +95,7 @@ class _HomeState extends State<Home> {
                       color: Colors.black, fontWeight: FontWeight.w600),
                 ),
                 accountEmail: Text(
-                  UserHelper.shop!.name!,
+                  "UserHelper.shop!.name!",
                   style: const TextStyle(
                       color: Colors.black, fontWeight: FontWeight.w400),
                 ),
@@ -180,7 +180,6 @@ class _HomeState extends State<Home> {
                           left: 20.0, right: 20.0, bottom: 20.0),
                       child: InkWell(
                         onTap: () {
-                          // TODO Navegar a la pantalla de detalle del foro y pasar el post
                           Navigator.pushNamed(
                               context, NavigatorRoutes.postDetail,
                               arguments: [posts[index], currentCategory]);

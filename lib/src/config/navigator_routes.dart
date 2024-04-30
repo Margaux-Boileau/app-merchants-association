@@ -16,5 +16,5 @@ class NavigatorRoutes {
 
   static const String createPost = "/create_post";
 
-
+  static const String comments = "/post/comments";
 }

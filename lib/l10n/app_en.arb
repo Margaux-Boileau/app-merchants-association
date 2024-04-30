@@ -43,5 +43,7 @@
   "user_created" : "Successfully created user",
   "register_error" : "An error occurred while registering a user, please try again later",
   "cancel" : "Cancel",
-  "accept" : "Accept"
+  "accept" : "Accept",
+  "no_webpage" : "Sin pagina web",
+  "no_mail" : "No email"
 }

@@ -32,7 +32,7 @@ class Post {
       body: json['body'],
       media: List<String>.from(json['media']),
       comments: commentsList,
-      idCreator: json['idCreator'],
+      idCreator: json['id_creator'],
     );
   }
 
