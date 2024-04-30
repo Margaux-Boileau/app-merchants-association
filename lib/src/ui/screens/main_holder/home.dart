@@ -8,7 +8,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/navigator_routes.dart';
 import '../../../model/forums.dart';
-import '../../../model/post_image.dart';
 import '../../widgets/card/forum_card.dart';
 
 class Home extends StatefulWidget {
@@ -26,9 +25,12 @@ class _HomeState extends State<Home> {
   late Forums currentCategory;
   List<Post> posts = [];
 
+  late Future<void> forumFuture;
+
+
   @override
   void initState() {
-    _getForums();
+    forumFuture = _getForums();
     super.initState();
   }
 
@@ -39,12 +41,18 @@ class _HomeState extends State<Home> {
     posts.clear();
   }
 
-  void _getForums() async {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    forumFuture = _getForums();
+  }
+
+  Future<void> _getForums() async {
+    print("GETTING FORUMS");
     try {
       await Future.delayed(Duration.zero);
       if (UserHelper.shop != null && UserHelper.shop!.id != null) {
         forums = await ApiClient().getShopForums(UserHelper.shop!.id!);
-        print("Forums: ${forums.length}");
         if (forums.isNotEmpty) {
           currentCategory = forums.first;
           posts = await ApiClient().getForumPosts(currentCategory.id);
@@ -59,77 +67,81 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        key: _scaffoldKey,
-        appBar: AppBar(
-          leading: IconButton(
-            onPressed: () {
-              _scaffoldKey.currentState?.openDrawer();
-            },
-            icon: const Icon(Icons.menu),
-          ),
-          title: Text(AppLocalizations.of(context)!.forums),
-          centerTitle: true,
-        ),
-        body: _body(),
-
-        /// Botón flotante para crear un nuevo foro
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            // Pasar el forum seleccionado para crear un nuevo post
-            Navigator.pushNamed(context, NavigatorRoutes.createPost,
-                arguments: currentCategory);
-          },
-          backgroundColor: AppColors.thirdBlue,
-          child: Icon(
-            Icons.add,
-            color: AppColors.white,
-          ),
-        ),
-
-        drawer: Drawer(
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              UserAccountsDrawerHeader(
-                accountName: const Text(
-                  "UserHelper.user!.name!",
-                  style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.w600),
+      child: FutureBuilder(
+        future: forumFuture,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Scaffold(body: Center(child: CircularProgressIndicator())); // Muestra un indicador de carga mientras se espera la respuesta
+          } else if (snapshot.hasError) {
+            return Scaffold(body: Center(child: Text('Error: ${snapshot.error}'))); // Muestra un mensaje de error si algo sale mal
+          } else {
+            return Scaffold(
+              key: _scaffoldKey,
+              appBar: AppBar(
+                leading: IconButton(
+                  onPressed: () {
+                    _scaffoldKey.currentState?.openDrawer();
+                  },
+                  icon: const Icon(Icons.menu),
                 ),
-                accountEmail: Text(
-                  UserHelper.shop!.name! ?? "",
-                  style: const TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.w400),
+                title: Text(AppLocalizations.of(context)!.forums),
+                centerTitle: true,
+              ),
+              body: _body(),
+              floatingActionButton: FloatingActionButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, NavigatorRoutes.createPost,
+                      arguments: currentCategory);
+                },
+                backgroundColor: AppColors.thirdBlue,
+                child: Icon(
+                  Icons.add,
+                  color: AppColors.white,
                 ),
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    opacity: 0.3,
-                    image: AssetImage(
-                      AppAssets.sants_place,
+              ),
+              drawer: Drawer(
+                child: ListView(
+                  padding: EdgeInsets.zero,
+                  children: [
+                    UserAccountsDrawerHeader(
+                      accountName: Text(
+                        UserHelper.user!.name!,
+                        style: const TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.w600),
+                      ),
+                      accountEmail: Text(
+                        UserHelper.shop!.name!,
+                        style: const TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.w400),
+                      ),
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          opacity: 0.3,
+                          image: AssetImage(
+                            AppAssets.sants_place,
+                          ),
+                          fit: BoxFit.fill,
+                        ),
+                      ),
                     ),
-                    fit: BoxFit.fill,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 15.0),
-                child: Text(
-                  AppLocalizations.of(context)!.categories,
-                  style: AppStyles.textTheme.titleLarge!.copyWith(
-                    fontSize: 17.0,
-                  ),
-                ),
-              ),
-              forums.isNotEmpty
-                  ? ListView.builder(
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15.0),
+                      child: Text(
+                        AppLocalizations.of(context)!.categories,
+                        style: AppStyles.textTheme.titleLarge!.copyWith(
+                          fontSize: 17.0,
+                        ),
+                      ),
+                    ),
+                    forums.isNotEmpty
+                        ? ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: forums.length,
                       itemBuilder: (context, index) {
                         return ListTile(
                           title: Text(
-                            forums[index].title, // Muestra el título del foro
+                            forums[index].title,
                             style: TextStyle(
                               color: AppColors.black,
                               fontSize: 14.0,
@@ -137,26 +149,28 @@ class _HomeState extends State<Home> {
                           ),
                           onTap: () {
                             setState(() {
-                              currentCategory = forums[
-                                  index]; // Actualiza la categoría actual
+                              currentCategory = forums[index];
                             });
                             Navigator.pop(context);
                           },
                         );
                       },
                     )
-                  : const Padding(
-                      padding: EdgeInsets.only(top: 20.0),
+                        : Padding(
+                      padding: const EdgeInsets.only(top: 20.0),
                       child: Center(
                         child: Text(
-                          "No tienes foros disponibles",
-                          style: TextStyle(color: Colors.black),
+                          AppLocalizations.of(context)!.no_forums_available,
+                          style: const TextStyle(color: Colors.black),
                         ),
                       ),
                     ),
-            ],
-          ),
-        ),
+                  ],
+                ),
+              ),
+            );
+          }
+        },
       ),
     );
   }
@@ -170,7 +184,7 @@ class _HomeState extends State<Home> {
                 padding:
                     const EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
                 child: Text(
-                  currentCategory.title, // Usa la categoría actual
+                  currentCategory.title,
                   style: AppStyles.textTheme.titleLarge,
                 ),
               ),
@@ -182,7 +196,6 @@ class _HomeState extends State<Home> {
                       ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        //Si queremos que haga scroll toda la pantalla [desomentarlo]
                         itemCount: posts.length,
                         itemBuilder: (context, index) {
                           return Padding(

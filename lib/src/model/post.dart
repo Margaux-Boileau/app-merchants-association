@@ -6,7 +6,7 @@ class Post {
   String? date;
   String? body;
   List<String>? media;
-  List<Comment?>? comments; //TODO Por ahora se dejará un String
+  List<Comment?>? comments;
   int? idCreator;
 
   Post({
@@ -15,7 +15,7 @@ class Post {
     required this.date,
     required this.body,
     required this.media,
-    required this.comments, //TODO Por ahora se dejará un String
+    required this.comments,
     required this.idCreator,
   });
 

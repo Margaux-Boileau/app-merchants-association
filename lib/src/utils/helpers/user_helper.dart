@@ -22,7 +22,10 @@ class UserHelper {
   static setUser(Map<String, dynamic> json) async{
     try {
       if(json["user"]!=null){
+        print("User JSON -> $json");
         _user = User.fromJson(json["user"]);
+
+        print("User -> ${_user!.name}");
       }if(json["shop"]!=null){
         _shop = Shop.fromJson(json["shop"]);
       }
@@ -45,6 +48,7 @@ class UserHelper {
   static getUsernameFromSharedPreferences() async {
     final prefs = await SharedPreferences.getInstance();
     var username = prefs.getString("username");
+    print("Username: $username");
     return username;
   }
 

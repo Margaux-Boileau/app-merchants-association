@@ -31,6 +31,8 @@
   "select_image" : "Choose an image",
   "gallery" : "Gallery",
   "camera" : "Camera",
-  "images_uploaded" : "Images uploaded"
+  "images_uploaded" : "Images uploaded",
+
+  "no_forums_available": "No forums available"
 
 }

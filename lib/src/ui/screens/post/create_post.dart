@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:app_merchants_association/src/model/forums.dart';
 import 'package:app_merchants_association/src/utils/dialog_manager.dart';
 import 'package:app_merchants_association/src/utils/image_picker_helper.dart';

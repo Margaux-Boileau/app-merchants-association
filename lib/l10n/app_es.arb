@@ -31,7 +31,9 @@
   "select_image": "Seleccionar imagen",
   "gallery": "Galería",
   "camera": "Cámara",
-  "images_uploaded" : "Imagenes subidas"
+  "images_uploaded" : "Imagenes subidas",
+
+  "no_forums_available": "No hay foros disponibles"
 
 
 }
