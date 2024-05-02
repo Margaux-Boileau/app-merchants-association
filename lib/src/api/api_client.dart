@@ -13,6 +13,7 @@ class ApiClient{
     connectTimeout: const Duration(milliseconds: 20000),
     receiveTimeout: const Duration(milliseconds: 20000),
     receiveDataWhenStatusError: true,
+      contentType: Headers.jsonContentType
   ));
 
   Future signIn(String username, String password) async {
@@ -141,19 +142,12 @@ class ApiClient{
   }
 
   /// Create POST
-  Future<bool> createForumPost(int forumPk, String title, String description, List<String> mediaNames, List<String> mediaContents) async {
+  Future<bool> createForumPost(int forumPk, String title, String description, List<String> mediaContents) async {
     Map<String, dynamic> params = {
       "title": title,
       "body": description,
-      "media_names": mediaNames,
-      "media_contents": mediaContents,
+      "medias": mediaContents,
     };
-
-    print("ID -> $forumPk");
-    print("Title -> $title");
-    print("Body -> $description");
-    print("Media -> ${mediaNames} - ${mediaNames.length}");
-    print("Media Contents -> ${mediaContents.length}");
 
     try {
       var response = await _requestPOST(
@@ -161,6 +155,7 @@ class ApiClient{
 
       print("Response : $response");
 
+      print("Params: ${params["medias"].runtimeType}");
       if (response != null) {
         return true;
       } else {

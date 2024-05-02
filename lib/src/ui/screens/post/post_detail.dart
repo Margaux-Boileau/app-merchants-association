@@ -25,7 +25,7 @@ class _PostDetailState extends State<PostDetail> {
   @override
   void initState() {
     super.initState();
-    for(String? image in widget.post!.media!){
+    for(String? image in widget.post!.medias!){
       print(image);
     }
   }
@@ -136,7 +136,7 @@ class _PostDetailState extends State<PostDetail> {
         ),
         const SizedBox(height: 20),
         // Hero images
-        if (widget.post.media!.isNotEmpty)
+        if (widget.post.medias!.isNotEmpty)
           Column(
             children: [
               CarouselSlider(
@@ -156,7 +156,7 @@ class _PostDetailState extends State<PostDetail> {
                     });
                   },
                 ),
-                items: widget.post.media!.map((item) {
+                items: widget.post.medias!.map((item) {
                   return Padding(
                     padding: const EdgeInsets.all(2), // Ajusta este valor según tus necesidades
                     child: Material(
@@ -179,8 +179,8 @@ class _PostDetailState extends State<PostDetail> {
               /// Indicadores de posición
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: widget.post.media!.map((url) {
-                  int index = widget.post.media!.indexOf(url);
+                children: widget.post.medias!.map((url) {
+                  int index = widget.post.medias!.indexOf(url);
                   return Container(
                     width: 8.0,
                     height: 8.0,
@@ -203,7 +203,7 @@ class _PostDetailState extends State<PostDetail> {
   /// Comentarios
   Widget _commentsBody(BuildContext context) {
     return Padding(
-      padding: widget.post.media!.isNotEmpty ? const EdgeInsets.only(top: 20.0, bottom: 70) : const EdgeInsets.only(top: 10.0, bottom: 70),
+      padding: widget.post.medias!.isNotEmpty ? const EdgeInsets.only(top: 20.0, bottom: 70) : const EdgeInsets.only(top: 10.0, bottom: 70),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

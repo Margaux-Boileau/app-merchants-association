@@ -5,7 +5,7 @@ class Post {
   String? title;
   String? date;
   String? body;
-  List<String>? media;
+  List<String>? medias;
   List<Comment?>? comments;
   int? idCreator;
 
@@ -14,7 +14,7 @@ class Post {
     required this.title,
     required this.date,
     required this.body,
-    required this.media,
+    required this.medias,
     required this.comments,
     required this.idCreator,
   });
@@ -30,7 +30,7 @@ class Post {
       title: json['title'],
       date: json['date'],
       body: json['body'],
-      media: List<String>.from(json['media']),
+      medias: List<String>.from(json['media']),
       comments: commentsList,
       idCreator: json['idCreator'],
     );

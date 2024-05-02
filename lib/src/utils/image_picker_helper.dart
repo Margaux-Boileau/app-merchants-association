@@ -61,7 +61,26 @@ class ImagePickerHelper {
     List<String> imagesBase64 = [];
     for (File image in images) {
       List<int> imageBytes = await image.readAsBytes();
+      print('Longitud de imageBytes: ${imageBytes.length}');
       String base64Image = base64Encode(imageBytes);
+      imagesBase64.add(base64Image);
+    }
+    return imagesBase64;
+  }
+
+  /// Esta función es para convertir las imágenes a base64.
+  /// El bucle while es para que la longitud de la cadena sea múltiplo de 4.
+  /// Esto se hace para evitar errores al decodificar la cadena. Ya que
+  /// la longitud de la cadena base64 debe ser múltiplo de 4.
+  static Future<List<String>> imagesToBase64M4(List<File> images) async {
+    List<String> imagesBase64 = [];
+    for (File image in images) {
+      List<int> imageBytes = await image.readAsBytes();
+      print('Longitud de imageBytes: ${imageBytes.length}');
+      String base64Image = base64Encode(imageBytes);
+      while (base64Image.length % 4 != 0) {
+        base64Image += '=';
+      }
       imagesBase64.add(base64Image);
     }
     return imagesBase64;

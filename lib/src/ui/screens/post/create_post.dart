@@ -243,7 +243,6 @@ class _CreatePostState extends State<CreatePost> {
         widget.forum.id,
         postTitle,
         postDescription,
-        mediaNames,
         mediaContents,
       );
 

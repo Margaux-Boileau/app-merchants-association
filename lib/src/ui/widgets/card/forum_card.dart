@@ -21,8 +21,8 @@ class _ForumCardState extends State<ForumCard> {
   @override
   void initState() {
     super.initState();
-    print("Post media: ${widget.post.media!.length}");
-    print(widget.post.media);
+    print("Post media: ${widget.post.medias!.length}");
+    print(widget.post.medias);
   }
 
   @override
@@ -147,7 +147,7 @@ class _ForumCardState extends State<ForumCard> {
               ),
 
               const SizedBox(height: 20.0),
-              widget.post.media!.isNotEmpty
+              widget.post.medias!.isNotEmpty
                   ? Row(
                       children: [
                         /// IMAGEN 1
@@ -159,12 +159,12 @@ class _ForumCardState extends State<ForumCard> {
                             decoration: BoxDecoration(
                               color: AppColors.background,
                             ),
-                            child: widget.post.media!.isNotEmpty
+                            child: widget.post.medias!.isNotEmpty
                                 ? InkWell(
                                     onTap: () {
                                       // Crear una lista de URLs de imágenes
                                       List<String> images =
-                                          widget.post.media!.map((media) {
+                                          widget.post.medias!.map((media) {
                                         return "http://172.23.6.211:8000/forums/${widget.forum.id}/posts/${widget.post.id}/media/$media/";
                                       }).toList();
 
@@ -177,7 +177,7 @@ class _ForumCardState extends State<ForumCard> {
                                       );
                                     },
                                     child: Image.network(
-                                      "http://172.23.6.211:8000/forums/${widget.forum.id}/posts/${widget.post.id}/media/${widget.post.media!.first}/",
+                                      "http://172.23.6.211:8000/forums/${widget.forum.id}/posts/${widget.post.id}/media/${widget.post.medias!.first}/",
                                       fit: BoxFit.cover,
                                     ),
                                   )
@@ -197,9 +197,9 @@ class _ForumCardState extends State<ForumCard> {
                             child: Stack(
                               fit: StackFit.expand,
                               children: [
-                                widget.post.media!.length > 1
+                                widget.post.medias!.length > 1
                                     ? Image.network(
-                                        "http://172.23.6.211:8000/forums/${widget.forum.id}/posts/${widget.post.id}/media/${widget.post.media![1]}/",
+                                        "http://172.23.6.211:8000/forums/${widget.forum.id}/posts/${widget.post.id}/media/${widget.post.medias![1]}/",
                                         fit: BoxFit.cover,
                                       )
                                     : Container(),
@@ -210,9 +210,9 @@ class _ForumCardState extends State<ForumCard> {
                                   ),
                                 ),
                                 Center(
-                                  child: widget.post.media!.length > 1
+                                  child: widget.post.medias!.length > 1
                                       ? Text(
-                                          "+${widget.post.media!.length - 1}",
+                                          "+${widget.post.medias!.length - 1}",
                                           style: AppStyles.textTheme.labelLarge!
                                               .copyWith(
                                             color: AppColors.black,

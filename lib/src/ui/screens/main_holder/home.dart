@@ -154,8 +154,9 @@ class _HomeState extends State<Home> {
                               print("Current category: ${currentCategory.id}");
                               ApiClient().getForumPosts(currentCategory.id).then((value) {
                                 posts = value;
-                                print("Value: ${value}");
-                                print("Posts: ${posts.length}");
+                                print("Last post: ${posts.last.title}");
+                                print("Image: ${posts.last.medias!}");
+                                print("Id: ${posts.last.id}");
                                 setState(() {});
                               });
                             });
