@@ -149,7 +149,15 @@ class _HomeState extends State<Home> {
                           ),
                           onTap: () {
                             setState(() {
+                              // Get del post de la categoria seleccionada
                               currentCategory = forums[index];
+                              print("Current category: ${currentCategory.id}");
+                              ApiClient().getForumPosts(currentCategory.id).then((value) {
+                                posts = value;
+                                print("Value: ${value}");
+                                print("Posts: ${posts.length}");
+                                setState(() {});
+                              });
                             });
                             Navigator.pop(context);
                           },
