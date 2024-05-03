@@ -28,7 +28,7 @@ class _CreateUserDialogState extends State<CreateUserDialog> {
       backgroundColor: AppColors.white,
       elevation: 0,
       title: Text(
-        "Crear Usuario",
+        AppLocalizations.of(context)!.create_user,
         style: AppStyles.textTheme.titleLarge,
       ),
       shape: const RoundedRectangleBorder(
@@ -112,7 +112,7 @@ class _CreateUserDialogState extends State<CreateUserDialog> {
               ),
             ),
             child: Text(
-              "Crear Usuario",
+              AppLocalizations.of(context)!.create_user,
               style: AppStyles.textTheme.titleSmall,
             ),
           ),
@@ -128,8 +128,8 @@ class _CreateUserDialogState extends State<CreateUserDialog> {
       if(response!){
         DialogManager().showSimpleDialog(
           context: context,
-          title: "Informacion!",
-          content: "Usuario creado correctamente",
+          title: AppLocalizations.of(context)!.information,
+          content: AppLocalizations.of(context)!.user_created,
           onAccept: (){
             Navigator.pop(context);
           }
@@ -138,8 +138,8 @@ class _CreateUserDialogState extends State<CreateUserDialog> {
       else{
         DialogManager().showSimpleDialog(
             context: context,
-            title: "Atencion!",
-            content: "Ha acurrido un error al registrar un usuario, intentalo de nuevo mas tarde",
+            title: AppLocalizations.of(context)!.atention,
+            content: AppLocalizations.of(context)!.register_error,
             onAccept: (){
               Navigator.pop(context);
             }

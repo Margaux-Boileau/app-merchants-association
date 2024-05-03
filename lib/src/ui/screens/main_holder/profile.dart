@@ -1,6 +1,3 @@
-import 'dart:ffi';
-
-import 'package:app_merchants_association/src/api/api_client.dart';
 import 'package:app_merchants_association/src/config/app_assets.dart';
 import 'package:app_merchants_association/src/config/app_colors.dart';
 import 'package:app_merchants_association/src/config/app_styles.dart';
@@ -190,34 +187,32 @@ class _ProfileState extends State<Profile> {
             ),
             Expanded(
               flex: 1,
-              child: Container(
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.wordpress,
-                      color: AppColors.primaryBlue,
-                      size: 25,
-                    ),
-                    const SizedBox(width: 10),
-                    // TODO Cambiar por la web del usuario
-                    Flexible(
-                      child: InkWell(
-                        onTap: () {},
-                        child: Container(
-                          constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.3),
-                          child: Text(
-                            UserHelper.shop!.webpage!,
-                            overflow: TextOverflow.ellipsis,
-                            style: AppStyles.textTheme.labelMedium?.copyWith(
-                              fontSize: 10,
-                            ),
-                            maxLines: 3,
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.wordpress,
+                    color: AppColors.primaryBlue,
+                    size: 25,
+                  ),
+                  const SizedBox(width: 10),
+                  // TODO Cambiar por la web del usuario
+                  Flexible(
+                    child: InkWell(
+                      onTap: () {},
+                      child: Container(
+                        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.3),
+                        child: Text(
+                          UserHelper.shop!.webpage != null ? UserHelper.shop!.webpage! : AppLocalizations.of(context)!.no_webpage,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppStyles.textTheme.labelMedium?.copyWith(
+                            fontSize: 10,
                           ),
+                          maxLines: 3,
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ],
@@ -254,33 +249,31 @@ class _ProfileState extends State<Profile> {
             ),
             Expanded(
               flex: 1,
-              child: Container(
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.phone_outlined,
-                      color: AppColors.primaryBlue,
-                      size: 25,
-                    ),
-                    const SizedBox(width: 10),
-                    Flexible(
-                      child: InkWell(
-                        onTap: () {},
-                        child: Container(
-                          constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.3),
-                          child: Text(
-                            UserHelper.shop!.phone!,
-                            overflow: TextOverflow.ellipsis,
-                            style: AppStyles.textTheme.labelMedium?.copyWith(
-                              fontSize: 10,
-                            ),
-                            maxLines: 3,
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.phone_outlined,
+                    color: AppColors.primaryBlue,
+                    size: 25,
+                  ),
+                  const SizedBox(width: 10),
+                  Flexible(
+                    child: InkWell(
+                      onTap: () {},
+                      child: Container(
+                        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.3),
+                        child: Text(
+                          UserHelper.shop!.phone!,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppStyles.textTheme.labelMedium?.copyWith(
+                            fontSize: 10,
                           ),
+                          maxLines: 3,
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ],
@@ -304,7 +297,7 @@ class _ProfileState extends State<Profile> {
                   Container(
                     constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.3),
                     child: Text(
-                      UserHelper.shop!.mail!,
+                      UserHelper.shop!.mail != null ? UserHelper.shop!.mail! : AppLocalizations.of(context)!.no_mail,
                       style: AppStyles.textTheme.labelMedium?.copyWith(
                         fontSize: 10,
                       ),

@@ -13,7 +13,6 @@ class ApiClient{
     connectTimeout: const Duration(milliseconds: 20000),
     receiveTimeout: const Duration(milliseconds: 20000),
     receiveDataWhenStatusError: true,
-      contentType: Headers.jsonContentType
   ));
 
   Future signIn(String username, String password) async {
@@ -46,6 +45,11 @@ class ApiClient{
     return response;
   }
 
+  Future<Map<String, dynamic>> getShopData(int shopId) async {
+    var response = await _requestGET(path: "${routes["shops"]}/$shopId/", show: true);
+    return response;
+  }
+
   /// Obtener los foros del usuario de la app
   Future<List<Forums>> getShopForums(int shopId) async {
     var response = await _requestGET(
@@ -69,6 +73,17 @@ class ApiClient{
       return response.map((json) => Post.fromJson(json)).toList();
     } else {
       throw Exception('Failed to load posts');
+    }
+  }
+
+  Future<Post> getPostDetail(int forumId, int postId) async {
+    var response = await _requestGET(
+        path: "${routes["forums"]}/$forumId${routes["posts"]}$postId/", show: true);
+
+    if (response != null) {
+      return Post.fromJson(response);
+    } else {
+      throw Exception('Failed to load post detail');
     }
   }
 
@@ -128,8 +143,6 @@ class ApiClient{
     try{
       var response = await _requestDELETE(
           path: "${routes["shops"]}$shopId${routes["employees"]}", formData: params);
-      print("response delete");
-      print(response);
       if(response != null){
         return true;
       }else{
@@ -140,6 +153,39 @@ class ApiClient{
       return null;
     }
   }
+
+  Future publishComment({required int forumId, required int postId, required String content}) async {
+    try{
+      Map<String, dynamic> params = {
+        "content": content,
+      };
+
+      var response = await _requestPOST(
+          path: "${routes["forums"]}/$forumId${routes["posts"]}$postId/${routes["comments"]}", show: true, formData: params);
+      if(response != null){
+        return true;
+      }else{
+        return false;
+      }
+    }catch(e){
+      print(e);
+      return null;
+    }
+  }
+
+  Future<List<dynamic>?> getComments({required int forumId, required int postId}) async {
+    try{
+      var response = await _requestGET(
+          path: "${routes["forums"]}/$forumId${routes["posts"]}$postId/${routes["comments"]}", show: true);
+      if(response != null){
+        return response;
+      }
+    }catch(e){
+      print(e);
+    }
+    return null;
+  }
+
 
   /// Create POST
   Future<bool> createForumPost(int forumPk, String title, String description, List<String> mediaContents) async {

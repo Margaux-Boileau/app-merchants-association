@@ -14,7 +14,7 @@ class Comment {
   factory Comment.fromJson(Map<String, dynamic> json) {
     return Comment(
       id: json['id'],
-      idCreator: json['idCreator'],
+      idCreator: json['creator'],
       content: json['content'],
       date: json['date'],
     );

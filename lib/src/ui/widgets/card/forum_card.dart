@@ -4,25 +4,23 @@ import 'package:flutter/material.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_styles.dart';
 import '../../../model/post.dart';
-import '../../../model/post_image.dart';
 import '../image/image_expand.dart';
 
 class ForumCard extends StatefulWidget {
   ForumCard({super.key, required this.post, required this.forum});
 
-  Post post;
-  Forums forum;
+  final Post post;
+  final Forums forum;
 
   @override
   State<ForumCard> createState() => _ForumCardState();
 }
 
 class _ForumCardState extends State<ForumCard> {
+
   @override
   void initState() {
     super.initState();
-    print("Post media: ${widget.post.medias!.length}");
-    print(widget.post.medias);
   }
 
   @override
@@ -63,7 +61,7 @@ class _ForumCardState extends State<ForumCard> {
                       decoration: BoxDecoration(color: AppColors.background),
                       child: Image.network(
                         // Cargar la imagen del usuario
-                        "http://172.23.6.211:8000/shops/${UserHelper.shop!.id}/image/",
+                        "http://172.23.6.211:8000/shops/${widget.post.idCreator}/image/",
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -147,7 +145,12 @@ class _ForumCardState extends State<ForumCard> {
               ),
 
               const SizedBox(height: 20.0),
-              widget.post.medias!.isNotEmpty
+              // Imagenes del foro
+
+              /// Si el foro tiene imagenes cargarlas, de lo contrario se quedaría así
+              /// Por ahora se ha creado un booleano provisional que simula si hay imágenes o no.
+
+              widget.post.media!.isNotEmpty
                   ? Row(
                       children: [
                         /// IMAGEN 1
