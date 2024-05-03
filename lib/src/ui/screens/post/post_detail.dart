@@ -9,8 +9,11 @@ import '../../../config/navigator_routes.dart';
 import '../../../model/post.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../widgets/textField/comment_text_field.dart';
+
 class PostDetail extends StatefulWidget {
-  const PostDetail({Key? key, required this.post, required this.forum}) : super(key: key);
+  const PostDetail({Key? key, required this.post, required this.forum})
+      : super(key: key);
 
   // Atributo para recibir el post seleccionado
   final Post post;
@@ -25,18 +28,19 @@ class _PostDetailState extends State<PostDetail> {
 
   Post? post;
 
-  TextEditingController messageController = TextEditingController();
-
   @override
   void initState() {
     super.initState();
     post = widget.post;
+    post!.comments = post!.comments!.reversed.toList();
     getPostDetail();
   }
 
   getPostDetail() async {
-    var response = await ApiClient().getPostDetail(widget.forum.id, widget.post.id);
+    var response = await ApiClient().getPostDetail(
+        widget.forum.id, widget.post.id);
     post = response;
+    post!.comments = post!.comments!.reversed.toList();
     setState(() {});
   }
 
@@ -47,11 +51,15 @@ class _PostDetailState extends State<PostDetail> {
         title: const Text("Detalle del post"),
       ),
       body: SizedBox(
-        height: MediaQuery.of(context).size.height,
+        height: MediaQuery
+            .of(context)
+            .size
+            .height,
         child: Stack(
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
+              padding: const EdgeInsets.only(
+                  left: 20.0, right: 20.0, top: 20.0),
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,7 +76,7 @@ class _PostDetailState extends State<PostDetail> {
               bottom: 0,
               left: 0,
               right: 0,
-              child: _commentTextField(context),
+              child: CommentTextField(forum: widget.forum, post: post!, updateScreen: getPostDetail,),
             ),
           ],
         ),
@@ -101,7 +109,10 @@ class _PostDetailState extends State<PostDetail> {
             children: [
               Container(
                 constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width * 0.7),
+                    maxWidth: MediaQuery
+                        .of(context)
+                        .size
+                        .width * 0.7),
                 child: Text(
                   post!.title!,
                   maxLines: 2,
@@ -154,7 +165,8 @@ class _PostDetailState extends State<PostDetail> {
             children: [
               CarouselSlider(
                 options: CarouselOptions(
-                  height: 300, // Ajusta este valor para cambiar el tamaño de la imagen
+                  height: 300,
+                  // Ajusta este valor para cambiar el tamaño de la imagen
                   enlargeCenterPage: true,
                   autoPlay: true,
                   aspectRatio: 2.0,
@@ -171,7 +183,8 @@ class _PostDetailState extends State<PostDetail> {
                 ),
                 items: post!.media!.map((item) {
                   return Padding(
-                    padding: const EdgeInsets.all(2), // Ajusta este valor según tus necesidades
+                    padding: const EdgeInsets.all(2),
+                    // Ajusta este valor según tus necesidades
                     child: Material(
                       elevation: 1.0,
                       borderRadius: BorderRadius.circular(10),
@@ -181,7 +194,10 @@ class _PostDetailState extends State<PostDetail> {
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                          child: Image.network("http://172.23.6.211:8000/forums/${widget.forum.id}/posts/${post!.id}/media/$item/", fit: BoxFit.cover, width: 1500),
+                          child: Image.network(
+                              "http://172.23.6.211:8000/forums/${widget.forum
+                                  .id}/posts/${post!.id}/media/$item/",
+                              fit: BoxFit.cover, width: 1500),
                         ),
                       ),
                     ),
@@ -197,7 +213,8 @@ class _PostDetailState extends State<PostDetail> {
                   return Container(
                     width: 8.0,
                     height: 8.0,
-                    margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 10.0, horizontal: 2.0),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: _currentIndex == index
@@ -216,7 +233,8 @@ class _PostDetailState extends State<PostDetail> {
   /// Comentarios
   Widget _commentsBody(BuildContext context) {
     return Padding(
-      padding: post!.media!.isNotEmpty ? const EdgeInsets.only(top: 20.0, bottom: 70) : const EdgeInsets.only(top: 10.0, bottom: 70),
+      padding: post!.media!.isNotEmpty ? const EdgeInsets.only(
+          top: 20.0, bottom: 70) : const EdgeInsets.only(top: 10.0, bottom: 70),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -235,7 +253,9 @@ class _PostDetailState extends State<PostDetail> {
             physics: const NeverScrollableScrollPhysics(),
             itemCount: post!.comments!.length > 5 ? 5 : post!.comments!.length,
             itemBuilder: (context, index) {
-              return CommentCard(comment: post!.comments![index]!, post: post!, forum: widget.forum);
+              return CommentCard(comment: post!.comments![index]!,
+                  post: post!,
+                  forum: widget.forum);
             },
           ),
 
@@ -259,60 +279,4 @@ class _PostDetailState extends State<PostDetail> {
       ),
     );
   }
-
-  /// Textfield para escribir un comentario
-  Widget _commentTextField(BuildContext context) {
-    return Material(
-      elevation: 15.0,
-      shadowColor: AppColors.black,
-      child: SizedBox(
-        width: double.infinity,
-        child: Container(
-          constraints: const BoxConstraints(maxHeight: 200),
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            reverse: true,
-            child: TextField(
-              minLines: 1,
-              maxLines: null,
-              controller: messageController,
-              keyboardType: TextInputType.multiline,
-              style: AppStyles.textTheme.bodyMedium!.copyWith(
-                color: AppColors.black,
-              ),
-              textAlignVertical: TextAlignVertical.center,
-              decoration: InputDecoration(
-                hintText: "Comentar...",
-                hintStyle: AppStyles.textTheme.bodyMedium!.copyWith(
-                  color: AppColors.appGrey,
-                ),
-                suffixIcon: IconButton(
-                    icon: Icon(Icons.send, color: AppColors.primaryBlue),
-                    onPressed: publishComment,
-                    color: AppColors.primaryBlue,
-                  ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  publishComment() async {
-    if(messageController.text.isNotEmpty){
-      bool response = await ApiClient().publishComment(forumId: widget.forum.id, postId: post!.id, content: messageController.text);
-
-      if(response){
-        await getPostDetail();
-        messageController.clear();
-        FocusScopeNode currentFocus = FocusScope.of(context);
-        if (!currentFocus.hasPrimaryFocus) {
-          currentFocus.unfocus();
-        }
-      }
-    }
-  }
 }
-
-

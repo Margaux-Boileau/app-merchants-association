@@ -164,8 +164,6 @@ class ApiClient{
 
       var response = await _requestPOST(
           path: "${routes["forums"]}/$forumId${routes["posts"]}$postId/${routes["comments"]}", show: true, formData: params);
-      print("Message response");
-      print(response);
       if(response != null){
         return true;
       }else{
@@ -176,6 +174,20 @@ class ApiClient{
       return null;
     }
   }
+
+  Future<List<dynamic>?> getComments({required int forumId, required int postId}) async {
+    try{
+      var response = await _requestGET(
+          path: "${routes["forums"]}/$forumId${routes["posts"]}$postId/${routes["comments"]}", show: true);
+      if(response != null){
+        return response;
+      }
+    }catch(e){
+      print(e);
+    }
+    return null;
+  }
+
 
   Future<dynamic> _requestGET(
       {bool needsAuth = true,

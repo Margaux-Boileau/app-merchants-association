@@ -40,7 +40,7 @@ class _CommentCardState extends State<CommentCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 20.0),
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,7 +111,6 @@ class _CommentCardState extends State<CommentCard> {
           /// Divider
           Divider(
             color: AppColors.primaryBlue.withOpacity(0.2),
-            height: 1,
           ),
         ],
       ),
