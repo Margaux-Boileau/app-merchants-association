@@ -68,13 +68,16 @@ class _AppComerciantsState extends State<AppComerciants> {
     if(UserHelper.accessToken != null){
 
       String username = await UserHelper.getUsernameFromSharedPreferences();
-      Map<String, dynamic> response = await ApiClient().getUsernameData(username);
-      print("Response: $response");
-      print("Username initial -> $username");
+      Map<String, dynamic>? response = await ApiClient().getUsernameData(username);
 
-      await UserHelper.setUser(response);
-
-      return NavigatorRoutes.mainHolder;
+      if(response != null){
+        await UserHelper.setUser(response);
+        return NavigatorRoutes.mainHolder;
+      }
+      else{
+        await UserHelper.deleteAllFromShared();
+        return NavigatorRoutes.signIn;
+      }
     }
     else{
       return NavigatorRoutes.signIn;

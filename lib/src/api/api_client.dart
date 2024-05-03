@@ -24,7 +24,6 @@ class ApiClient{
     try{
       var response = await _requestPOST(
           needsAuth: false, path: routes["login"], formData: params, show: true);
-      print("LOGIN RESPONSE: $response");
       if(response != null){
         String accessToken = response["token"];
         await UserHelper.saveTokenOnSharedPreferences(accessToken, response["user"]["username"]);
@@ -40,7 +39,7 @@ class ApiClient{
 
   }
 
-  Future<Map<String, dynamic>> getUsernameData(String username) async {
+  Future<Map<String, dynamic>?> getUsernameData(String username) async {
     var response = await _requestGET(path: "${routes["accounts"]}/$username/", show: true);
     return response;
   }

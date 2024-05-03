@@ -105,12 +105,12 @@ class _HomeState extends State<Home> {
                   children: [
                     UserAccountsDrawerHeader(
                       accountName: Text(
-                        UserHelper.user!.name!,
+                        UserHelper.user?.name! ?? "",
                         style: const TextStyle(
                             color: Colors.black, fontWeight: FontWeight.w600),
                       ),
                       accountEmail: Text(
-                        UserHelper.shop!.name!,
+                        UserHelper.shop?.name! ?? "",
                         style: const TextStyle(
                             color: Colors.black, fontWeight: FontWeight.w400),
                       ),

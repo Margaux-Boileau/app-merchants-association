@@ -38,6 +38,12 @@ class UserHelper {
     _accessToken = token;
   }
 
+  static deleteAllFromShared() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove("access_token");
+    await prefs.remove("username");
+  }
+
   static saveTokenOnSharedPreferences(String accesToken, String username) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString("access_token", accesToken);
