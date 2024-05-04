@@ -33,7 +33,13 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: any
+  carousel_slider: ^4.2.1
   image_picker: ^1.0.7
+  provider: ^6.1.2
+  flutter_svg: ^2.0.10+1
+  dio: ^5.4.3+1
+  shared_preferences: ^2.2.3
+  webview_flutter: ^4.7.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -50,11 +56,10 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
-
-# The following section is specific to Flutter packages.
+    # The following section is specific to Flutte
+  #
+  ## For information on the generic Dart part of this file, see the
+  ## following page: https://dart.dev/tools/pub/pubspecr packages.
 flutter:
 
   # The following line ensures that the Material Icons font is

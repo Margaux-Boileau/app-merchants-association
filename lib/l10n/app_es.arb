@@ -6,5 +6,45 @@
   "password": "Contraseña",
   "empty_password_validate" : "Introduce una contraseña",
   "short_password": "Contraseña demasiado corta",
-  "empty_username": "Introduce un nombre de usuario"
+  "empty_username": "Introduce un nombre de usuario",
+
+  "bio": "Bio",
+  "information": "Información",
+  "weekly_schedule": "Lunes - Viernes",
+  "social_networks": "Redes Sociales",
+
+  "forums": "Foros",
+  "general": "General",
+
+  "news": "Noticias",
+  "notifications": "Notificaciones",
+  "profile": "Perfil",
+
+  "comments": "Comentarios",
+
+  "categories": "Categorías",
+
+  "create_post": "Crear Post",
+  "post_title": "Título del post",
+  "post_description": "Descripción",
+
+  "select_image": "Seleccionar imagen",
+  "gallery": "Galería",
+  "camera": "Cámara",
+  "images_uploaded" : "Imagenes subidas",
+  "no_forums_available": "No hay foros disponibles"
+
+  "atention" : "Atencion!",
+  "login_error" : "Ha acurrido un error al iniciar sesion, revisa tus credentials",
+  "users" : "Usuarios",
+  "no_employees" : "No hay empleados",
+  "delete" : "Eliminar",
+  "delete_user_confirm" : "¿Estas seguro que quieres eliminar este usuario?",
+  "create_user" : "Crear Usuario",
+  "user_created" : "Usuario creado correctamente",
+  "register_error" : "Ha acurrido un error al registrar un usuario, intentalo de nuevo mas tarde",
+  "cancel" : "Cancelar",
+  "accept" : "Aceptar",
+  "no_webpage" : "Sin pagina web",
+  "no_mail" : "Sin correo electronico"
 }

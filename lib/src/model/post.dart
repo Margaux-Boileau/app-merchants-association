@@ -1,57 +1,40 @@
-import 'package:app_merchants_association/src/model/post_image.dart';
+import 'package:app_merchants_association/src/model/comment.dart';
 
 class Post {
   int id;
-  String profileImage;
-  String category;
-  String localName;
-  String title;
-  String date;
-  String body;
-  List<PostImage> images;
-  int idCreator;
+  String? title;
+  String? date;
+  String? body;
+  List<String>? medias;
+  List<Comment?>? comments;
+  int? idCreator;
 
   Post({
     required this.id,
-    required this.profileImage,
-    required this.category,
-    required this.localName,
     required this.title,
     required this.date,
     required this.body,
-    required this.images,
+    required this.medias,
+    required this.comments,
     required this.idCreator,
   });
 
   factory Post.fromJson(Map<String, dynamic> json) {
-    var imagesFromJson = json['images'] as List;
-    List<PostImage> imagesList =
-        imagesFromJson.map((i) => PostImage.fromJson(i)).toList();
+    // Lista de comments
+    var comments = json['comments'] as List;
+    List<Comment> commentsList = comments.map((i) => Comment.fromJson(i)).toList();
+
 
     return Post(
       id: json['id'],
-      profileImage: json['profile_image'],
-      category: json['category'],
-      localName: json['local_name'],
       title: json['title'],
       date: json['date'],
       body: json['body'],
-      images: imagesList,
+      medias: List<String>.from(json['media']),
+      comments: commentsList,
       idCreator: json['id_creator'],
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'profile_image': profileImage,
-      'category': category,
-      'local_name': localName,
-      'title': title,
-      'date': date,
-      'body': body,
-      'images': images,
-      'id_creator': idCreator,
-    };
-  }
+
 }
