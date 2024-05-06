@@ -12,17 +12,21 @@ class CommentsScreen extends StatefulWidget {
   final Forums forum;
   final Post post;
 
+
   @override
   State<CommentsScreen> createState() => _CommentsScreenState();
 }
 
 class _CommentsScreenState extends State<CommentsScreen> {
+  ScrollController _scrollController = ScrollController();
+  int currentPage = 1;
+
   List<Comment> commentsList = [];
 
   getComments() async {
     try {
       var response = await ApiClient()
-          .getComments(forumId: widget.forum.id, postId: widget.post.id);
+          .getComments(forumId: widget.forum.id, postId: widget.post.id, page: currentPage);
       commentsList = response!.map((json) => Comment.fromJson(json)).toList();
       commentsList = commentsList.reversed.toList();
       setState(() {});
@@ -33,8 +37,28 @@ class _CommentsScreenState extends State<CommentsScreen> {
 
   @override
   void initState() {
-    getComments();
     super.initState();
+    _scrollController.addListener(() {
+      if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+        _getMoreComments();
+      }
+    });
+
+    getComments();
+  }
+
+  Future<void> _getMoreComments() async {
+    print("GETTING MORE COMMENTS");
+    if (widget.post.id != null) {
+      currentPage++;
+      List<dynamic>? response = await ApiClient().getComments(forumId: widget.forum.id, postId: widget.post.id, page: currentPage);
+      if (response != null) {
+        List<Comment> newComments = response.map((item) => Comment.fromJson(item)).toList();
+        setState(() {
+          commentsList.addAll(newComments);
+        });
+      }
+    }
   }
 
   @override
@@ -48,7 +72,9 @@ class _CommentsScreenState extends State<CommentsScreen> {
           Expanded(
             child: ListView.builder(
                 shrinkWrap: true,
+
                 itemCount: commentsList.length,
+                controller: _scrollController,
                 itemBuilder: (BuildContext context, int index) {
                   return Padding(
                     padding:

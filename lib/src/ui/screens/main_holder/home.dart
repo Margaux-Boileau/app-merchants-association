@@ -27,13 +27,21 @@ class _HomeState extends State<Home> {
 
   late Future<void> forumFuture;
 
+
+  ScrollController _scrollController = ScrollController();
   int currentPage = 1;
+
 
 
   @override
   void initState() {
-    forumFuture = _getForums();
     super.initState();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+        _getMorePosts();
+      }
+    });
+    forumFuture = _getForums();
   }
 
   @override
@@ -43,10 +51,15 @@ class _HomeState extends State<Home> {
     posts.clear();
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    forumFuture = _getForums();
+  Future<void> _getMorePosts()async {
+    print("GETTING MORE POSTS");
+    if (UserHelper.shop != null && UserHelper.shop!.id != null) {
+      currentPage++;
+      List<Post> newPosts = await ApiClient().getForumPosts(currentCategory.id, currentPage);
+      setState(() {
+        posts.addAll(newPosts);
+      });
+    }
   }
 
   Future<void> _getForums() async {
@@ -57,7 +70,7 @@ class _HomeState extends State<Home> {
         forums = await ApiClient().getShopForums(UserHelper.shop!.id!);
         if (forums.isNotEmpty) {
           currentCategory = forums.first;
-          posts = await ApiClient().getForumPosts(currentCategory.id);
+          posts = await ApiClient().getForumPosts(currentCategory.id, currentPage);
         }
       }
       setState(() {});
@@ -154,7 +167,7 @@ class _HomeState extends State<Home> {
                               // Get del post de la categoria seleccionada
                               currentCategory = forums[index];
                               print("Current category: ${currentCategory.id}");
-                              ApiClient().getForumPosts(currentCategory.id).then((value) {
+                              ApiClient().getForumPosts(currentCategory.id, currentPage).then((value) {
                                 posts = value;
                                 print("Last post: ${posts.last.title}");
                                 print("Image: ${posts.last.medias!}");
@@ -202,6 +215,7 @@ class _HomeState extends State<Home> {
               const SizedBox(height: 5.0),
               Expanded(
                 child: SingleChildScrollView(
+                  controller: _scrollController,
                   child: Column(
                     children: [
                       ListView.builder(

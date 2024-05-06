@@ -63,10 +63,10 @@ class ApiClient{
   }
 
   /// Obtener los post del foro seleccionado por el usuario
-  Future<List<Post>> getForumPosts(int forumId) async {
-    print("Get Froum Post");
+  Future<List<Post>> getForumPosts(int forumId, int page) async {
+    print("Get Forum Post");
     var response = await _requestGET(
-        path: "${routes["forums"]}$forumId${routes["posts"]}", show: true);
+        path: "${routes["forums"]}$forumId${routes["posts"]}${routes["format_page"]}$page", show: true);
 
     print("Response -> $response");
     if (response is Map) {
@@ -178,12 +178,15 @@ class ApiClient{
     }
   }
 
-  Future<List<dynamic>?> getComments({required int forumId, required int postId}) async {
+  Future<List<dynamic>?> getComments({required int forumId, required int postId, required int page}) async {
     try{
       var response = await _requestGET(
-          path: "${routes["forums"]}/$forumId${routes["posts"]}$postId/${routes["comments"]}", show: true);
-      if(response != null){
-        return response;
+          path: "${routes["forums"]}/$forumId${routes["posts"]}$postId/${routes["comments"]}?page=$page", show: true);
+      if(response != null && response is Map){
+        var results = response['results'];
+        if (results is List) {
+          return results;
+        }
       }
     }catch(e){
       print(e);
