@@ -160,7 +160,7 @@ class _PostDetailState extends State<PostDetail> {
         ),
         const SizedBox(height: 20),
         // Hero images
-        if (post!.media!.isNotEmpty)
+        if (post!.medias!.isNotEmpty)
           Column(
             children: [
               CarouselSlider(
@@ -181,7 +181,7 @@ class _PostDetailState extends State<PostDetail> {
                     });
                   },
                 ),
-                items: post!.media!.map((item) {
+                items: post!.medias!.map((item) {
                   return Padding(
                     padding: const EdgeInsets.all(2),
                     // Ajusta este valor según tus necesidades
@@ -208,8 +208,8 @@ class _PostDetailState extends State<PostDetail> {
               /// Indicadores de posición
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: post!.media!.map((url) {
-                  int index = post!.media!.indexOf(url);
+                children: post!.medias!.map((url) {
+                  int index = post!.medias!.indexOf(url);
                   return Container(
                     width: 8.0,
                     height: 8.0,
@@ -233,7 +233,7 @@ class _PostDetailState extends State<PostDetail> {
   /// Comentarios
   Widget _commentsBody(BuildContext context) {
     return Padding(
-      padding: post!.media!.isNotEmpty ? const EdgeInsets.only(
+      padding: post!.medias!.isNotEmpty ? const EdgeInsets.only(
           top: 20.0, bottom: 70) : const EdgeInsets.only(top: 10.0, bottom: 70),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

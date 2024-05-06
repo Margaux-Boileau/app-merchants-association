@@ -150,7 +150,7 @@ class _ForumCardState extends State<ForumCard> {
               /// Si el foro tiene imagenes cargarlas, de lo contrario se quedaría así
               /// Por ahora se ha creado un booleano provisional que simula si hay imágenes o no.
 
-              widget.post.media!.isNotEmpty
+              widget.post.medias!.isNotEmpty
                   ? Row(
                       children: [
                         /// IMAGEN 1

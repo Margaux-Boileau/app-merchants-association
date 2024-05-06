@@ -27,6 +27,8 @@ class _HomeState extends State<Home> {
 
   late Future<void> forumFuture;
 
+  int currentPage = 1;
+
 
   @override
   void initState() {

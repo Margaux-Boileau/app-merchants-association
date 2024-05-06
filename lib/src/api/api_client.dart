@@ -54,6 +54,7 @@ class ApiClient{
   Future<List<Forums>> getShopForums(int shopId) async {
     var response = await _requestGET(
         path: "${routes["shopForums"]}$shopId${routes["forums"]}", show: true);
+
     if (response is List) {
       return response.map((json) => Forums.fromJson(json)).toList();
     } else {
@@ -67,12 +68,16 @@ class ApiClient{
     var response = await _requestGET(
         path: "${routes["forums"]}$forumId${routes["posts"]}", show: true);
 
-
     print("Response -> $response");
-    if (response is List) {
-      return response.map((json) => Post.fromJson(json)).toList();
+    if (response is Map) {
+      var results = response['results'];
+      if (results is List) {
+        return results.map((json) => Post.fromJson(json)).toList();
+      } else {
+        throw Exception('Failed to load posts');
+      }
     } else {
-      throw Exception('Failed to load posts');
+      throw Exception('Unexpected response format');
     }
   }
 
