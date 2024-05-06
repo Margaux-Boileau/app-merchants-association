@@ -44,8 +44,36 @@ class ApiClient{
     return response;
   }
 
+  Future<dynamic>? editShop(
+      {required String? name, required String? address, required String? bio,required String? schedule, required String? phone, required String? instagram, required String? facebook, required String? webpage, required String? mail, required int? shopId}) async {
+    Map<String, dynamic> params = {
+      "name": name,
+      "bio": bio,
+      "address": address,
+      "schedule": schedule,
+      "phone": phone,
+      "instagram": instagram,
+      "facebook": facebook,
+      "webpage": webpage,
+      "mail": mail
+    };
+
+    try{
+      var response = await _requestPUT(
+        params: params, path: "${routes["shops"]}$shopId/",
+      );
+
+      return response;
+
+    }catch(e){
+      print(".:Error at edit shop: $e");
+    }
+    return null;
+
+  }
+
   Future<Map<String, dynamic>> getShopData(int shopId) async {
-    var response = await _requestGET(path: "${routes["shops"]}/$shopId/", show: true);
+    var response = await _requestGET(path: "${routes["shops"]}$shopId/", show: true);
     return response;
   }
 
@@ -275,7 +303,8 @@ class ApiClient{
       // Realitzem la request
       Response response = await _dio.put(
         path ?? "",
-        queryParameters: params,
+        data: params != null ? FormData.fromMap(params) : null,
+        queryParameters: null,
         options: Options(
           headers: needsAuth
               ? {

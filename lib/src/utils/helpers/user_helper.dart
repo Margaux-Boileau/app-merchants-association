@@ -34,6 +34,16 @@ class UserHelper {
     }
   }
 
+  static setShop(Map<String, dynamic>? json){
+    try {
+      if(json != null){
+        _shop = Shop.fromJson(json);
+      }
+    }catch(e){
+      print(".:USER HELPER ERROR AT SET SHOP $e");
+    }
+  }
+
   static setAccessToken(String token) {
     _accessToken = token;
   }

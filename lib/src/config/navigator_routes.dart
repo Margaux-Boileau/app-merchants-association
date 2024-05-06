@@ -11,7 +11,7 @@ class NavigatorRoutes {
   static const String notifications = "/notifications";
   static const String profile = "/profile";
   static const String userManage = "/user/manage";
-
+  static const String editShop = "/user/edit";
   static const String postDetail = "/post_detail";
 
   static const String createPost = "/create_post";

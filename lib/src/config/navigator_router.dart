@@ -1,6 +1,7 @@
 import 'package:app_merchants_association/src/model/forums.dart';
 import 'package:app_merchants_association/src/ui/screens/post/comments.dart';
 import 'package:app_merchants_association/src/ui/screens/post/create_post.dart';
+import 'package:app_merchants_association/src/ui/screens/user/edit_shop.dart';
 import 'package:app_merchants_association/src/ui/screens/user/user_manage.dart';
 import 'package:flutter/material.dart';
 import '../model/post.dart';
@@ -103,6 +104,13 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) {
             return const UserManage();
+          },
+        );
+
+      case NavigatorRoutes.editShop:
+        return MaterialPageRoute(
+          builder: (context) {
+            return const EditShop();
           },
         );
     }

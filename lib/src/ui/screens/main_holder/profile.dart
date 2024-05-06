@@ -71,8 +71,7 @@ class _ProfileState extends State<Profile> {
                   height: 210,
                   decoration: BoxDecoration(color: AppColors.background),
                   child: Image.network(
-                    "http://172.23.6.211:8000/shops/${UserHelper.shop
-                        ?.id}/image/",
+                    "http://172.23.6.211:8000/shops/${UserHelper.shop?.id}/image/",
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -94,7 +93,6 @@ class _ProfileState extends State<Profile> {
                     padding:
                     const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                     child: Text(
-                      // TODO Cambiar por el nombre del usuario
                       UserHelper.shop?.sector! ?? "",
                       overflow: TextOverflow.ellipsis,
                       style: AppStyles.textTheme.bodyMedium,
@@ -109,39 +107,72 @@ class _ProfileState extends State<Profile> {
           top: 11,
           right: 11,
           child: UserHelper.user!.shopOwner
-              ? DropdownButton<String>(
+              ? DropdownButton(
                 icon: Icon(Icons.settings, color: AppColors.white,),
+                underline: const SizedBox(),
                 onChanged: (String? value) {
                   // This is called when the user selects an item.
                 },
                 items: [
-                  DropdownMenuItem<String>(
-                    value: 'userManage',
-                    child: IconButton(
-                      onPressed: () => Navigator.pushNamed(context, NavigatorRoutes.userManage),
-                      icon: Icon(
-                        Icons.person_add_alt_sharp,
-                        color: AppColors.black,
-                        size: 30,
-                      ),
+                  DropdownMenuItem(
+                    value: '',
+                    child: InkWell(
+                      onTap: () => Navigator.pushNamed(context, NavigatorRoutes.userManage),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.person_add_alt_sharp,
+                            color: AppColors.black,
+                            size: 30,
+                          ),
+                          const SizedBox(width: 15,),
+                          Text("Usuarios",style: AppStyles.textTheme.labelLarge)
+                        ],
+                      )
                     ),
                   ),
-                  DropdownMenuItem<String>(
-                    value: 'logOut',
-                    child: logOutIcon(true),
+                  DropdownMenuItem(
+                    value: "",
+                    child: InkWell(
+                      onTap: () async {
+                        await Navigator.pushNamed(context, NavigatorRoutes.editShop);
+                        setState(() {});
+                      },
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.edit,
+                              size: 30,
+                              color:AppColors.black,
+                            ),
+                            const SizedBox(width: 15,),
+                            Text("Editar tienda",style: AppStyles.textTheme.labelLarge)
+                          ],
+                        )
+                    ),
+                  ),
+                  DropdownMenuItem(
+                    value: '',
+                    child: InkWell(
+                        onTap: () async {
+                          await UserHelper.deleteAllFromShared();
+                          Navigator.pushReplacementNamed(context, NavigatorRoutes.signIn);
+                        },
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.logout,
+                              size: 30,
+                              color:AppColors.black,
+                            ),
+                            const SizedBox(width: 15,),
+                            Text("Cerrar Sesion",style: AppStyles.textTheme.labelLarge)
+                          ],
+                        )
+                    ),
                   ),
                 ],
               )
-
-          // ? IconButton(
-          //     onPressed: () =>
-          //         Navigator.pushNamed(context, NavigatorRoutes.userManage),
-          //     icon: const Icon(
-          //       Icons.person_add_alt_sharp,
-          //       size: 30,
-          //       color: Colors.white,
-          //     ),
-          //   )
               : logOutIcon(false),
         ),
       ],
@@ -246,7 +277,6 @@ class _ProfileState extends State<Profile> {
                     size: 25,
                   ),
                   const SizedBox(width: 10),
-                  // TODO Cambiar por la web del usuario
                   Flexible(
                     child: InkWell(
                       onTap: () {},
@@ -413,18 +443,7 @@ class _ProfileState extends State<Profile> {
               fit: BoxFit.cover,
             ),
           ),
-          const SizedBox(width: 10),
-          InkWell(
-            onTap: () {
-              // TODO Abrir Linkedin del usuario
-            },
-            child: Image.asset(
-              AppAssets.linkedinLogo,
-              width: 41,
-              height: 41,
-              fit: BoxFit.cover,
-            ),
-          ),
+
         ],
       ),
     );
