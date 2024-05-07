@@ -32,7 +32,7 @@
   "gallery": "Galería",
   "camera": "Cámara",
   "images_uploaded" : "Imagenes subidas",
-  "no_forums_available": "No hay foros disponibles"
+  "no_forums_available": "No hay foros disponibles",
 
   "atention" : "Atencion!",
   "login_error" : "Ha acurrido un error al iniciar sesion, revisa tus credentials",

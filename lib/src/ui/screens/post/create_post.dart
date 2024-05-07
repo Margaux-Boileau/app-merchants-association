@@ -235,9 +235,6 @@ class _CreatePostState extends State<CreatePost> {
       // Convertir las imágenes a base64
       List<String> mediaContents = await ImagePickerHelper.imagesToBase64(imagesUploaded);
 
-      // Obtener los nombres de los archivos de las imágenes
-      List<String> mediaNames = imagesUploaded.map((image) => image.path.split("/").last).toList();
-
       // Llamar a la API para crear el post
       bool response = await ApiClient().createForumPost(
         widget.forum.id,
@@ -246,7 +243,23 @@ class _CreatePostState extends State<CreatePost> {
         mediaContents,
       );
 
-      print(response);
+      if (response == true) {
+        DialogManager().showSimpleDialog(
+          context: context,
+          title: "Post creado",
+          content: "Tu post ha sido creado con éxito.",
+        );
+
+        // Retorna a la página anterior
+        Navigator.pop(context, response);
+        print(response);
+      } else {
+        DialogManager().showSimpleDialog(
+          context: context,
+          title: "Error",
+          content: "Ha ocurrido un error al crear el post.",
+        );
+      }
     }
   }
 }

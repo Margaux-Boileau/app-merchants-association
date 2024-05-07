@@ -8,6 +8,10 @@ import 'api_routes.dart';
 
 class ApiClient{
 
+  /// Instancia de [Dio] que se utilizará para realizar las peticiones a la API.
+  /// Se configura con un [BaseOptions] que contiene la URL base de la API y
+  /// los tiempos de espera de conexión y recepción de datos.
+  /// Se configura también para recibir datos cuando el estado de la respuesta es un error.
   final Dio _dio = Dio(BaseOptions(
     baseUrl: "http://172.23.6.211:8000",
     connectTimeout: const Duration(milliseconds: 20000),
@@ -15,6 +19,11 @@ class ApiClient{
     receiveDataWhenStatusError: true,
   ));
 
+
+  /// [signIn] se encarga de realizar el login de un usuario.
+  /// Devuelve un booleano que indica si el login ha sido correcto o no.
+  /// [username] es el nombre de usuario
+  /// [password] es la contraseña
   Future signIn(String username, String password) async {
     Map<String, dynamic> params = {
       "username": username,
@@ -40,17 +49,27 @@ class ApiClient{
 
   }
 
+  /// [getUsernameData] se encarga de obtener los datos de un usuario.
+  /// Devuelve un objeto [Map<String, dynamic>] con los datos del usuario
+  /// [username] es el nombre de usuario
   Future<Map<String, dynamic>> getUsernameData(String username) async {
     var response = await _requestGET(path: "${routes["accounts"]}/$username/", show: true);
     return response;
   }
 
+  /// [getShopData] se encarga de obtener los datos de una tienda.
+  /// Devuelve un objeto [Map<String, dynamic>] con los datos de la tienda
+  /// [shopId] es el id de la tienda
+  /// [show] es un booleano que indica si se quiere mostrar el resultado por consola
+  /// [connectionError] es un booleano que indica si se quiere mostrar el error de conexión
   Future<Map<String, dynamic>> getShopData(int shopId) async {
     var response = await _requestGET(path: "${routes["shops"]}/$shopId/", show: true);
     return response;
   }
 
-  /// Obtener los foros del usuario de la app
+  /// [getShopForums] se encarga de obtener los foros de una tienda.
+  /// Devuelve una lista de objetos [Forums]
+  /// [shopId] es el id de la tienda
   Future<List<Forums>> getShopForums(int shopId) async {
     var response = await _requestGET(
         path: "${routes["shopForums"]}$shopId${routes["forums"]}", show: true);
@@ -62,7 +81,10 @@ class ApiClient{
     }
   }
 
-  /// Obtener los post del foro seleccionado por el usuario
+  /// La función esta encargada de obtener los post de un foro.
+  /// Devuelve una lista de objetos [Post]
+  /// [forumId] es el id del foro
+  /// [page] es la página de la que se quieren obtener los post
   Future<List<Post>> getForumPosts(int forumId, int page) async {
     print("Get Forum Post");
     var response = await _requestGET(
@@ -81,6 +103,9 @@ class ApiClient{
     }
   }
 
+  /// Esta función se encargara de obtener los foros de la aplicación
+  /// y devolverlos en una lista de objetos [Forums]
+  /// [page] es la página de la que se quieren obtener los foros
   Future<Post> getPostDetail(int forumId, int postId) async {
     var response = await _requestGET(
         path: "${routes["forums"]}/$forumId${routes["posts"]}$postId/", show: true);
@@ -92,6 +117,9 @@ class ApiClient{
     }
   }
 
+  /// [getShopImage] se encarga de obtener la imagen de una tienda.
+  /// Devuelve un String con la url de la imagen de la tienda
+  /// [shopId] es el id de la tienda
   Future<String?> getShopImage(int shopId) async{
     try{
       var response = await _requestGET(path: "${routes["shops"]}$shopId${routes["image"]}");
@@ -105,6 +133,9 @@ class ApiClient{
     return null;
   }
 
+  /// [getShopEmployees] se encarga de obtener los empleados de una tienda.
+  /// Devuelve una lista de String con los nombres de los empleados
+  /// [shopId] es el id de la tienda
   Future<List<String>> getShopEmployees(int shopId) async {
     try{
       var response = await _requestGET(path: "${routes["shops"]}$shopId${routes["employees"]}");
@@ -119,6 +150,10 @@ class ApiClient{
     return [];
   }
 
+  /// [registerEmployer] se encarga de registrar un empleador.
+  /// Devuelve un booleano que indica si el registro ha sido correcto o no.
+  /// [username] es el nombre de usuario
+  /// [password] es la contraseña
   Future registerEmployer(String username, String password) async {
     Map<String, dynamic> params = {
       "username": username,
@@ -140,6 +175,10 @@ class ApiClient{
     }
   }
 
+  /// [deleteEmployer] se encarga de eliminar un empleador.
+  /// Devuelve un booleano que indica si la eliminación ha sido correcta o no.
+  /// [username] es el nombre de usuario
+  /// [shopId] es el id de la tienda
   Future deleteEmployer(String username, int shopId) async {
     Map<String, dynamic> params = {
       "worker": username,
@@ -159,6 +198,11 @@ class ApiClient{
     }
   }
 
+  /// [publishComment] se encarga de publicar un comentario en un post.
+  /// Devuelve un booleano que indica si la publicación ha sido correcta o no.
+  /// [forumId] es el id del foro
+  /// [postId] es el id del post
+  /// [content] es el contenido del comentario
   Future publishComment({required int forumId, required int postId, required String content}) async {
     try{
       Map<String, dynamic> params = {
@@ -178,6 +222,11 @@ class ApiClient{
     }
   }
 
+  /// [getComments] se encarga de obtener los comentarios de un post.
+  /// Devuelve una lista de comentarios en formato dinámico.
+  /// [forumId] es el id del foro
+  /// [postId] es el id del post
+  /// [page] es la página de la que se quieren obtener los comentarios
   Future<List<dynamic>?> getComments({required int forumId, required int postId, required int page}) async {
     try{
       var response = await _requestGET(
@@ -195,7 +244,12 @@ class ApiClient{
   }
 
 
-  /// Create POST
+  /// [createForumPost] se encarga de crear un post en un foro.
+  /// Devuelve un booleano que indica si la creación ha sido correcta o no.
+  /// [forumPk] es el id del foro
+  /// [title] es el título del post
+  /// [description] es la descripción del post
+  /// [mediaContents] es una lista de strings con las urls de las imágenes en formato base64
   Future<bool> createForumPost(int forumPk, String title, String description, List<String> mediaContents) async {
     Map<String, dynamic> params = {
       "title": title,
@@ -221,7 +275,16 @@ class ApiClient{
     }
   }
 
-  /// REQUESTS
+  /// REQUESTS CONFIGURATION [DIO]
+
+  ///  Estas funciones se encargan de realizar las peticiones a la API.
+  ///  Se encargan de realizar las peticiones GET, POST, PUT, PATCH y DELETE.
+  ///  [needsAuth] indica si la petición necesita autenticación.
+  ///  [path] es la ruta de la petición.
+  ///  [params] son los parámetros de la petición.
+  ///  [show] indica si se quiere mostrar la respuesta por consola.
+  ///  [connectionError] indica si se quiere mostrar el error de conexión.
+  ///  [extend] indica si se quiere extender el tiempo de espera de la petición.
 
   Future<dynamic> _requestGET(
       {bool needsAuth = true,
@@ -269,7 +332,6 @@ class ApiClient{
       print(".:GET ERROR: $e");
     }
   }
-
 
   Future<dynamic> _requestPUT(
       {bool needsAuth = true,

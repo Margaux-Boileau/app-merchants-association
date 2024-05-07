@@ -27,11 +27,8 @@ class _HomeState extends State<Home> {
 
   late Future<void> forumFuture;
 
-
   ScrollController _scrollController = ScrollController();
   int currentPage = 1;
-
-
 
   @override
   void initState() {
@@ -42,6 +39,9 @@ class _HomeState extends State<Home> {
       }
     });
     forumFuture = _getForums();
+    setState(() {
+
+    });
   }
 
   @override
@@ -105,8 +105,11 @@ class _HomeState extends State<Home> {
               body: _body(),
               floatingActionButton: FloatingActionButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, NavigatorRoutes.createPost,
-                      arguments: currentCategory);
+                  Navigator.pushNamed(context, NavigatorRoutes.createPost, arguments: currentCategory).then((value) {
+                    setState(() {
+                      forumFuture = _getForums();
+                    });
+                  });
                 },
                 backgroundColor: AppColors.thirdBlue,
                 child: Icon(
