@@ -133,6 +133,34 @@ class ApiClient{
     return null;
   }
 
+  Future<dynamic>? editShop(
+      {required String? name, required String? address, required String? bio,required String? schedule, required String? phone, required String? instagram, required String? facebook, required String? webpage, required String? mail, required int? shopId}) async {
+    Map<String, dynamic> params = {
+      "name": name,
+      "bio": bio,
+      "address": address,
+      "schedule": schedule,
+      "phone": phone,
+      "instagram": instagram,
+      "facebook": facebook,
+      "webpage": webpage,
+      "mail": mail
+    };
+
+    try{
+      var response = await _requestPUT(
+        params: params, path: "${routes["shops"]}$shopId/",
+      );
+
+      return response;
+
+    }catch(e){
+      print(".:Error at edit shop: $e");
+    }
+    return null;
+
+  }
+
   /// [getShopEmployees] se encarga de obtener los empleados de una tienda.
   /// Devuelve una lista de String con los nombres de los empleados
   /// [shopId] es el id de la tienda
