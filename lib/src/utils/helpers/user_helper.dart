@@ -34,8 +34,24 @@ class UserHelper {
     }
   }
 
+  static setShop(Map<String, dynamic>? json){
+    try {
+      if(json != null){
+        _shop = Shop.fromJson(json);
+      }
+    }catch(e){
+      print(".:USER HELPER ERROR AT SET SHOP $e");
+    }
+  }
+
   static setAccessToken(String token) {
     _accessToken = token;
+  }
+
+  static deleteAllFromShared() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove("access_token");
+    await prefs.remove("username");
   }
 
   static saveTokenOnSharedPreferences(String accesToken, String username) async {

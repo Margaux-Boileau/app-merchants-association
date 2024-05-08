@@ -77,6 +77,14 @@ class FormValidation {
     return null;
   }
 
+  static String? validateEmpty(String value, BuildContext context){
+    if (value.isEmpty) {
+        return "El campo no puede estar vacio";
+    } else {
+      return null;
+    }
+  }
+
   ///Valida una password
   ///es pot controlar la length [_minimumPasswordLength]
   ///Descomenta el text per controlar
@@ -112,18 +120,17 @@ class FormValidation {
   //   return null;
   // }
 
-  // static String? validateWebPage(String value, BuildContext context) {
-  //   if (value.isNotEmpty) {
-  //     RegExp regex = RegExp(r'^(http(s)?://)?([\w-]+\.)+[\w-]+(/[\w- ;,./?%&=]*)?$');
-  //     if (!regex.hasMatch(value)) {
-  //       return AppLocalizations.of(context)!.getString(
-  //           "form_validation_invalid_format");
-  //     }
-  //   } else {
-  //     return AppLocalizations.of(context)!.getString("form_validation_empty");
-  //   }
-  //   return null;
-  // }
+  static String? validateWebPage(String value, BuildContext context) {
+    if (value.isNotEmpty) {
+      RegExp regex = RegExp(r'^(http(s)?://)?([\w-]+\.)+[\w-]+(/[\w- ;,./?%&=]*)?$');
+      if (!regex.hasMatch(value)) {
+        return "Formato de web no es valido";
+      }
+    } else {
+      return "La web esta vacia";
+    }
+    return null;
+  }
 
   // static String? validateCIF(String value, BuildContext context) {
   //   if (value.isNotEmpty) {

@@ -1,4 +1,5 @@
 import 'package:app_merchants_association/src/api/api_client.dart';
+import 'package:app_merchants_association/src/config/app_styles.dart';
 import 'package:app_merchants_association/src/model/user.dart';
 import 'package:app_merchants_association/src/ui/widgets/card/user_card.dart';
 import 'package:app_merchants_association/src/ui/widgets/dialog/create_user_dialog.dart';
@@ -43,7 +44,7 @@ class _UserManageState extends State<UserManage> {
           color: AppColors.white,
         ),
       ),
-      body: users.isNotEmpty ? _content() : Center(child: Text(AppLocalizations.of(context)!.no_employees)),
+      body: users.isNotEmpty ? _content() : Center(child: Text(AppLocalizations.of(context)!.no_employees,style: AppStyles.textTheme.bodyLarge,)),
     );
   }
 

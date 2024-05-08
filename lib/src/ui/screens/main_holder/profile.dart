@@ -14,7 +14,6 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-
   @override
   void initState() {
     super.initState();
@@ -25,94 +24,173 @@ class _ProfileState extends State<Profile> {
     return SafeArea(
       child: Scaffold(
           body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _header(),
-            _body(),
-          ],
-        ),
-      )),
+            child: Column(
+              children: [
+                _header(),
+                _body(),
+              ],
+            ),
+          )),
     );
   }
 
   /// Header de la pantalla de perfil
   /// Contiene el nombre del usuario, el icono para editar, la imagen de perfil y la categoría.
   Widget _header() {
-    return Stack(children:
-    [
-      Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
-        width: double.infinity,
-        color: AppColors.primaryBlue,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(8.0,8,8,12),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width * 0.5),
-                child: Text(
-                  UserHelper.shop!.name!,
-                  style: AppStyles.textTheme.titleLarge!.copyWith(
-                    color: Colors.white,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(100.0),
-              child: Container(
-                width: 210,
-                height: 210,
-                decoration: BoxDecoration(color: AppColors.background),
-                child: Image.network(
-                        "http://172.23.6.211:8000/shops/${UserHelper.shop!.id}/image/",
-                        fit: BoxFit.cover,
-                      ),
-              ),
-            ),
-            const SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 20),
-              child: Container(
-                constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width * 0.7),
-                decoration: BoxDecoration(
-                  color: AppColors.white.withOpacity(0.4),
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+    return Stack(
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
+          width: double.infinity,
+          color: AppColors.primaryBlue,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8.0, 8, 8, 12),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                      maxWidth: MediaQuery
+                          .of(context)
+                          .size
+                          .width * 0.5),
                   child: Text(
-                    // TODO Cambiar por el nombre del usuario
-                    UserHelper.shop!.sector!,
+                    UserHelper.shop?.name! ?? "",
+                    style: AppStyles.textTheme.titleLarge!.copyWith(
+                      color: Colors.white,
+                    ),
                     overflow: TextOverflow.ellipsis,
-                    style: AppStyles.textTheme.bodyMedium,
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
-      ),
-      Positioned(
-        top: 11,
-        right: 11,
-        child: UserHelper.user!.shopOwner ? IconButton(
-          onPressed: () =>
-              Navigator.pushNamed(context, NavigatorRoutes.userManage),
-          icon: const Icon(
-            Icons.person_add_alt_sharp,
-            size: 30,
-            color: Colors.white,
+              const SizedBox(height: 5),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(100.0),
+                child: Container(
+                  width: 210,
+                  height: 210,
+                  decoration: BoxDecoration(color: AppColors.background),
+                  child: Image.network(
+                    "http://172.23.6.211:8000/shops/${UserHelper.shop?.id}/image/",
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Container(
+                  constraints: BoxConstraints(
+                      maxWidth: MediaQuery
+                          .of(context)
+                          .size
+                          .width * 0.7),
+                  decoration: BoxDecoration(
+                    color: AppColors.white.withOpacity(0.4),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Padding(
+                    padding:
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: Text(
+                      UserHelper.shop?.sector! ?? "",
+                      overflow: TextOverflow.ellipsis,
+                      style: AppStyles.textTheme.bodyMedium,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ) : Container(),
+        ),
+        Positioned(
+          top: 11,
+          right: 11,
+          child: UserHelper.user!.shopOwner
+              ? DropdownButton(
+                icon: Icon(Icons.settings, color: AppColors.white,),
+                underline: const SizedBox(),
+                onChanged: (String? value) {
+                  // This is called when the user selects an item.
+                },
+                items: [
+                  DropdownMenuItem(
+                    value: '',
+                    child: InkWell(
+                      onTap: () => Navigator.pushNamed(context, NavigatorRoutes.userManage),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.person_add_alt_sharp,
+                            color: AppColors.black,
+                            size: 30,
+                          ),
+                          const SizedBox(width: 15,),
+                          Text("Usuarios",style: AppStyles.textTheme.labelLarge)
+                        ],
+                      )
+                    ),
+                  ),
+                  DropdownMenuItem(
+                    value: "",
+                    child: InkWell(
+                      onTap: () async {
+                        await Navigator.pushNamed(context, NavigatorRoutes.editShop);
+                        setState(() {});
+                      },
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.edit,
+                              size: 30,
+                              color:AppColors.black,
+                            ),
+                            const SizedBox(width: 15,),
+                            Text("Editar tienda",style: AppStyles.textTheme.labelLarge)
+                          ],
+                        )
+                    ),
+                  ),
+                  DropdownMenuItem(
+                    value: '',
+                    child: InkWell(
+                        onTap: () async {
+                          await UserHelper.deleteAllFromShared();
+                          Navigator.pushReplacementNamed(context, NavigatorRoutes.signIn);
+                        },
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.logout,
+                              size: 30,
+                              color:AppColors.black,
+                            ),
+                            const SizedBox(width: 15,),
+                            Text("Cerrar Sesion",style: AppStyles.textTheme.labelLarge)
+                          ],
+                        )
+                    ),
+                  ),
+                ],
+              )
+              : logOutIcon(false),
+        ),
+      ],
+    );
+  }
+
+  Widget logOutIcon(bool blackButton) {
+    return IconButton(
+      onPressed: () async {
+        await UserHelper.deleteAllFromShared();
+        Navigator.pushReplacementNamed(context, NavigatorRoutes.signIn);
+      },
+      icon: Icon(
+        Icons.logout,
+        size: 30,
+        color: blackButton ? AppColors.black : AppColors.white,
       ),
-    ]);
+    );
   }
 
   Widget _body() {
@@ -132,7 +210,7 @@ class _ProfileState extends State<Profile> {
             const SizedBox(height: 5),
             Text(
               // TODO Cambiar por la bio del usuario
-              UserHelper.shop!.bio!,
+              UserHelper.shop?.bio! ?? "",
               style: AppStyles.textTheme.labelMedium,
             ),
             const SizedBox(height: 50),
@@ -172,9 +250,13 @@ class _ProfileState extends State<Profile> {
                   ),
                   const SizedBox(width: 10),
                   Container(
-                    constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.3),
+                    constraints: BoxConstraints(
+                        maxWidth: MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.3),
                     child: Text(
-                      UserHelper.shop!.schedule!,
+                      UserHelper.shop?.schedule! ?? "",
                       style: AppStyles.textTheme.labelMedium?.copyWith(
                         fontSize: 10,
                       ),
@@ -195,14 +277,19 @@ class _ProfileState extends State<Profile> {
                     size: 25,
                   ),
                   const SizedBox(width: 10),
-                  // TODO Cambiar por la web del usuario
                   Flexible(
                     child: InkWell(
                       onTap: () {},
                       child: Container(
-                        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.3),
+                        constraints: BoxConstraints(
+                            maxWidth: MediaQuery
+                                .of(context)
+                                .size
+                                .width * 0.3),
                         child: Text(
-                          UserHelper.shop!.webpage != null ? UserHelper.shop!.webpage! : AppLocalizations.of(context)!.no_webpage,
+                          UserHelper.shop?.webpage != null
+                              ? UserHelper.shop!.webpage!
+                              : AppLocalizations.of(context)!.no_webpage,
                           overflow: TextOverflow.ellipsis,
                           style: AppStyles.textTheme.labelMedium?.copyWith(
                             fontSize: 10,
@@ -234,9 +321,13 @@ class _ProfileState extends State<Profile> {
                   const SizedBox(width: 10),
                   // TODO Cambiar por la dirección del usuario
                   Container(
-                    constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.3),
+                    constraints: BoxConstraints(
+                        maxWidth: MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.3),
                     child: Text(
-                      UserHelper.shop!.address!,
+                      UserHelper.shop?.address! ?? "",
                       style: AppStyles.textTheme.labelMedium?.copyWith(
                         fontSize: 10,
                       ),
@@ -261,9 +352,13 @@ class _ProfileState extends State<Profile> {
                     child: InkWell(
                       onTap: () {},
                       child: Container(
-                        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.3),
+                        constraints: BoxConstraints(
+                            maxWidth: MediaQuery
+                                .of(context)
+                                .size
+                                .width * 0.3),
                         child: Text(
-                          UserHelper.shop!.phone!,
+                          UserHelper.shop?.phone! ?? "",
                           overflow: TextOverflow.ellipsis,
                           style: AppStyles.textTheme.labelMedium?.copyWith(
                             fontSize: 10,
@@ -295,9 +390,15 @@ class _ProfileState extends State<Profile> {
                   const SizedBox(width: 10),
                   // TODO Cambiar por la dirección mail del usuario
                   Container(
-                    constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.3),
+                    constraints: BoxConstraints(
+                        maxWidth: MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.3),
                     child: Text(
-                      UserHelper.shop!.mail != null ? UserHelper.shop!.mail! : AppLocalizations.of(context)!.no_mail,
+                      UserHelper.shop?.mail != null
+                          ? UserHelper.shop!.mail!
+                          : AppLocalizations.of(context)!.no_mail,
                       style: AppStyles.textTheme.labelMedium?.copyWith(
                         fontSize: 10,
                       ),
@@ -342,18 +443,7 @@ class _ProfileState extends State<Profile> {
               fit: BoxFit.cover,
             ),
           ),
-          const SizedBox(width: 10),
-          InkWell(
-            onTap: () {
-              // TODO Abrir Linkedin del usuario
-            },
-            child: Image.asset(
-              AppAssets.linkedinLogo,
-              width: 41,
-              height: 41,
-              fit: BoxFit.cover,
-            ),
-          ),
+
         ],
       ),
     );
