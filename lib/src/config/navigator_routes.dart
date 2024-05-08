@@ -8,6 +8,7 @@ class NavigatorRoutes {
 
   static const String home = "/home";
   static const String notices = "/notifications";
+  static const String audioPlayer = "/audio_player";
   static const String notifications = "/notifications";
   static const String profile = "/profile";
   static const String userManage = "/user/manage";

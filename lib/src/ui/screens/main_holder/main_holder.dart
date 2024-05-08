@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 import '../../../provider/navigator_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'audio_player.dart';
+
 class MainHolder extends StatelessWidget {
   const MainHolder({super.key});
 
@@ -20,7 +22,8 @@ class MainHolder extends StatelessWidget {
             index: navigationNotifier.currentIndex,
             children: const <Widget>[
               Home(),
-              Notices(),
+              //Notices(),
+              AudioPlayerScreen(),
               Notifications(),
               Profile(),
             ],
@@ -42,9 +45,13 @@ class MainHolder extends StatelessWidget {
                 icon: const Icon(Icons.message),
                 label: AppLocalizations.of(context)!.forums,
               ),
+              // BottomNavigationBarItem(
+              //   icon: const Icon(Icons.library_books),
+              //   label: AppLocalizations.of(context)!.news,
+              // ),
               BottomNavigationBarItem(
-                icon: const Icon(Icons.library_books),
-                label: AppLocalizations.of(context)!.news,
+                icon: const Icon(Icons.radio),
+                label: AppLocalizations.of(context)!.notifications,
               ),
               BottomNavigationBarItem(
                 icon: const Icon(Icons.notifications),
