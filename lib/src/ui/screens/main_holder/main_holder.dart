@@ -51,7 +51,7 @@ class MainHolder extends StatelessWidget {
               // ),
               BottomNavigationBarItem(
                 icon: const Icon(Icons.radio),
-                label: AppLocalizations.of(context)!.notifications,
+                label: AppLocalizations.of(context)!.radio,
               ),
               BottomNavigationBarItem(
                 icon: const Icon(Icons.notifications),
