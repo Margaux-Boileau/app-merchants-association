@@ -168,6 +168,7 @@ class _ForumCardState extends State<ForumCard> {
                                       // Crear una lista de URLs de imágenes
                                       List<String> images =
                                           widget.post.medias!.map((media) {
+
                                         return "http://172.23.6.211:8000/forums/${widget.forum.id}/posts/${widget.post.id}/media/$media/";
                                       }).toList();
 
