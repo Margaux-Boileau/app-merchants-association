@@ -8,6 +8,7 @@ class Notifications extends StatefulWidget {
 }
 
 class _NotificationsState extends State<Notifications> {
+  // final message = ModalRoute.of(context)!.settings.arguments as RemoteMessage;
   @override
   Widget build(BuildContext context) {
     return const Scaffold(

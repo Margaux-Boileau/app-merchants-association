@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "779594699732",
+    "project_id": "app-merchants-association",
+    "storage_bucket": "app-merchants-association.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:779594699732:android:4b244d8e6148b8f351bc41",
+        "android_client_info": {
+          "package_name": "com.example.app_merchants_association"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaQ1JGgoZFNvXizc04oFu039-a71G3ZEg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

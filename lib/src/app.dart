@@ -1,6 +1,7 @@
 import 'package:app_merchants_association/src/api/api_client.dart';
 import 'package:app_merchants_association/src/config/app_styles.dart';
 import 'package:app_merchants_association/src/config/navigator_routes.dart';
+import 'package:app_merchants_association/src/provider/push_notification_provider.dart';
 import 'package:app_merchants_association/src/utils/helpers/user_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'config/navigator_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+final navigatorKey = GlobalKey<NavigatorState>();
 
 class AppComerciants extends StatefulWidget {
   const AppComerciants({super.key});
@@ -18,6 +20,11 @@ class AppComerciants extends StatefulWidget {
 
 class _AppComerciantsState extends State<AppComerciants> {
 
+  @override
+  void initState() {
+    super.initState();
+    PushNotificationProvider().initNotifications();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +47,7 @@ class _AppComerciantsState extends State<AppComerciants> {
               }
             },
             child: MaterialApp(
+              navigatorKey: navigatorKey,
               title: 'App Comerciants',
               debugShowCheckedModeBanner: false,
               theme: AppStyles.mainTheme,

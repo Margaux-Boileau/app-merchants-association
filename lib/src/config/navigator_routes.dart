@@ -7,7 +7,7 @@ class NavigatorRoutes {
   static const String mainHolder = "/main_holder";
 
   static const String home = "/home";
-  static const String notices = "/notifications";
+  static const String notices = "/noticies";
   static const String notifications = "/notifications";
   static const String profile = "/profile";
   static const String userManage = "/user/manage";
