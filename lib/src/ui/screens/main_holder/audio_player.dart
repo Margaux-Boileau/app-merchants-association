@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../config/app_colors.dart';
 import '../../../provider/audio_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AudioPlayerScreen extends StatefulWidget {
   const AudioPlayerScreen({super.key});
@@ -26,13 +27,13 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Audio Player'),
+        title: Text(AppLocalizations.of(context)!.audio_player),
       ),
       body: _content(),
     );
   }
 
-  /// Content
+  /// Muestra el contenido de la pantalla. 
   Widget _content() {
     return Consumer<AudioProvider>(
       builder: (context, audioProvider, child) {
