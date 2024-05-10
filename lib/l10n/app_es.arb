@@ -32,7 +32,7 @@
   "gallery": "Galería",
   "camera": "Cámara",
   "images_uploaded" : "Imagenes subidas",
-  "no_forums_available": "No hay foros disponibles"
+  "no_forums_available": "No hay foros disponibles",
 
   "atention" : "Atencion!",
   "login_error" : "Ha acurrido un error al iniciar sesion, revisa tus credentials",
@@ -46,5 +46,6 @@
   "cancel" : "Cancelar",
   "accept" : "Aceptar",
   "no_webpage" : "Sin pagina web",
-  "no_mail" : "Sin correo electronico"
+  "no_mail" : "Sin correo electronico",
+  "no_notifications": "Aun no has recibido ninguna notificacion"
 }

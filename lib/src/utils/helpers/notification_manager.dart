@@ -1,7 +1,5 @@
 import 'dart:convert';
-
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../model/PushNotificaton.dart';
 
 class NotificationManager{
@@ -33,7 +31,6 @@ class NotificationManager{
       String jsonString = jsonEncode(jsonList);
 
       await prefs.remove("push_notifications");
-      print("JSON QUE SE GUARDA ${jsonString}");
       await prefs.setString("push_notifications", jsonString);
     }
     catch(e){
@@ -42,14 +39,37 @@ class NotificationManager{
 
   }
 
-  ///TODO obtener las notificaciones y retornarlas como lista
-  static getNotifications(){
+  static getNotifications() async {
+    List<PushNotification> notificationsList = [];
 
+    final prefs = await SharedPreferences.getInstance();
+    var prefsNotifications =  await prefs.getString("push_notifications");
+
+    if(prefsNotifications != null){
+      var decodedList = jsonDecode(prefsNotifications) as List<dynamic>;
+      notificationsList = decodedList.map((json) => PushNotification.fromJson(json)).toList();
+    }
+
+    return notificationsList;
   }
 
   static deleteNotifications() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove("push_notifications");
+  }
+
+  static saveDeletedNotifications(List<PushNotification> notifications) async {
+    try{
+      final prefs = await SharedPreferences.getInstance();
+      List<Map<String, dynamic>> jsonList = pushNotificationListToJson(notifications);
+      String jsonString = jsonEncode(jsonList);
+
+      await prefs.remove("push_notifications");
+      await prefs.setString("push_notifications", jsonString);
+    }
+    catch(e){
+      print(e);
+    }
   }
 
 }

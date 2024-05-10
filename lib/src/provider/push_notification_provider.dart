@@ -1,12 +1,9 @@
 import 'dart:convert';
-
 import 'package:app_merchants_association/src/app.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../config/navigator_routes.dart';
 import '../model/PushNotificaton.dart';
-
-
 
 class PushNotificationProvider {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
@@ -25,7 +22,6 @@ class PushNotificationProvider {
 
   }
 
-
   ///CONFIGURACION DE LAS NOTIFICACIONES
   initNotifications() {
     _firebaseMessaging.requestPermission();
@@ -41,7 +37,7 @@ class PushNotificationProvider {
     print('=====ON OPEN HANDLER=====');
     if (message == null) return;
     print('Title: ${message.notification?.title}');
-    navigatorKey.currentState?.pushNamed(NavigatorRoutes.notifications, arguments: message);
+    navigatorKey.currentState?.pushNamed(NavigatorRoutes.mainHolder, arguments: message);
   }
 
   void handleInitialMessage(RemoteMessage? message) {
@@ -52,6 +48,5 @@ class PushNotificationProvider {
     FirebaseMessaging.instance.getInitialMessage().then(handleInitialMessage);
     FirebaseMessaging.onMessageOpenedApp.listen(handleMessage);
   }
-
 }
 
