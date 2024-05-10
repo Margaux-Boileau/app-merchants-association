@@ -22,8 +22,8 @@ class MainHolder extends StatelessWidget {
             index: navigationNotifier.currentIndex,
             children: const <Widget>[
               Home(),
-              Notices(),
-              //AudioPlayerScreen(),
+              //Notices(),
+              AudioPlayerScreen(),
               Notifications(),
               Profile(),
             ],
