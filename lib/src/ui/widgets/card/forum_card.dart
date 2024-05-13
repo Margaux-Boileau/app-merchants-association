@@ -191,8 +191,7 @@ class _ForumCardState extends State<ForumCard> {
                                 ? InkWell(
                                     onTap: () {
                                       // Crear una lista de URLs de imágenes
-                                      List<String> images =
-                                          widget.post.medias!.map((media) {
+                                      List<String> images = widget.post.medias!.map((media) {
 
                                         return "http://172.23.6.211:8000/forums/${widget.forum.id}/posts/${widget.post.id}/media/$media/";
                                       }).toList();
@@ -232,12 +231,11 @@ class _ForumCardState extends State<ForumCard> {
                                         fit: BoxFit.cover,
                                       )
                                     : Container(),
-                                Opacity(
-                                  opacity: 0.5,
-                                  child: Container(
-                                    color: AppColors.background,
-                                  ),
-                                ),
+                                widget.post.medias!.length > 1
+                                    ? Container(
+                                        color: AppColors.background.withOpacity(0.5),
+                                      )
+                                    : Container(),
                                 Center(
                                   child: widget.post.medias!.length > 1
                                       ? Text(

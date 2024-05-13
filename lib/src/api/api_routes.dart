@@ -9,6 +9,6 @@ final Map<String, String> routes = {
   "employees": "/employees/",
   "registerEmployer": "/accounts/register/",
   "comments": "comments/",
-  "format_page": "?format=json&page="
+  "format_page": "?format=json&page=",
   "token": "/fcm-token/",
 };
