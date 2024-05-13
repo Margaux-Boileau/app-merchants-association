@@ -10,4 +10,5 @@ final Map<String, String> routes = {
   "registerEmployer": "/accounts/register/",
   "comments": "comments/",
   "format_page": "?format=json&page="
+  "token": "/fcm-token/",
 };

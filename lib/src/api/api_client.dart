@@ -33,7 +33,6 @@ class ApiClient{
     try{
       var response = await _requestPOST(
           needsAuth: false, path: routes["login"], formData: params, show: true);
-      print("LOGIN RESPONSE: $response");
       if(response != null){
         String accessToken = response["token"];
         await UserHelper.saveTokenOnSharedPreferences(accessToken, response["user"]["username"]);
@@ -301,6 +300,24 @@ class ApiClient{
     }
   }
 
+  Future sendDeviceToken(Map<String, dynamic> deviceInfo) async {
+
+    try {
+      var response = await _requestPOST(
+          path: "${routes["token"]}", formData: deviceInfo, show: true);
+
+
+      if (response != null) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
   /// REQUESTS CONFIGURATION [DIO]
 
   ///  Estas funciones se encargan de realizar las peticiones a la API.
@@ -312,6 +329,7 @@ class ApiClient{
   ///  [connectionError] indica si se quiere mostrar el error de conexión.
   ///  [extend] indica si se quiere extender el tiempo de espera de la petición.
 
+  /// REQUESTS
   Future<dynamic> _requestGET(
       {bool needsAuth = true,
         String? path,
@@ -359,6 +377,7 @@ class ApiClient{
     }
   }
 
+
   Future<dynamic> _requestPUT(
       {bool needsAuth = true,
         String? path,
@@ -372,8 +391,7 @@ class ApiClient{
       // Realitzem la request
       Response response = await _dio.put(
         path ?? "",
-        data: params != null ? FormData.fromMap(params) : null,
-        queryParameters: null,
+        queryParameters: params,
         options: Options(
           headers: needsAuth
               ? {

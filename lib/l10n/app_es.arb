@@ -47,5 +47,6 @@
   "cancel" : "Cancelar",
   "accept" : "Aceptar",
   "no_webpage" : "Sin pagina web",
-  "no_mail" : "Sin correo electronico"
+  "no_mail" : "Sin correo electronico",
+  "no_notifications": "Aun no has recibido ninguna notificacion"
 }

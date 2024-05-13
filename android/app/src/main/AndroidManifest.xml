@@ -6,6 +6,7 @@
         android:label="app_merchants_association"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
