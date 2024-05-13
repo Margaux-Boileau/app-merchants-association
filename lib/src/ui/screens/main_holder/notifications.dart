@@ -29,13 +29,33 @@ class _NotificationsState extends State<Notifications> {
   removeNotification(int index) {
     notificationsList.removeAt(index);
     NotificationManager.saveDeletedNotifications(notificationsList);
-    setState(() {
-    });
+    setState(() {});
+  }
+
+  removeAllNotifications(){
+    notificationsList.clear();
+    NotificationManager.deleteNotifications();
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.notifications),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+            child: IconButton(
+              onPressed: () => removeAllNotifications(),
+              icon: Icon(
+                Icons.delete,
+                color: AppColors.white,
+              ),
+            ),
+          )
+        ],
+      ),
       body: notificationsList.isNotEmpty
           ? Padding(
               padding: const EdgeInsets.only(top: 20),
@@ -101,8 +121,8 @@ class _NotificationsState extends State<Notifications> {
                     Text(
                       notification.title!,
                       overflow: TextOverflow.ellipsis,
-                      style: AppStyles.textTheme.labelLarge!
-                          .copyWith(fontWeight: FontWeight.w700, fontSize: 16.0),
+                      style: AppStyles.textTheme.labelLarge!.copyWith(
+                          fontWeight: FontWeight.w700, fontSize: 16.0),
                     ),
                     const SizedBox(
                       height: 10,
@@ -121,15 +141,14 @@ class _NotificationsState extends State<Notifications> {
                 width: 20,
               ),
               IconButton(
-                onPressed: (){
-                  removeNotification(index);
-                },
-                icon: Icon(
-                  Icons.close,
-                  color: AppColors.appLightGrey,
-                  size: 30,
-                )
-              )
+                  onPressed: () {
+                    removeNotification(index);
+                  },
+                  icon: Icon(
+                    Icons.close,
+                    color: AppColors.appLightGrey,
+                    size: 30,
+                  ))
             ],
           ),
         ),
