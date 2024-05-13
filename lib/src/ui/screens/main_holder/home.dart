@@ -89,6 +89,15 @@ class _HomeState extends State<Home> {
     }
   }
 
+  /// En esta función se obtienen los posts de la categoría actual.
+  Future<void> _getPostsForCurrentCategory() async {
+    print("GETTING POSTS FOR CURRENT CATEGORY");
+    if (UserHelper.shop != null && UserHelper.shop!.id != null) {
+      posts = await ApiClient().getForumPosts(currentCategory.id, currentPage);
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -180,7 +189,8 @@ class _HomeState extends State<Home> {
                           onTap: () {
                             // Get del post de la categoria seleccionada
                             currentCategory = forums[index];
-                            print("Current category: ${currentCategory.id}");
+                            currentPage = 1;
+                            print("Current category: ${currentCategory.id} - ${currentPage}");
                             ApiClient().getForumPosts(currentCategory.id, currentPage).then((value) {
                               setState(() {
                                 posts = value;
@@ -248,12 +258,15 @@ class _HomeState extends State<Home> {
                               onTap: () {
                                 Navigator.pushNamed(
                                     context, NavigatorRoutes.postDetail,
-                                    arguments: [posts[index], currentCategory]);
+                                    arguments: [posts[index], currentCategory]
+                                ).then((_) {
+                                  // Recargar los posts de la categoría actual después de que el usuario regrese de la pantalla de detalles del post
+                                  _getPostsForCurrentCategory();
+                                });
                               },
                               child: ForumCard(
                                 post: posts[index],
                                 forum: currentCategory,
-                                shopCreator: UserHelper.shop,
                               ),
                             ),
                           );

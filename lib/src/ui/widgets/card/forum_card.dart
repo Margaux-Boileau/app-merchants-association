@@ -1,16 +1,20 @@
+import 'package:app_merchants_association/src/config/app_assets.dart';
 import 'package:app_merchants_association/src/model/forums.dart';
 import 'package:flutter/material.dart';
+import '../../../api/api_client.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_styles.dart';
 import '../../../model/post.dart';
-import '../image/image_expand.dart';
 import '../../../model/shop.dart';
+import '../image/image_expand.dart';
 
 class ForumCard extends StatefulWidget {
-  ForumCard({super.key, required this.post, required this.forum, required this.shopCreator});
+  ForumCard(
+      {super.key,
+      required this.post,
+      required this.forum});
 
   final Post post;
-  final Shop? shopCreator;
   final Forums forum;
 
   @override
@@ -18,15 +22,32 @@ class ForumCard extends StatefulWidget {
 }
 
 class _ForumCardState extends State<ForumCard> {
-
   @override
   void initState() {
     super.initState();
+    getCreatorShop();
+  }
+
+  Shop? shopCreator;
+
+  getCreatorShop() async {
+    var response = await ApiClient().getShopData(widget.post.idCreator!);
+    shopCreator = Shop.fromJson(response);
+    setState(() {
+
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    bool hasImages = false;
+    if (widget.post == null || shopCreator == null) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text("Detalle del post"),
+        ),
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
 
     return Center(
       child: Container(
@@ -61,9 +82,12 @@ class _ForumCardState extends State<ForumCard> {
                       height: 55,
                       decoration: BoxDecoration(color: AppColors.background),
                       child: Image.network(
-                        // Cargar la imagen del usuario
                         "http://172.23.6.211:8000/shops/${widget.post.idCreator}/image/",
                         fit: BoxFit.cover,
+                        errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                          // Return an Image widget that displays a default image
+                          return Image.asset(AppAssets.market, fit: BoxFit.cover);
+                        },
                       ),
                     ),
                   ),
@@ -78,7 +102,7 @@ class _ForumCardState extends State<ForumCard> {
                           maxWidth: MediaQuery.of(context).size.width * 0.6,
                         ),
                         child: Text(
-                          widget.shopCreator!.name!,
+                          shopCreator!.name!,
                           overflow: TextOverflow.ellipsis,
                           style: AppStyles.textTheme.labelLarge!.copyWith(
                               fontWeight: FontWeight.w700, fontSize: 16.0),
@@ -99,7 +123,7 @@ class _ForumCardState extends State<ForumCard> {
                               padding: const EdgeInsets.symmetric(
                                   vertical: 5, horizontal: 10),
                               child: Text(
-                                widget.shopCreator!.sector!,
+                                shopCreator!.sector!,
                                 overflow: TextOverflow.ellipsis,
                                 style: AppStyles.textTheme.bodySmall!.copyWith(
                                   color: AppColors.white,
