@@ -15,7 +15,8 @@
 
   "forums": "Foros",
   "general": "General",
-
+  "radio": "Radio",
+  "audio_player": "Audio Player",
   "news": "Noticias",
   "notifications": "Notificaciones",
   "profile": "Perfil",

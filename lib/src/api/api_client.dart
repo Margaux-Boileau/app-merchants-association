@@ -417,7 +417,7 @@ class ApiClient{
       // Realitzem la request
       Response response = await _dio.post(
         path ?? "",
-        data: formData != null ? formData : null,
+        data: formData != null ? FormData.fromMap(formData) : null,
         queryParameters: getParams ?? null,
         options: Options(
           headers: needsAuth

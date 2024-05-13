@@ -4,11 +4,12 @@ import 'package:app_merchants_association/src/model/forums.dart';
 import 'package:app_merchants_association/src/ui/widgets/card/comments_card.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import '../../../config/app_assets.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/navigator_routes.dart';
 import '../../../model/post.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+import '../../../model/shop.dart';
 import '../../widgets/textField/comment_text_field.dart';
 
 class PostDetail extends StatefulWidget {
@@ -19,6 +20,7 @@ class PostDetail extends StatefulWidget {
   final Post post;
   final Forums forum;
 
+
   @override
   State<PostDetail> createState() => _PostDetailState();
 }
@@ -27,6 +29,7 @@ class _PostDetailState extends State<PostDetail> {
   int _currentIndex = 0;
 
   Post? post;
+  Shop? shopCreator;
 
   @override
   void initState() {
@@ -34,6 +37,7 @@ class _PostDetailState extends State<PostDetail> {
     post = widget.post;
     post!.comments = post!.comments!.reversed.toList();
     getPostDetail();
+    getCreatorShop();
   }
 
   getPostDetail() async {
@@ -44,8 +48,25 @@ class _PostDetailState extends State<PostDetail> {
     setState(() {});
   }
 
+  getCreatorShop() async {
+    var response = await ApiClient().getShopData(widget.post.idCreator!);
+    shopCreator = Shop.fromJson(response);
+    setState(() {
+
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (post == null || shopCreator == null) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text("Detalle del post"),
+        ),
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Detalle del post"),
@@ -97,8 +118,12 @@ class _PostDetailState extends State<PostDetail> {
               height: 55,
               decoration: BoxDecoration(color: AppColors.background),
               child: Image.network(
-                "http://172.23.6.211:8000/shops/${post!.idCreator}/image/",
+                "http://172.23.6.211:8000/shops/${widget.post.idCreator}/image/",
                 fit: BoxFit.cover,
+                errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                  // Return an Image widget that displays a default image
+                  return Image.asset(AppAssets.market, fit: BoxFit.cover);
+                },
               ),
             ),
           ),
@@ -114,7 +139,7 @@ class _PostDetailState extends State<PostDetail> {
                         .size
                         .width * 0.7),
                 child: Text(
-                  post!.title!,
+                  shopCreator!.name!,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: AppStyles.textTheme.labelLarge!.copyWith(

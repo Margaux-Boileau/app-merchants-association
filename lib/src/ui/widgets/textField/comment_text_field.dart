@@ -40,6 +40,9 @@ class _CommentTextFieldState extends State<CommentTextField> {
               style: AppStyles.textTheme.bodyMedium!.copyWith(
                 color: AppColors.black,
               ),
+              onChanged: (value) {
+                setState(() {});
+              },
               textAlignVertical: TextAlignVertical.center,
               decoration: InputDecoration(
                 hintText: "Comentar...",
@@ -47,7 +50,9 @@ class _CommentTextFieldState extends State<CommentTextField> {
                   color: AppColors.appGrey,
                 ),
                 suffixIcon: IconButton(
-                  icon: Icon(Icons.send, color: AppColors.primaryBlue),
+                  icon: messageController.text.isEmpty
+                      ? SizedBox()
+                      : Icon(Icons.send, color: AppColors.primaryBlue),
                   onPressed: publishComment,
                   color: AppColors.primaryBlue,
                 ),
@@ -60,6 +65,9 @@ class _CommentTextFieldState extends State<CommentTextField> {
   }
 
   publishComment() async {
+
+    // If user only puts enters, it will not publish the comment
+
     if (messageController.text.isNotEmpty) {
       bool response = await ApiClient().publishComment(forumId: widget.forum.id,
           postId: widget.post.id,

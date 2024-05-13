@@ -1,4 +1,5 @@
 import 'package:app_merchants_association/src/model/forums.dart';
+import 'package:app_merchants_association/src/model/shop.dart';
 import 'package:app_merchants_association/src/ui/screens/post/comments.dart';
 import 'package:app_merchants_association/src/ui/screens/post/create_post.dart';
 import 'package:app_merchants_association/src/ui/screens/user/edit_shop.dart';
@@ -6,6 +7,7 @@ import 'package:app_merchants_association/src/ui/screens/user/user_manage.dart';
 import 'package:flutter/material.dart';
 import '../model/post.dart';
 import '../ui/screens/auth/sign_in.dart';
+import '../ui/screens/main_holder/audio_player.dart';
 import '../ui/screens/main_holder/home.dart';
 import '../ui/screens/main_holder/main_holder.dart';
 import '../ui/screens/main_holder/notices.dart';
@@ -43,10 +45,18 @@ class AppRouter {
         );
 
       /// Notices
-      case NavigatorRoutes.notices:
+      // case NavigatorRoutes.notices:
+      //   return MaterialPageRoute(
+      //     builder: (context) {
+      //       return const Notices();
+      //     },
+      //   );
+
+    /// Audio Player
+    case NavigatorRoutes.audioPlayer:
         return MaterialPageRoute(
           builder: (context) {
-            return const Notices();
+            return const AudioPlayerScreen();
           },
         );
 

@@ -45,12 +45,21 @@ class _HomeState extends State<Home> {
   }
 
   @override
+  void didUpdateWidget(covariant Home oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    setState(() {
+      forumFuture = _getForums();
+    });
+  }
+
+  @override
   void dispose() {
     super.dispose();
     forums.clear();
     posts.clear();
   }
 
+  /// En esta función se obtienen más posts de la categoría actual.
   Future<void> _getMorePosts()async {
     print("GETTING MORE POSTS");
     if (UserHelper.shop != null && UserHelper.shop!.id != null) {
@@ -62,6 +71,7 @@ class _HomeState extends State<Home> {
     }
   }
 
+  /// En esta función se obtienen los foros y los posts de la primera categoría.
   Future<void> _getForums() async {
     print("GETTING FORUMS");
     try {
@@ -76,6 +86,15 @@ class _HomeState extends State<Home> {
       setState(() {});
     } catch (e) {
       print(e);
+    }
+  }
+
+  /// En esta función se obtienen los posts de la categoría actual.
+  Future<void> _getPostsForCurrentCategory() async {
+    print("GETTING POSTS FOR CURRENT CATEGORY");
+    if (UserHelper.shop != null && UserHelper.shop!.id != null) {
+      posts = await ApiClient().getForumPosts(currentCategory.id, currentPage);
+      setState(() {});
     }
   }
 
@@ -103,7 +122,8 @@ class _HomeState extends State<Home> {
                 centerTitle: true,
               ),
               body: _body(),
-              floatingActionButton: FloatingActionButton(
+              floatingActionButton: currentCategory.title != "Tecnicos"
+                  ? FloatingActionButton(
                 onPressed: () {
                   Navigator.pushNamed(context, NavigatorRoutes.createPost, arguments: currentCategory).then((value) {
                     setState(() {
@@ -116,7 +136,8 @@ class _HomeState extends State<Home> {
                   Icons.add,
                   color: AppColors.white,
                 ),
-              ),
+              )
+                  : null,
               drawer: Drawer(
                 child: ListView(
                   padding: EdgeInsets.zero,
@@ -166,16 +187,20 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                           onTap: () {
-                            setState(() {
-                              // Get del post de la categoria seleccionada
-                              currentCategory = forums[index];
-                              print("Current category: ${currentCategory.id}");
-                              ApiClient().getForumPosts(currentCategory.id, currentPage).then((value) {
+                            // Get del post de la categoria seleccionada
+                            currentCategory = forums[index];
+                            currentPage = 1;
+                            print("Current category: ${currentCategory.id} - ${currentPage}");
+                            ApiClient().getForumPosts(currentCategory.id, currentPage).then((value) {
+                              setState(() {
                                 posts = value;
-                                print("Last post: ${posts.last.title}");
-                                print("Image: ${posts.last.medias!}");
-                                print("Id: ${posts.last.id}");
-                                setState(() {});
+                                if (posts.isNotEmpty) {
+                                  print("Last post: ${posts.last.title}");
+                                  print("Image: ${posts.last.medias!}");
+                                  print("Id: ${posts.last.id}");
+                                } else {
+                                  print("No posts found for this category");
+                                }
                               });
                             });
                             Navigator.pop(context);
@@ -233,7 +258,11 @@ class _HomeState extends State<Home> {
                               onTap: () {
                                 Navigator.pushNamed(
                                     context, NavigatorRoutes.postDetail,
-                                    arguments: [posts[index], currentCategory]);
+                                    arguments: [posts[index], currentCategory]
+                                ).then((_) {
+                                  // Recargar los posts de la categoría actual después de que el usuario regrese de la pantalla de detalles del post
+                                  _getPostsForCurrentCategory();
+                                });
                               },
                               child: ForumCard(
                                 post: posts[index],
