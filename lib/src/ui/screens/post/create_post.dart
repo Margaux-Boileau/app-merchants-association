@@ -19,8 +19,10 @@ class CreatePost extends StatefulWidget {
 
 class _CreatePostState extends State<CreatePost> {
   final TextEditingController _postTitleController = TextEditingController();
-  final TextEditingController _postDescriptionController = TextEditingController();
-  List<File> imagesUploaded = []; // Lista de imagenes subidas (puede estar vacía o tener una o más imagenes)
+  final TextEditingController _postDescriptionController =
+      TextEditingController();
+  List<File> imagesUploaded =
+      []; // Lista de imagenes subidas (puede estar vacía o tener una o más imagenes)
 
   @override
   Widget build(BuildContext context) {
@@ -86,8 +88,10 @@ class _CreatePostState extends State<CreatePost> {
             TextField(
               style: const TextStyle(fontSize: 12),
               controller: _postDescriptionController,
-              minLines: 1, // new line
-              maxLines: null, // new line
+              minLines: 1,
+              // new line
+              maxLines: null,
+              // new line
               decoration: InputDecoration(
                 filled: true,
                 border: InputBorder.none,
@@ -185,9 +189,10 @@ class _CreatePostState extends State<CreatePost> {
           ),
           ElevatedButton(
             onPressed: () => _sendPost(
-                context,
-                _postTitleController.text.toString(),
-                _postDescriptionController.text.toString()),
+              context,
+              _postTitleController.text.toString(),
+              _postDescriptionController.text.toString(),
+            ),
             style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
@@ -233,7 +238,8 @@ class _CreatePostState extends State<CreatePost> {
       );
     } else {
       // Convertir las imágenes a base64
-      List<String> mediaContents = await ImagePickerHelper.imagesToBase64(imagesUploaded);
+      List<String> mediaContents =
+          await ImagePickerHelper.imagesToBase64(imagesUploaded);
 
       // Llamar a la API para crear el post
       bool response = await ApiClient().createForumPost(
@@ -251,7 +257,7 @@ class _CreatePostState extends State<CreatePost> {
         );
 
         // Retorna a la página anterior
-        Navigator.pop(context, response);
+        Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
         print(response);
       } else {
         DialogManager().showSimpleDialog(

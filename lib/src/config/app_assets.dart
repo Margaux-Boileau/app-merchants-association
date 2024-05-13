@@ -8,6 +8,7 @@ class AppAssets {
   static const String facebookLogo = "assets/images/facebook.png";
   static const String linkedinLogo = "assets/images/linkedin.png";
   static const String sants_place = "assets/images/plaza_sants.png";
+  static const String market = "assets/images/street_market.png";
 
 
 }

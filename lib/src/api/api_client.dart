@@ -277,21 +277,19 @@ class ApiClient{
   /// [forumPk] es el id del foro
   /// [title] es el título del post
   /// [description] es la descripción del post
-  /// [mediaContents] es una lista de strings con las urls de las imágenes en formato base64
+  /// [mediaContents] es una lista de strings con las imágenes en formato base64
   Future<bool> createForumPost(int forumPk, String title, String description, List<String> mediaContents) async {
+
     Map<String, dynamic> params = {
       "title": title,
       "body": description,
-      "medias": mediaContents,
+      "medias": mediaContents
     };
 
     try {
       var response = await _requestPOST(
-          path: "${routes["forums"]}$forumPk${routes["posts"]}", formData: params, show: true);
+          path: "${routes["forums"]}$forumPk${routes["posts"]}", formData: params,show: true);
 
-      print("Response : $response");
-
-      print("Params: ${params["medias"].runtimeType}");
       if (response != null) {
         return true;
       } else {

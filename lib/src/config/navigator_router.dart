@@ -1,4 +1,5 @@
 import 'package:app_merchants_association/src/model/forums.dart';
+import 'package:app_merchants_association/src/model/shop.dart';
 import 'package:app_merchants_association/src/ui/screens/post/comments.dart';
 import 'package:app_merchants_association/src/ui/screens/post/create_post.dart';
 import 'package:app_merchants_association/src/ui/screens/user/edit_shop.dart';
