@@ -5,6 +5,7 @@ import 'package:app_merchants_association/src/config/navigator_routes.dart';
 import 'package:app_merchants_association/src/utils/helpers/user_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -24,13 +25,13 @@ class _ProfileState extends State<Profile> {
     return SafeArea(
       child: Scaffold(
           body: SingleChildScrollView(
-            child: Column(
-              children: [
-                _header(),
-                _body(),
-              ],
-            ),
-          )),
+        child: Column(
+          children: [
+            _header(),
+            _body(),
+          ],
+        ),
+      )),
     );
   }
 
@@ -50,15 +51,14 @@ class _ProfileState extends State<Profile> {
                 padding: const EdgeInsets.fromLTRB(8.0, 8, 8, 12),
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
-                      maxWidth: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.5),
+                      maxWidth: MediaQuery.of(context).size.width * 0.5),
                   child: Text(
                     UserHelper.shop?.name! ?? "",
                     style: AppStyles.textTheme.titleLarge!.copyWith(
                       color: Colors.white,
                     ),
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -81,17 +81,14 @@ class _ProfileState extends State<Profile> {
                 padding: const EdgeInsets.only(bottom: 20),
                 child: Container(
                   constraints: BoxConstraints(
-                      maxWidth: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.7),
+                      maxWidth: MediaQuery.of(context).size.width * 0.7),
                   decoration: BoxDecoration(
                     color: AppColors.white.withOpacity(0.4),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   child: Padding(
                     padding:
-                    const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                     child: Text(
                       UserHelper.shop?.sector! ?? "",
                       overflow: TextOverflow.ellipsis,
@@ -108,71 +105,83 @@ class _ProfileState extends State<Profile> {
           right: 11,
           child: UserHelper.user!.shopOwner
               ? DropdownButton(
-                icon: Icon(Icons.settings, color: AppColors.white,),
-                underline: const SizedBox(),
-                onChanged: (String? value) {
-                  // This is called when the user selects an item.
-                },
-                items: [
-                  DropdownMenuItem(
-                    value: '',
-                    child: InkWell(
-                      onTap: () => Navigator.pushNamed(context, NavigatorRoutes.userManage),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.person_add_alt_sharp,
-                            color: AppColors.black,
-                            size: 30,
-                          ),
-                          const SizedBox(width: 15,),
-                          Text("Usuarios",style: AppStyles.textTheme.labelLarge)
-                        ],
-                      )
-                    ),
+                  icon: Icon(
+                    Icons.settings,
+                    color: AppColors.white,
                   ),
-                  DropdownMenuItem(
-                    value: "",
-                    child: InkWell(
-                      onTap: () async {
-                        await Navigator.pushNamed(context, NavigatorRoutes.editShop);
-                        setState(() {});
-                      },
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.edit,
-                              size: 30,
-                              color:AppColors.black,
-                            ),
-                            const SizedBox(width: 15,),
-                            Text("Editar tienda",style: AppStyles.textTheme.labelLarge)
-                          ],
-                        )
+                  underline: const SizedBox(),
+                  onChanged: (String? value) {
+                    // This is called when the user selects an item.
+                  },
+                  items: [
+                    DropdownMenuItem(
+                      value: '',
+                      child: InkWell(
+                          onTap: () => Navigator.pushNamed(
+                              context, NavigatorRoutes.userManage),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.person_add_alt_sharp,
+                                color: AppColors.black,
+                                size: 30,
+                              ),
+                              const SizedBox(
+                                width: 15,
+                              ),
+                              Text("Usuarios",
+                                  style: AppStyles.textTheme.labelLarge)
+                            ],
+                          )),
                     ),
-                  ),
-                  DropdownMenuItem(
-                    value: '',
-                    child: InkWell(
-                        onTap: () async {
-                          await UserHelper.deleteAllFromShared();
-                          Navigator.pushReplacementNamed(context, NavigatorRoutes.signIn);
-                        },
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.logout,
-                              size: 30,
-                              color:AppColors.black,
-                            ),
-                            const SizedBox(width: 15,),
-                            Text("Cerrar Sesion",style: AppStyles.textTheme.labelLarge)
-                          ],
-                        )
+                    DropdownMenuItem(
+                      value: "",
+                      child: InkWell(
+                          onTap: () async {
+                            await Navigator.pushNamed(
+                                context, NavigatorRoutes.editShop);
+                            setState(() {});
+                          },
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.edit,
+                                size: 30,
+                                color: AppColors.black,
+                              ),
+                              const SizedBox(
+                                width: 15,
+                              ),
+                              Text("Editar tienda",
+                                  style: AppStyles.textTheme.labelLarge)
+                            ],
+                          )),
                     ),
-                  ),
-                ],
-              )
+                    DropdownMenuItem(
+                      value: '',
+                      child: InkWell(
+                          onTap: () async {
+                            await UserHelper.deleteAllFromShared();
+                            Navigator.pushReplacementNamed(
+                                context, NavigatorRoutes.signIn);
+                          },
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.logout,
+                                size: 30,
+                                color: AppColors.black,
+                              ),
+                              const SizedBox(
+                                width: 15,
+                              ),
+                              Text("Cerrar Sesion",
+                                  style: AppStyles.textTheme.labelLarge)
+                            ],
+                          )),
+                    ),
+                  ],
+                )
               : logOutIcon(false),
         ),
       ],
@@ -222,7 +231,10 @@ class _ProfileState extends State<Profile> {
             _infoProfile(),
             const SizedBox(height: 50),
             Text(
-              AppLocalizations.of(context)!.social_networks,
+              UserHelper.shop?.instagram != null ||
+                      UserHelper.shop?.facebook != null
+                  ? AppLocalizations.of(context)!.social_networks
+                  : "",
               style: AppStyles.textTheme.titleMedium,
             ),
             _socialNetworks(),
@@ -251,10 +263,7 @@ class _ProfileState extends State<Profile> {
                   const SizedBox(width: 10),
                   Container(
                     constraints: BoxConstraints(
-                        maxWidth: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.3),
+                        maxWidth: MediaQuery.of(context).size.width * 0.3),
                     child: Text(
                       UserHelper.shop?.schedule! ?? "",
                       style: AppStyles.textTheme.labelMedium?.copyWith(
@@ -282,10 +291,7 @@ class _ProfileState extends State<Profile> {
                       onTap: () {},
                       child: Container(
                         constraints: BoxConstraints(
-                            maxWidth: MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.3),
+                            maxWidth: MediaQuery.of(context).size.width * 0.3),
                         child: Text(
                           UserHelper.shop?.webpage != null
                               ? UserHelper.shop!.webpage!
@@ -322,10 +328,7 @@ class _ProfileState extends State<Profile> {
                   // TODO Cambiar por la dirección del usuario
                   Container(
                     constraints: BoxConstraints(
-                        maxWidth: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.3),
+                        maxWidth: MediaQuery.of(context).size.width * 0.3),
                     child: Text(
                       UserHelper.shop?.address! ?? "",
                       style: AppStyles.textTheme.labelMedium?.copyWith(
@@ -353,10 +356,7 @@ class _ProfileState extends State<Profile> {
                       onTap: () {},
                       child: Container(
                         constraints: BoxConstraints(
-                            maxWidth: MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.3),
+                            maxWidth: MediaQuery.of(context).size.width * 0.3),
                         child: Text(
                           UserHelper.shop?.phone! ?? "",
                           overflow: TextOverflow.ellipsis,
@@ -391,10 +391,7 @@ class _ProfileState extends State<Profile> {
                   // TODO Cambiar por la dirección mail del usuario
                   Container(
                     constraints: BoxConstraints(
-                        maxWidth: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.3),
+                        maxWidth: MediaQuery.of(context).size.width * 0.3),
                     child: Text(
                       UserHelper.shop?.mail != null
                           ? UserHelper.shop!.mail!
@@ -420,30 +417,41 @@ class _ProfileState extends State<Profile> {
       padding: const EdgeInsets.only(top: 10.0, bottom: 20.0),
       child: Row(
         children: [
-          InkWell(
-            onTap: () {
-              // TODO Abrir Instagram del usuario
-            },
-            child: Image.asset(
-              AppAssets.instagramLogo,
-              width: 45,
-              height: 45,
-              fit: BoxFit.cover,
-            ),
-          ),
+          UserHelper.shop?.instagram != null
+              ? InkWell(
+                  onTap: () async {
+                    try {
+                      await launchUrl(Uri.parse(UserHelper.shop!.instagram!));
+                    } catch (e) {
+                      print('Error opening Instagram URL: $e');
+                    }
+                  },
+                  child: Image.asset(
+                    AppAssets.instagramLogo,
+                    width: 45,
+                    height: 45,
+                    fit: BoxFit.cover,
+                  ),
+                )
+              : Container(),
           const SizedBox(width: 10),
-          InkWell(
-            onTap: () {
-              // TODO Abrir Facebook del usuario
-            },
-            child: Image.asset(
-              AppAssets.facebookLogo,
-              width: 40,
-              height: 40,
-              fit: BoxFit.cover,
-            ),
-          ),
-
+          UserHelper.shop?.facebook != null
+              ? InkWell(
+                  onTap: () async {
+                    try {
+                      await launchUrl(Uri.parse(UserHelper.shop!.facebook!));
+                    } catch (e) {
+                      print('Error opening Instagram URL: $e');
+                    }
+                  },
+                  child: Image.asset(
+                    AppAssets.facebookLogo,
+                    width: 40,
+                    height: 40,
+                    fit: BoxFit.cover,
+                  ),
+                )
+              : Container(),
         ],
       ),
     );
