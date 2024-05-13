@@ -121,7 +121,9 @@ class _NotificationsState extends State<Notifications> {
                 width: 20,
               ),
               IconButton(
-                onPressed: () => removeNotification,
+                onPressed: (){
+                  removeNotification(index);
+                },
                 icon: Icon(
                   Icons.close,
                   color: AppColors.appLightGrey,

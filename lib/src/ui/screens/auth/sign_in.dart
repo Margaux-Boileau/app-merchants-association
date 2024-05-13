@@ -1,14 +1,16 @@
-import 'dart:math';
-
 import 'package:app_merchants_association/src/api/api_client.dart';
 import 'package:app_merchants_association/src/config/app_styles.dart';
 import 'package:app_merchants_association/src/utils/dialog_manager.dart';
+import 'package:device_info_plus/device_info_plus.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/navigator_routes.dart';
 import 'package:app_merchants_association/src/utils/helpers/user_helper.dart';
 import '../../../utils/form_validation.dart';
+
 
 class SignIn extends StatefulWidget {
   SignIn({super.key});
@@ -18,6 +20,10 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+
+  late DeviceInfoPlugin _deviceInfoPlugin;
+  late Map<String, dynamic> _deviceData;
+
   final _formKey = GlobalKey<FormState>();
 
   var usernameController = TextEditingController();
@@ -25,6 +31,12 @@ class _SignInState extends State<SignIn> {
   var passwordController = TextEditingController();
 
   bool hintPassw = true;
+
+  @override
+  void initState() {
+    _deviceInfoPlugin = DeviceInfoPlugin();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -158,9 +170,19 @@ class _SignInState extends State<SignIn> {
       if(response){
         String username = await UserHelper.getUsernameFromSharedPreferences();
         await UserHelper.getTokenFromSharedPreferences();
-        print("USername: $username");
         Map<String, dynamic>? response = await ApiClient().getUsernameData(username);
         await UserHelper.setUser(response!);
+
+        ///Enviar device token al back
+
+        await _getDeviceInfo();
+        FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance; // Change here
+        _firebaseMessaging.getToken().then((token) async {
+
+          _deviceData["fcm_token"] = token;
+
+          await ApiClient().sendDeviceToken(_deviceData);
+        });
 
         Navigator.pushReplacementNamed(context, NavigatorRoutes.mainHolder);
       }
@@ -173,5 +195,46 @@ class _SignInState extends State<SignIn> {
       }
     }
   }
+
+  Future<void> _getDeviceInfo() async {
+    try {
+      if (defaultTargetPlatform == TargetPlatform.android) {
+        AndroidDeviceInfo androidInfo = await _deviceInfoPlugin.androidInfo;
+        setState(() {
+          _deviceData = _readAndroidBuildData(androidInfo);
+        });
+      } else if (defaultTargetPlatform == TargetPlatform.iOS) {
+        IosDeviceInfo iosInfo = await _deviceInfoPlugin.iosInfo;
+        setState(() {
+          _deviceData = _readIosDeviceInfo(iosInfo);
+        });
+      }
+    } catch (e) {
+      setState(() {
+        _deviceData = <String, dynamic>{'Error': 'Failed to get device info'};
+      });
+    }
+  }
+
+  Map<String, dynamic> _readAndroidBuildData(AndroidDeviceInfo build) {
+    return <String, dynamic>{
+      'device_name': build.device,
+      "device_id": build.id,
+      "platform_type": "android",
+      "fcm_token" : ""
+    };
+  }
+
+  Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
+    // Implement parsing iOS device info here
+    return <String, dynamic>{
+      'device_name': data.model,
+      "device_id": data.identifierForVendor,
+      "platform_type": "IOS",
+      "fcm_token" : ""
+    };
+  }
+
+
 
 }

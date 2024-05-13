@@ -8,5 +8,6 @@ final Map<String, String> routes = {
   "image": "/image/",
   "employees": "/employees/",
   "registerEmployer": "/accounts/register/",
-  "comments": "comments/"
+  "comments": "comments/",
+  "token": "/fcm-token/",
 };

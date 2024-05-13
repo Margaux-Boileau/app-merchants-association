@@ -29,7 +29,6 @@ class NotificationManager{
     try{
       List<Map<String, dynamic>> jsonList = pushNotificationListToJson(notificationsList);
       String jsonString = jsonEncode(jsonList);
-
       await prefs.remove("push_notifications");
       await prefs.setString("push_notifications", jsonString);
     }
@@ -44,7 +43,7 @@ class NotificationManager{
 
     final prefs = await SharedPreferences.getInstance();
     var prefsNotifications =  await prefs.getString("push_notifications");
-
+    print("SHARED JSON -> $prefsNotifications");
     if(prefsNotifications != null){
       var decodedList = jsonDecode(prefsNotifications) as List<dynamic>;
       notificationsList = decodedList.map((json) => PushNotification.fromJson(json)).toList();

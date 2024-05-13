@@ -212,8 +212,25 @@ class ApiClient{
     }
   }
 
-  /// REQUESTS
+  Future sendDeviceToken(Map<String, dynamic> deviceInfo) async {
 
+    try {
+      var response = await _requestPOST(
+          path: "${routes["token"]}", formData: deviceInfo, show: true);
+
+
+      if (response != null) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  /// REQUESTS
   Future<dynamic> _requestGET(
       {bool needsAuth = true,
         String? path,
