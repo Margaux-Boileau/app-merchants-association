@@ -1,0 +1,52 @@
+{
+  "helloWorld": "Olá Mundo",
+
+  "login": "INICIAR SESSÃO",
+  "username_separated": "Nome de usuário",
+  "password": "Senha",
+  "empty_password_validate" : "Digite uma senha",
+  "short_password": "Senha muito curta",
+  "empty_username": "Digite um nome de usuário",
+
+  "bio": "Biografia",
+  "information": "Informação",
+  "weekly_schedule": "Segunda - Sexta-feira",
+  "social_networks": "Redes sociais",
+
+  "forums": "Fóruns",
+  "general": "Geral",
+  "radio": "Rádio",
+  "audio_player": "Player de áudio",
+  "news": "Notícias",
+  "notifications": "Notificações",
+  "profile": "Perfil",
+
+  "comments": "Comentários",
+
+  "categories": "Categorias",
+
+  "create_post": "Criar Postagem",
+  "post_title": "Título da postagem",
+  "post_description": "Descrição",
+
+  "select_image": "Selecionar imagem",
+  "gallery": "Galeria",
+  "camera": "Câmera",
+  "images_uploaded" : "Imagens carregadas",
+  "no_forums_available": "Não há fóruns disponíveis",
+
+  "atention" : "Atenção!",
+  "login_error" : "Ocorreu um erro ao fazer login, verifique suas credenciais",
+  "users" : "Usuários",
+  "no_employees" : "Não há funcionários",
+  "delete" : "Excluir",
+  "delete_user_confirm" : "Tem certeza de que deseja excluir este usuário?",
+  "create_user" : "Criar Usuário",
+  "user_created" : "Usuário criado com sucesso",
+  "register_error" : "Ocorreu um erro ao registrar um usuário, tente novamente mais tarde",
+  "cancel" : "Cancelar",
+  "accept" : "Aceitar",
+  "no_webpage" : "Sem página web",
+  "no_mail" : "Sem email",
+  "no_notifications": "Você ainda não recebeu nenhuma notificação"
+}

@@ -1,0 +1,52 @@
+{
+  "helloWorld": "Hola món",
+
+  "login": "INICIAR SESSIÓ",
+  "username_separated": "Nom d'usuari",
+  "password": "Contrasenya",
+  "empty_password_validate" : "Introdueix una contrasenya",
+  "short_password": "Contrasenya massa curta",
+  "empty_username": "Introdueix un nom d'usuari",
+
+  "bio": "Biografia",
+  "information": "Informació",
+  "weekly_schedule": "Dilluns - Divendres",
+  "social_networks": "Xarxes socials",
+
+  "forums": "Fòrums",
+  "general": "General",
+  "radio": "Ràdio",
+  "audio_player": "Reproductor d'àudio",
+  "news": "Notícies",
+  "notifications": "Notificacions",
+  "profile": "Perfil",
+
+  "comments": "Comentaris",
+
+  "categories": "Categories",
+
+  "create_post": "Crear Publicació",
+  "post_title": "Títol de la publicació",
+  "post_description": "Descripció",
+
+  "select_image": "Seleccionar imatge",
+  "gallery": "Galeria",
+  "camera": "Càmera",
+  "images_uploaded" : "Imatges carregades",
+  "no_forums_available": "No hi ha fòrums disponibles",
+
+  "atention" : "Atenció",
+  "login_error" : "Ha ocorregut un error en iniciar sessió, revisa les teves credencials",
+  "users" : "Usuaris",
+  "no_employees" : "No hi ha empleats",
+  "delete" : "Eliminar",
+  "delete_user_confirm" : "Estàs segur que vols eliminar aquest usuari?",
+  "create_user" : "Crear Usuari",
+  "user_created" : "Usuari creat correctament",
+  "register_error" : "Ha ocorregut un error en registrar un usuari, intenta-ho de nou més tard",
+  "cancel" : "Cancel·lar",
+  "accept" : "Acceptar",
+  "no_webpage" : "Sense pàgina web",
+  "no_mail" : "Sense correu electrònic",
+  "no_notifications": "Encara no has rebut cap notificació"
+}
