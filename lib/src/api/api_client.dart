@@ -13,7 +13,7 @@ class ApiClient{
   /// los tiempos de espera de conexión y recepción de datos.
   /// Se configura también para recibir datos cuando el estado de la respuesta es un error.
   final Dio _dio = Dio(BaseOptions(
-    baseUrl: "http://52.86.76.124:8000",
+    baseUrl: "http://52.86.76.124:8000/",
     connectTimeout: const Duration(milliseconds: 20000),
     receiveTimeout: const Duration(milliseconds: 20000),
     receiveDataWhenStatusError: true,
@@ -147,9 +147,7 @@ class ApiClient{
     };
 
     try{
-      var response = await _requestPUT(
-        params: params, path: "${routes["shops"]}$shopId/",
-      );
+      var response = await _requestPUT( path: "${routes["shops"]}$shopId/",params: params);
 
       return response;
 
@@ -391,7 +389,7 @@ class ApiClient{
       // Realitzem la request
       Response response = await _dio.put(
         path ?? "",
-        queryParameters: params,
+        data: params,
         options: Options(
           headers: needsAuth
               ? {

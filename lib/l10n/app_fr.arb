@@ -1,0 +1,52 @@
+{
+  "helloWorld": "Bonjour le monde",
+
+  "login": "CONNEXION",
+  "username_separated": "Nom d'utilisateur",
+  "password": "Mot de passe",
+  "empty_password_validate" : "Entrez un mot de passe",
+  "short_password": "Mot de passe trop court",
+  "empty_username": "Entrez un nom d'utilisateur",
+
+  "bio": "Biographie",
+  "information": "Information",
+  "weekly_schedule": "Lundi - Vendredi",
+  "social_networks": "Réseaux sociaux",
+
+  "forums": "Forums",
+  "general": "Général",
+  "radio": "Radio",
+  "audio_player": "Lecteur audio",
+  "news": "Actualités",
+  "notifications": "Notifications",
+  "profile": "Profil",
+
+  "comments": "Commentaires",
+
+  "categories": "Catégories",
+
+  "create_post": "Créer un message",
+  "post_title": "Titre du message",
+  "post_description": "Description",
+
+  "select_image": "Sélectionner une image",
+  "gallery": "Galerie",
+  "camera": "Caméra",
+  "images_uploaded" : "Images téléchargées",
+  "no_forums_available": "Aucun forum disponible",
+
+  "atention" : "Attention!",
+  "login_error" : "Une erreur s'est produite lors de la connexion, vérifiez vos identifiants",
+  "users" : "Utilisateurs",
+  "no_employees" : "Aucun employé",
+  "delete" : "Supprimer",
+  "delete_user_confirm" : "Êtes-vous sûr de vouloir supprimer cet utilisateur?",
+  "create_user" : "Créer un utilisateur",
+  "user_created" : "Utilisateur créé avec succès",
+  "register_error" : "Une erreur s'est produite lors de l'inscription d'un utilisateur, veuillez réessayer ultérieurement",
+  "cancel" : "Annuler",
+  "accept" : "Accepter",
+  "no_webpage" : "Aucune page web",
+  "no_mail" : "Aucun e-mail",
+  "no_notifications": "Vous n'avez encore reçu aucune notification"
+}

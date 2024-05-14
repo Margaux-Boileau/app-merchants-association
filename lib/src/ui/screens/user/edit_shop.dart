@@ -237,7 +237,7 @@ class _EditShopState extends State<EditShop> {
                   height: 210,
                   decoration: BoxDecoration(color: AppColors.background),
                   child: Image.network(
-                    "http://172.23.6.211:8000/shops/${UserHelper.shop?.id}/image/",
+                    "http://52.86.76.124:8000/shops/${UserHelper.shop?.id}/image/",
                     fit: BoxFit.cover,
                   ),
                 ),

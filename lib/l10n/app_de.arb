@@ -1,0 +1,52 @@
+{
+  "helloWorld": "Hallo Welt",
+
+  "login": "ANMELDEN",
+  "username_separated": "Benutzername",
+  "password": "Passwort",
+  "empty_password_validate" : "Geben Sie ein Passwort ein",
+  "short_password": "Passwort zu kurz",
+  "empty_username": "Geben Sie einen Benutzernamen ein",
+
+  "bio": "Biografie",
+  "information": "Information",
+  "weekly_schedule": "Montag - Freitag",
+  "social_networks": "Soziale Netzwerke",
+
+  "forums": "Foren",
+  "general": "Allgemein",
+  "radio": "Radio",
+  "audio_player": "Audio-Player",
+  "news": "Nachrichten",
+  "notifications": "Benachrichtigungen",
+  "profile": "Profil",
+
+  "comments": "Kommentare",
+
+  "categories": "Kategorien",
+
+  "create_post": "Beitrag erstellen",
+  "post_title": "Titel des Beitrags",
+  "post_description": "Beschreibung",
+
+  "select_image": "Bild auswählen",
+  "gallery": "Galerie",
+  "camera": "Kamera",
+  "images_uploaded" : "Bilder hochgeladen",
+  "no_forums_available": "Keine Foren verfügbar",
+
+  "atention" : "Achtung!",
+  "login_error" : "Es ist ein Fehler beim Anmelden aufgetreten, überprüfen Sie Ihre Anmeldeinformationen",
+  "users" : "Benutzer",
+  "no_employees" : "Keine Mitarbeiter vorhanden",
+  "delete" : "Löschen",
+  "delete_user_confirm" : "Sind Sie sicher, dass Sie diesen Benutzer löschen möchten?",
+  "create_user" : "Benutzer erstellen",
+  "user_created" : "Benutzer erfolgreich erstellt",
+  "register_error" : "Es ist ein Fehler beim Registrieren eines Benutzers aufgetreten, bitte versuchen Sie es später erneut",
+  "cancel" : "Abbrechen",
+  "accept" : "Akzeptieren",
+  "no_webpage" : "Keine Webseite",
+  "no_mail" : "Keine E-Mail",
+  "no_notifications": "Sie haben noch keine Benachrichtigungen erhalten"
+}

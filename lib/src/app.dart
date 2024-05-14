@@ -60,6 +60,10 @@ class _AppComerciantsState extends State<AppComerciants> {
               supportedLocales: const [
                 Locale('en'), // English
                 Locale('es'), // Spanish
+                Locale('ca'), // Catalan
+                Locale('fr'), // Frances
+                Locale('de'), // Aleman
+                Locale('pt'), // Portuges
               ],
               initialRoute: snapshot.data, // Usa el valor de la función setInitialRoute()
               onGenerateRoute: AppRouter.generateRoute,
