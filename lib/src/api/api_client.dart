@@ -13,7 +13,7 @@ class ApiClient{
   /// los tiempos de espera de conexión y recepción de datos.
   /// Se configura también para recibir datos cuando el estado de la respuesta es un error.
   final Dio _dio = Dio(BaseOptions(
-    baseUrl: "http://172.23.6.211:8000",
+    baseUrl: "http://52.86.76.124:8000",
     connectTimeout: const Duration(milliseconds: 20000),
     receiveTimeout: const Duration(milliseconds: 20000),
     receiveDataWhenStatusError: true,
