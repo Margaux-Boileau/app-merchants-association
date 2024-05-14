@@ -9,10 +9,7 @@ import '../../../model/shop.dart';
 import '../image/image_expand.dart';
 
 class ForumCard extends StatefulWidget {
-  ForumCard(
-      {super.key,
-      required this.post,
-      required this.forum});
+  ForumCard({super.key, required this.post, required this.forum});
 
   final Post post;
   final Forums forum;
@@ -33,9 +30,10 @@ class _ForumCardState extends State<ForumCard> {
   getCreatorShop() async {
     var response = await ApiClient().getShopData(widget.post.idCreator!);
     shopCreator = Shop.fromJson(response);
-    setState(() {
+    setState(() {});
 
-    });
+
+    print("SHOP CREATOR a${shopCreator!.sector.runtimeType}a");
   }
 
   @override
@@ -82,11 +80,13 @@ class _ForumCardState extends State<ForumCard> {
                       height: 55,
                       decoration: BoxDecoration(color: AppColors.background),
                       child: Image.network(
-                        "http://172.23.6.211:8000/shops/${widget.post.idCreator}/image/",
+                        "http://52.86.76.124:8000/shops/${widget.post.idCreator}/image/",
                         fit: BoxFit.cover,
-                        errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                        errorBuilder: (BuildContext context, Object exception,
+                            StackTrace? stackTrace) {
                           // Return an Image widget that displays a default image
-                          return Image.asset(AppAssets.market, fit: BoxFit.cover);
+                          return Image.asset(AppAssets.market,
+                              fit: BoxFit.cover);
                         },
                       ),
                     ),
@@ -111,29 +111,41 @@ class _ForumCardState extends State<ForumCard> {
                       const SizedBox(height: 5),
                       Row(
                         children: [
-                          Container(
-                            constraints: BoxConstraints(
-                                maxWidth:
-                                    MediaQuery.of(context).size.width * 0.3),
-                            decoration: BoxDecoration(
-                              color: AppColors.primaryBlue.withOpacity(0.4),
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 10),
-                              child: Text(
-                                shopCreator!.sector!,
-                                overflow: TextOverflow.ellipsis,
-                                style: AppStyles.textTheme.bodySmall!.copyWith(
-                                  color: AppColors.white,
-                                  fontSize: 10.0,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 10.0),
+                          shopCreator!.sector != null &&
+                              shopCreator!.sector != "" &&
+                              shopCreator!.sector != " "
+                              ? Container(
+                                  constraints: BoxConstraints(
+                                      maxWidth:
+                                          MediaQuery.of(context).size.width *
+                                              0.3),
+                                  decoration: BoxDecoration(
+                                    color:
+                                        AppColors.primaryBlue.withOpacity(0.4),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 5, horizontal: 10),
+                                    child: Text(
+                                      shopCreator!.sector!,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: AppStyles.textTheme.bodySmall!
+                                          .copyWith(
+                                        color: AppColors.white,
+                                        fontSize: 10.0,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : Container(),
+                          SizedBox(
+                              width: shopCreator!.sector != null &&
+                                  shopCreator!.sector! != "" &&
+                                  shopCreator!.sector != " "
+                                  ? 10
+                                  : 0),
                           Text(
                             widget.post.date!,
                             overflow: TextOverflow.ellipsis,
@@ -191,9 +203,9 @@ class _ForumCardState extends State<ForumCard> {
                                 ? InkWell(
                                     onTap: () {
                                       // Crear una lista de URLs de imágenes
-                                      List<String> images = widget.post.medias!.map((media) {
-
-                                        return "http://172.23.6.211:8000/forums/${widget.forum.id}/posts/${widget.post.id}/media/$media/";
+                                      List<String> images =
+                                          widget.post.medias!.map((media) {
+                                        return "http://52.86.76.124:8000/forums/${widget.forum.id}/posts/${widget.post.id}/media/$media/";
                                       }).toList();
 
                                       // Navegar a SliderShowFullImages con la lista de imágenes
@@ -205,7 +217,7 @@ class _ForumCardState extends State<ForumCard> {
                                       );
                                     },
                                     child: Image.network(
-                                      "http://172.23.6.211:8000/forums/${widget.forum.id}/posts/${widget.post.id}/media/${widget.post.medias!.first}/",
+                                      "http://52.86.76.124:8000/forums/${widget.forum.id}/posts/${widget.post.id}/media/${widget.post.medias!.first}/",
                                       fit: BoxFit.cover,
                                     ),
                                   )
@@ -227,13 +239,14 @@ class _ForumCardState extends State<ForumCard> {
                               children: [
                                 widget.post.medias!.length > 1
                                     ? Image.network(
-                                        "http://172.23.6.211:8000/forums/${widget.forum.id}/posts/${widget.post.id}/media/${widget.post.medias![1]}/",
+                                        "http://52.86.76.124:8000/forums/${widget.forum.id}/posts/${widget.post.id}/media/${widget.post.medias![1]}/",
                                         fit: BoxFit.cover,
                                       )
                                     : Container(),
                                 widget.post.medias!.length > 1
                                     ? Container(
-                                        color: AppColors.background.withOpacity(0.5),
+                                        color: AppColors.background
+                                            .withOpacity(0.5),
                                       )
                                     : Container(),
                                 Center(

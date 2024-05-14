@@ -118,7 +118,7 @@ class _PostDetailState extends State<PostDetail> {
               height: 55,
               decoration: BoxDecoration(color: AppColors.background),
               child: Image.network(
-                "http://172.23.6.211:8000/shops/${widget.post.idCreator}/image/",
+                "http://52.86.76.124:8000/shops/${widget.post.idCreator}/image/",
                 fit: BoxFit.cover,
                 errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
                   // Return an Image widget that displays a default image
@@ -220,7 +220,7 @@ class _PostDetailState extends State<PostDetail> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
                           child: Image.network(
-                              "http://172.23.6.211:8000/forums/${widget.forum
+                              "http://52.86.76.124:8000/forums/${widget.forum
                                   .id}/posts/${post!.id}/media/$item/",
                               fit: BoxFit.cover, width: 1500),
                         ),

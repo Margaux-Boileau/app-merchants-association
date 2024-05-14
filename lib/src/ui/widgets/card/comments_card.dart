@@ -57,7 +57,7 @@ class _CommentCardState extends State<CommentCard> {
                   decoration:
                   BoxDecoration(color: AppColors.background),
                   child: Image.network(
-                    "http://172.23.6.211:8000/shops/${widget.comment.idCreator}/image/",
+                    "http://52.86.76.124:8000/shops/${widget.comment.idCreator}/image/",
                     fit: BoxFit.cover,
                   ),
                 ),
