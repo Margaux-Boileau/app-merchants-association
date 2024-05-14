@@ -125,7 +125,8 @@ class _CreateUserDialogState extends State<CreateUserDialog> {
   registerUser() async {
     if(_formKey.currentState!.validate()){
       bool? response = await ApiClient().registerEmployer(usernameController.text, passwordController.text);
-      if(response!){
+
+      if(response == true){
         DialogManager().showSimpleDialog(
           context: context,
           title: AppLocalizations.of(context)!.information,
