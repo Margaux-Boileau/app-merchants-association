@@ -83,6 +83,7 @@ class _AppComerciantsState extends State<AppComerciants> {
       Map<String, dynamic>? response = await ApiClient().getUsernameData(username);
 
       if(response != null){
+        print("RESPONSE DE USER -> $response");
         await UserHelper.setUser(response);
         return NavigatorRoutes.mainHolder;
       }

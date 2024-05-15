@@ -140,6 +140,7 @@ class _HomeState extends State<Home> {
                   : null,
               drawer: Drawer(
                 child: ListView(
+                  shrinkWrap: true,
                   padding: EdgeInsets.zero,
                   children: [
                     UserAccountsDrawerHeader(
@@ -244,35 +245,31 @@ class _HomeState extends State<Home> {
               Expanded(
                 child: SingleChildScrollView(
                   controller: _scrollController,
-                  child: Column(
-                    children: [
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: posts.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(
-                                left: 20.0, right: 20.0, bottom: 20.0),
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.pushNamed(
-                                    context, NavigatorRoutes.postDetail,
-                                    arguments: [posts[index], currentCategory]
-                                ).then((_) {
-                                  // Recargar los posts de la categoría actual después de que el usuario regrese de la pantalla de detalles del post
-                                  _getPostsForCurrentCategory();
-                                });
-                              },
-                              child: ForumCard(
-                                post: posts[index],
-                                forum: currentCategory,
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: posts.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(
+                            left: 20.0, right: 20.0, bottom: 20.0),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, NavigatorRoutes.postDetail,
+                                arguments: [posts[index], currentCategory]
+                            ).then((_) {
+                              // Recargar los posts de la categoría actual después de que el usuario regrese de la pantalla de detalles del post
+                              _getPostsForCurrentCategory();
+                            });
+                          },
+                          child: ForumCard(
+                            post: posts[index],
+                            forum: currentCategory,
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),

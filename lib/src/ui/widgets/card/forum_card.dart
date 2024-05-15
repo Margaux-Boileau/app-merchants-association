@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:app_merchants_association/src/config/app_assets.dart';
 import 'package:app_merchants_association/src/model/forums.dart';
 import 'package:flutter/material.dart';
@@ -19,31 +23,30 @@ class ForumCard extends StatefulWidget {
 }
 
 class _ForumCardState extends State<ForumCard> {
-
   Shop? shopCreator;
 
   String? firstImageUrl;
   String? secondImageUrl;
 
-
   @override
   void initState() {
     super.initState();
     getCreatorShop();
-
-    //"http://52.86.76.124:8000/forums/${widget.forum.id}/posts/${widget.post.id}/media/${widget.post.medias!.first}/",
-
-    if(widget.post.medias!.isNotEmpty){
-
-    }
-
   }
 
   getCreatorShop() async {
     var response = await ApiClient().getShopData(widget.post.idCreator!);
     shopCreator = Shop.fromJson(response);
 
+    if (widget.post.medias!.isNotEmpty) {
+      firstImageUrl = await ApiClient().getPostImage(
+          widget.forum.id, widget.post.id, widget.post.medias!.first);
 
+      if (widget.post.medias!.length > 1) {
+        secondImageUrl = await ApiClient().getPostImage(
+            widget.forum.id, widget.post.id, widget.post.medias![1]);
+      }
+    }
 
     setState(() {});
   }
@@ -51,12 +54,7 @@ class _ForumCardState extends State<ForumCard> {
   @override
   Widget build(BuildContext context) {
     if (widget.post == null || shopCreator == null) {
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text("Detalle del post"),
-        ),
-        body: Center(child: CircularProgressIndicator()),
-      );
+      return Container();
     }
 
     return Center(
@@ -124,8 +122,8 @@ class _ForumCardState extends State<ForumCard> {
                       Row(
                         children: [
                           shopCreator!.sector != null &&
-                              shopCreator!.sector != "" &&
-                              shopCreator!.sector != " "
+                                  shopCreator!.sector != "" &&
+                                  shopCreator!.sector != " "
                               ? Container(
                                   constraints: BoxConstraints(
                                       maxWidth:
@@ -154,8 +152,8 @@ class _ForumCardState extends State<ForumCard> {
                               : Container(),
                           SizedBox(
                               width: shopCreator!.sector != null &&
-                                  shopCreator!.sector! != "" &&
-                                  shopCreator!.sector != " "
+                                      shopCreator!.sector! != "" &&
+                                      shopCreator!.sector != " "
                                   ? 10
                                   : 0),
                           Text(
@@ -228,11 +226,12 @@ class _ForumCardState extends State<ForumCard> {
                                         ),
                                       );
                                     },
-                                    child: Image.network(
-                                      "http://52.86.76.124:8000/forums/${widget.forum.id}/posts/${widget.post.id}/media/${widget.post.medias!.first}/",
-                                      fit: BoxFit.cover,
-                                    ),
-                                  )
+                                    child: firstImageUrl != null
+                                        ? Image.memory(
+                                      stringToUint8List(firstImageUrl!),
+                                            fit: BoxFit.cover,
+                                          )
+                                        : CircularProgressIndicator())
                                 : Container(),
                           ),
                         ),
@@ -250,8 +249,8 @@ class _ForumCardState extends State<ForumCard> {
                               fit: StackFit.expand,
                               children: [
                                 widget.post.medias!.length > 1
-                                    ? Image.network(
-                                        "http://52.86.76.124:8000/forums/${widget.forum.id}/posts/${widget.post.id}/media/${widget.post.medias![1]}/",
+                                    ? Image.memory(
+                                  stringToUint8List(secondImageUrl!),
                                         fit: BoxFit.cover,
                                       )
                                     : Container(),
@@ -307,4 +306,9 @@ class _ForumCardState extends State<ForumCard> {
       ),
     );
   }
+}
+
+Uint8List stringToUint8List(String data) {
+  List<int> codeUnits = data.codeUnits;
+  return Uint8List.fromList(codeUnits);
 }
