@@ -116,6 +116,24 @@ class ApiClient{
     }
   }
 
+  /// [deletePost]
+  Future<void> deletePost(int forumId, int postId) async {
+    print("DELETE POST");
+    try {
+      var response = await _requestDELETE(
+          path: "${routes["forums"]}/$forumId${routes["posts"]}$postId/");
+
+      print("RESPONSE DELETE POST: $response");
+      if (response != null) {
+        return response;
+      } else {
+        throw Exception('Failed to delete post');
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   /// [getShopImage] se encarga de obtener la imagen de una tienda.
   /// Devuelve un String con la url de la imagen de la tienda
   /// [shopId] es el id de la tienda

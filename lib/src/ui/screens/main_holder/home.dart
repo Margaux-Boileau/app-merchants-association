@@ -8,6 +8,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/navigator_routes.dart';
 import '../../../model/forums.dart';
+import '../../../model/user.dart';
 import '../../widgets/card/forum_card.dart';
 
 class Home extends StatefulWidget {
@@ -230,59 +231,51 @@ class _HomeState extends State<Home> {
   Widget _body() {
     return forums.isNotEmpty
         ? Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
-                child: Text(
-                  currentCategory.title,
-                  style: AppStyles.textTheme.titleLarge,
-                ),
-              ),
-              const SizedBox(height: 5.0),
-              Expanded(
-                child: SingleChildScrollView(
-                  controller: _scrollController,
-                  child: Column(
-                    children: [
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: posts.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(
-                                left: 20.0, right: 20.0, bottom: 20.0),
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.pushNamed(
-                                    context, NavigatorRoutes.postDetail,
-                                    arguments: [posts[index], currentCategory]
-                                ).then((_) {
-                                  // Recargar los posts de la categoría actual después de que el usuario regrese de la pantalla de detalles del post
-                                  _getPostsForCurrentCategory();
-                                });
-                              },
-                              child: ForumCard(
-                                post: posts[index],
-                                forum: currentCategory,
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding:
+          const EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
+          child: Text(
+            currentCategory.title,
+            style: AppStyles.textTheme.titleLarge,
+          ),
+        ),
+        const SizedBox(height: 5.0),
+        Expanded(
+          child: ListView.builder(
+            itemCount: posts.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(
+                    left: 20.0, right: 20.0, bottom: 20.0),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(
+                        context, NavigatorRoutes.postDetail,
+                        arguments: [posts[index], currentCategory]
+                    ).then((_) {
+                      // Recargar los posts de la categoría actual después de que el usuario regrese de la pantalla de detalles del post
+                      _getPostsForCurrentCategory();
+                    });
+                  },
+                  child: ForumCard(
+                    post: posts[index],
+                    forum: currentCategory,
+                    onDelete: _getPostsForCurrentCategory,
                   ),
                 ),
-              ),
-            ],
-          )
+              );
+            },
+          ),
+        ),
+      ],
+    )
         : const Center(
-            child: Text(
-              "No hay foros disponibles",
-              style: TextStyle(color: Colors.black),
-            ),
-          );
+      child: Text(
+        "No hay foros disponibles",
+        style: TextStyle(color: Colors.black),
+      ),
+    );
   }
 }
