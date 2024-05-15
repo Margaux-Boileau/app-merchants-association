@@ -19,21 +19,33 @@ class ForumCard extends StatefulWidget {
 }
 
 class _ForumCardState extends State<ForumCard> {
+
+  Shop? shopCreator;
+
+  String? firstImageUrl;
+  String? secondImageUrl;
+
+
   @override
   void initState() {
     super.initState();
     getCreatorShop();
-  }
 
-  Shop? shopCreator;
+    //"http://52.86.76.124:8000/forums/${widget.forum.id}/posts/${widget.post.id}/media/${widget.post.medias!.first}/",
+
+    if(widget.post.medias!.isNotEmpty){
+
+    }
+
+  }
 
   getCreatorShop() async {
     var response = await ApiClient().getShopData(widget.post.idCreator!);
     shopCreator = Shop.fromJson(response);
+
+
+
     setState(() {});
-
-
-    print("SHOP CREATOR a${shopCreator!.sector.runtimeType}a");
   }
 
   @override

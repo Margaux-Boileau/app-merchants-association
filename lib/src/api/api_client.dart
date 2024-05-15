@@ -268,6 +268,13 @@ class ApiClient{
     return null;
   }
 
+ Future<String> getPostImage(int? forumId, int? postId, String? mediaName) async {
+    var response = await _requestGET(path: "http://52.86.76.124:8000/forums/$forumId/posts/$postId/media/$mediaName/");
+    print("GET DE IMAGEN $response");
+    return response;
+
+  }
+
 
   /// [createForumPost] se encarga de crear un post en un foro.
   /// Devuelve un booleano que indica si la creación ha sido correcta o no.
@@ -284,9 +291,11 @@ class ApiClient{
     };
 
     try {
+      print("RESPONSE AQUI");
+      print(UserHelper.accessToken);
       var response = await _requestPOST(
           path: "${routes["forums"]}$forumPk${routes["posts"]}", formData: params,show: true);
-
+      print("RESPONSE AQUI: $response");
       if (response != null) {
         return true;
       } else {
