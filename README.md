@@ -101,7 +101,7 @@ Once this is done, you can compile the project.
 
 # App Demo (click on logo)
 
-[![App Demo](readme_assets\app_logo.jpg)](https://drive.google.com/file/d/1ayF2J8Dt34cIKMQJ-hLnnz1CwsGN4eta/view?usp=sharing)
+[![App Demo](readme_assets/app_logo.jpg)](https://drive.google.com/file/d/1ayF2J8Dt34cIKMQJ-hLnnz1CwsGN4eta/view?usp=sharing)
 
 # App APK
 
