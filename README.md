@@ -1,4 +1,4 @@
-![App Demo](readme_assets\app_logo.jpg)
+![App Demo](readme_assets/app_logo.jpg)
 
 # App per als comerciants de l'associació de Sants de Creu coberta
 
@@ -61,7 +61,7 @@ flutter doctor
 
 Para poder utilizar flutter debes intalar el plugin 'Flutter' y 'Dart' en tu proyecto. Para eso dirigete a `File>Settings>Plugins`
 
-![Plugins](readme_assets\pluggins_flutter.png) 
+![Plugins](readme_assets/pluggins_flutter.png) 
 
 **Pluggins recomendados**
 
@@ -103,12 +103,12 @@ Una vez echo esto ya puedes compilar el proyecto
 
 # Dema de la app (clicar en logo)
 
-[![App Demo](readme_assets\app_logo.jpg)](https://drive.google.com/file/d/1a2-2fYGBAlG_Kf2jA3iJ-jDS3jjFYrkf/view?usp=sharing)
+[![App Demo](readme_assets/app_logo.jpg)](https://drive.google.com/file/d/1a2-2fYGBAlG_Kf2jA3iJ-jDS3jjFYrkf/view?usp=sharing)
 
 # App apk
 
 Usas android? Descarga aqui nuestra app
 
-![APK-Qr](readme_assets\qr-code.png) 
+![APK-Qr](readme_assets/qr-code.png) 
 
 No puedes escanear el codgio? Descarga la apk desde este [link](https://drive.google.com/file/d/1SAdtwZzslBFxYkaTbsNNm4LgFwDPxnB7/view?usp=sharing)
