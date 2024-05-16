@@ -292,7 +292,7 @@ class ApiClient {
     return null;
   }
 
-  Future<String?> getPostImage(int? forumId, int? postId, String? mediaName) async {
+  Future<Uint8List?> getPostImage(int? forumId, int? postId, String? mediaName) async {
     try {
       var response = await _requestGET(
           path: "http://52.86.76.124:8000/forums/$forumId/posts/$postId/media/$mediaName/");
@@ -300,7 +300,9 @@ class ApiClient {
       print("http://52.86.76.124:8000/forums/$forumId/posts/$postId/media/$mediaName/");
       print(response);
 
-      return response;
+      Uint8List bytes = base64.decode(response["image"].split(',').last);
+
+      return bytes;
 
     } catch (e) {
       print("Error al obtener la imagen: $e");

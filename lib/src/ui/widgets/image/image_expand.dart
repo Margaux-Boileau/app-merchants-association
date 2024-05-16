@@ -63,7 +63,7 @@ class SliderShowFullImagesState extends State<SliderShowFullImages>  {
                               borderRadius: BorderRadius.all(Radius.circular(0.0)),
                               child: AspectRatio(
                                 aspectRatio: 1.0,
-                                child: Image.network(
+                                child: Image.memory(
                                   url,
                                   fit: BoxFit.cover,
                                 ),

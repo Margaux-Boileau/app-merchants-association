@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:app_merchants_association/src/config/app_assets.dart';
 import 'package:app_merchants_association/src/model/forums.dart';
+import 'package:app_merchants_association/src/utils/dialog_manager.dart';
 import 'package:flutter/material.dart';
 import '../../../api/api_client.dart';
 import '../../../config/app_colors.dart';
@@ -25,8 +26,8 @@ class ForumCard extends StatefulWidget {
 class _ForumCardState extends State<ForumCard> {
   Shop? shopCreator;
 
-  String? firstImageUrl;
-  String? secondImageUrl;
+  Uint8List? firstImageUrl;
+  Uint8List? secondImageUrl;
 
   @override
   void initState() {
@@ -211,27 +212,26 @@ class _ForumCardState extends State<ForumCard> {
                             ),
                             child: widget.post.medias!.isNotEmpty
                                 ? InkWell(
-                                    onTap: () {
-                                      // Crear una lista de URLs de imágenes
-                                      List<String> images =
-                                          widget.post.medias!.map((media) {
-                                        return "http://52.86.76.124:8000/forums/${widget.forum.id}/posts/${widget.post.id}/media/$media/";
-                                      }).toList();
+                                    onTap: () async {
 
+                                      DialogManager().showLoadingDialog(context: context);
+                                      var imagesLists = [];
+                                      for(var media in widget.post.medias!){
+                                        imagesLists.add(await ApiClient().getPostImage(widget.forum.id, widget.post.id, media));
+                                      }
+                                      Navigator.pop(context);
                                       // Navegar a SliderShowFullImages con la lista de imágenes
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              SliderShowFullImages(images, 0),
+                                              SliderShowFullImages(imagesLists, 0),
                                         ),
                                       );
                                     },
-                                    child: firstImageUrl != null
-                                        ? Image.memory(
-                                      stringToUint8List(firstImageUrl!),
-                                            fit: BoxFit.cover,
-                                          )
-                                        : CircularProgressIndicator())
+                                    child: Image.memory(
+                                      firstImageUrl!,
+                                      fit: BoxFit.cover,
+                                    ))
                                 : Container(),
                           ),
                         ),
@@ -250,7 +250,7 @@ class _ForumCardState extends State<ForumCard> {
                               children: [
                                 widget.post.medias!.length > 1
                                     ? Image.memory(
-                                  stringToUint8List(secondImageUrl!),
+                                  secondImageUrl!,
                                         fit: BoxFit.cover,
                                       )
                                     : Container(),
@@ -306,9 +306,4 @@ class _ForumCardState extends State<ForumCard> {
       ),
     );
   }
-}
-
-Uint8List stringToUint8List(String data) {
-  List<int> codeUnits = data.codeUnits;
-  return Uint8List.fromList(codeUnits);
 }
