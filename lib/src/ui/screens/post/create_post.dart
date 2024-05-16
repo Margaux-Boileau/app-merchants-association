@@ -257,7 +257,7 @@ class _CreatePostState extends State<CreatePost> {
         );
 
         // Retorna a la página anterior
-        Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
+        Navigator.pushNamedAndRemoveUntil(context, '/main_holder', (Route<dynamic> route) => false);
         print(response);
       } else {
         DialogManager().showSimpleDialog(
