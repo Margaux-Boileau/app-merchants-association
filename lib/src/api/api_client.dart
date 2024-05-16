@@ -333,10 +333,6 @@ class ApiClient {
     try {
       var response = await _requestGET(
           path: "http://52.86.76.124:8000/forums/$forumId/posts/$postId/media/$mediaName/");
-      print("IMAGEN GET ${response.runtimeType}");
-      print("http://52.86.76.124:8000/forums/$forumId/posts/$postId/media/$mediaName/");
-      print(response);
-
       Uint8List bytes = base64.decode(response["image"].split(',').last);
 
       return bytes;
@@ -360,15 +356,15 @@ class ApiClient {
       "body": description,
       "medias": mediaContents
     };
-
+    print("POST DE POST");
     try {
-      print("RESPONSE AQUI");
-      print(UserHelper.accessToken);
       var response = await _requestPOST(
           path: "${routes["forums"]}$forumPk${routes["posts"]}",
           formData: params,
           show: true);
-      print("RESPONSE AQUI: $response");
+
+      print("RESPONSE DEL CREAR ${response.runtimeType}");
+
       if (response != null) {
         return true;
       } else {
