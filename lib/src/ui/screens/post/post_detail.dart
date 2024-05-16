@@ -280,7 +280,7 @@ class _PostDetailState extends State<PostDetail> {
             itemBuilder: (context, index) {
               return CommentCard(comment: post!.comments![index]!,
                   post: post!,
-                  forum: widget.forum);
+                  forum: widget.forum, onDelete: getPostDetail);
             },
           ),
 

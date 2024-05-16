@@ -25,6 +25,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
 
   getComments() async {
     try {
+      print("HACE LA PETICION DE LOS COMENTARIOS");
       var response = await ApiClient()
           .getComments(forumId: widget.forum.id, postId: widget.post.id, page: currentPage);
       commentsList = response!.map((json) => Comment.fromJson(json)).toList();
@@ -72,7 +73,6 @@ class _CommentsScreenState extends State<CommentsScreen> {
           Expanded(
             child: ListView.builder(
                 shrinkWrap: true,
-
                 itemCount: commentsList.length,
                 controller: _scrollController,
                 itemBuilder: (BuildContext context, int index) {
@@ -83,7 +83,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                         comment: commentsList[index],
                         post: widget.post,
                         forum: widget.forum,
-                        onDelete: getComments
+                      onDelete: getComments,
                     ),
                   );
                 }),

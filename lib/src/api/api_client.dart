@@ -291,7 +291,7 @@ class ApiClient{
     print("DELETE COMMENT");
     try {
       var response = await _requestDELETE(
-          path: "${routes["forums"]}/$forumId${routes["posts"]}$postId${routes["forums"]}/$commentId/");
+          path: "${routes["comments"]}/$commentId/");
 
       print("RESPONSE DELETE COMMENT: $response");
       if (response != null) {
