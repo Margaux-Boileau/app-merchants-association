@@ -30,6 +30,7 @@ class _PostDetailState extends State<PostDetail> {
 
   Post? post;
   Shop? shopCreator;
+  Map<String, dynamic>? imagesMap;
 
   @override
   void initState() {
@@ -38,6 +39,23 @@ class _PostDetailState extends State<PostDetail> {
     post!.comments = post!.comments!.reversed.toList();
     getPostDetail();
     getCreatorShop();
+    if(post!.medias != null){
+      createImagesMap(post!.medias!);
+    }
+  }
+
+  createImagesMap(List<String> strings) async {
+    Map<String, dynamic> resultMap = {};
+
+    for (String str in strings) {
+      dynamic result = await ApiClient().getPostImage(widget.forum.id, post!.id,str); // Reemplaza asyncFunction() con la función asíncrona que desees llamar.
+      resultMap[str] = result;
+    }
+
+    imagesMap = resultMap;
+    setState(() {
+
+    });
   }
 
   getPostDetail() async {
@@ -58,13 +76,25 @@ class _PostDetailState extends State<PostDetail> {
 
   @override
   Widget build(BuildContext context) {
-    if (post == null || shopCreator == null) {
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text("Detalle del post"),
-        ),
-        body: Center(child: CircularProgressIndicator()),
-      );
+    if (widget.post == null || shopCreator == null) {
+      return Container(
+          constraints: const BoxConstraints(maxWidth: 500),
+          decoration: BoxDecoration(
+            // Colors
+            color: AppColors.white,
+            // BorderRadius
+            borderRadius: BorderRadius.circular(10.0),
+            // Sombra
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 1,
+                blurRadius: 5,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Center(child: CircularProgressIndicator()));
     }
 
     return Scaffold(
@@ -186,7 +216,8 @@ class _PostDetailState extends State<PostDetail> {
         const SizedBox(height: 20),
         // Hero images
         if (post!.medias!.isNotEmpty)
-          Column(
+          imagesMap != null
+              ? Column(
             children: [
               CarouselSlider(
                 options: CarouselOptions(
@@ -207,6 +238,7 @@ class _PostDetailState extends State<PostDetail> {
                   },
                 ),
                 items: post!.medias!.map((item) {
+
                   return Padding(
                     padding: const EdgeInsets.all(2),
                     // Ajusta este valor según tus necesidades
@@ -219,9 +251,8 @@ class _PostDetailState extends State<PostDetail> {
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                          child: Image.network(
-                              "http://52.86.76.124:8000/forums/${widget.forum
-                                  .id}/posts/${post!.id}/media/$item/",
+                          child: Image.memory(
+                              imagesMap![item],
                               fit: BoxFit.cover, width: 1500),
                         ),
                       ),
@@ -250,7 +281,8 @@ class _PostDetailState extends State<PostDetail> {
                 }).toList(),
               ),
             ],
-          ),
+          )
+        : CircularProgressIndicator(),
       ],
     );
   }

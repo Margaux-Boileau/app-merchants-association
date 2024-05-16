@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import '../model/forums.dart';
 import '../model/post.dart';
 import '../utils/helpers/user_helper.dart';
 import 'api_routes.dart';
 
-class ApiClient{
-
+class ApiClient {
   /// Instancia de [Dio] que se utilizará para realizar las peticiones a la API.
   /// Se configura con un [BaseOptions] que contiene la URL base de la API y
   /// los tiempos de espera de conexión y recepción de datos.
@@ -19,7 +19,6 @@ class ApiClient{
     receiveDataWhenStatusError: true,
   ));
 
-
   /// [signIn] se encarga de realizar el login de un usuario.
   /// Devuelve un booleano que indica si el login ha sido correcto o no.
   /// [username] es el nombre de usuario
@@ -30,19 +29,22 @@ class ApiClient{
       "password": password,
     };
 
-    try{
+    try {
       var response = await _requestPOST(
-          needsAuth: false, path: routes["login"], formData: params, show: true);
-      if(response != null){
+          needsAuth: false,
+          path: routes["login"],
+          formData: params,
+          show: true);
+      if (response != null) {
         String accessToken = response["token"];
-        await UserHelper.saveTokenOnSharedPreferences(accessToken, response["user"]["username"]);
+        await UserHelper.saveTokenOnSharedPreferences(
+            accessToken, response["user"]["username"]);
         //await UserHelper.setUser(response);
         return true;
-      }else{
+      } else {
         return false;
       }
-    }
-    catch(e){
+    } catch (e) {
       print("Error at login: $e");
     }
 
@@ -52,7 +54,8 @@ class ApiClient{
   /// Devuelve un objeto [Map<String, dynamic>] con los datos del usuario
   /// [username] es el nombre de usuario
   Future<Map<String, dynamic>> getUsernameData(String username) async {
-    var response = await _requestGET(path: "${routes["accounts"]}/$username/", show: true);
+    var response =
+        await _requestGET(path: "${routes["accounts"]}/$username/", show: true);
     return response;
   }
 
@@ -62,7 +65,8 @@ class ApiClient{
   /// [show] es un booleano que indica si se quiere mostrar el resultado por consola
   /// [connectionError] es un booleano que indica si se quiere mostrar el error de conexión
   Future<Map<String, dynamic>> getShopData(int shopId) async {
-    var response = await _requestGET(path: "${routes["shops"]}/$shopId/", show: true);
+    var response =
+        await _requestGET(path: "${routes["shops"]}/$shopId/", show: true);
     return response;
   }
 
@@ -87,7 +91,9 @@ class ApiClient{
   Future<List<Post>> getForumPosts(int forumId, int page) async {
     print("Get Forum Post");
     var response = await _requestGET(
-        path: "${routes["forums"]}$forumId${routes["posts"]}${routes["format_page"]}$page", show: true);
+        path:
+            "${routes["forums"]}$forumId${routes["posts"]}${routes["format_page"]}$page",
+        show: true);
 
     print("Response -> $response");
     if (response is Map) {
@@ -107,7 +113,8 @@ class ApiClient{
   /// [page] es la página de la que se quieren obtener los foros
   Future<Post> getPostDetail(int forumId, int postId) async {
     var response = await _requestGET(
-        path: "${routes["forums"]}/$forumId${routes["posts"]}$postId/", show: true);
+        path: "${routes["forums"]}/$forumId${routes["posts"]}$postId/",
+        show: true);
 
     if (response != null) {
       return Post.fromJson(response);
@@ -137,21 +144,30 @@ class ApiClient{
   /// [getShopImage] se encarga de obtener la imagen de una tienda.
   /// Devuelve un String con la url de la imagen de la tienda
   /// [shopId] es el id de la tienda
-  Future<String?> getShopImage(int shopId) async{
-    try{
-      var response = await _requestGET(path: "${routes["shops"]}$shopId${routes["image"]}");
-      if(response != null){
+  Future<String?> getShopImage(int shopId) async {
+    try {
+      var response = await _requestGET(
+          path: "${routes["shops"]}$shopId${routes["image"]}");
+      if (response != null) {
         return response;
       }
-
-    }catch(e){
+    } catch (e) {
       print("Error at get shop image $e");
     }
     return null;
   }
 
   Future<dynamic>? editShop(
-      {required String? name, required String? address, required String? bio,required String? schedule, required String? phone, required String? instagram, required String? facebook, required String? webpage, required String? mail, required int? shopId}) async {
+      {required String? name,
+      required String? address,
+      required String? bio,
+      required String? schedule,
+      required String? phone,
+      required String? instagram,
+      required String? facebook,
+      required String? webpage,
+      required String? mail,
+      required int? shopId}) async {
     Map<String, dynamic> params = {
       "name": name,
       "bio": bio,
@@ -164,30 +180,29 @@ class ApiClient{
       "mail": mail
     };
 
-    try{
-      var response = await _requestPUT( path: "${routes["shops"]}$shopId/",params: params);
+    try {
+      var response =
+          await _requestPUT(path: "${routes["shops"]}$shopId/", params: params);
 
       return response;
-
-    }catch(e){
+    } catch (e) {
       print(".:Error at edit shop: $e");
     }
     return null;
-
   }
 
   /// [getShopEmployees] se encarga de obtener los empleados de una tienda.
   /// Devuelve una lista de String con los nombres de los empleados
   /// [shopId] es el id de la tienda
   Future<List<String>> getShopEmployees(int shopId) async {
-    try{
-      var response = await _requestGET(path: "${routes["shops"]}$shopId${routes["employees"]}");
-      if(response != null){
+    try {
+      var response = await _requestGET(
+          path: "${routes["shops"]}$shopId${routes["employees"]}");
+      if (response != null) {
         List<String> list = response.cast<String>();
         return list;
       }
-
-    }catch(e){
+    } catch (e) {
       print("Error at get shop employees $e");
     }
     return [];
@@ -203,16 +218,16 @@ class ApiClient{
       "password": password,
     };
 
-    try{
+    try {
       var response = await _requestPOST(
           path: routes["registerEmployer"], formData: params, show: true);
 
-      if(response != null){
+      if (response != null) {
         return true;
-      }else{
+      } else {
         return false;
       }
-    }catch(e){
+    } catch (e) {
       print(e);
       return null;
     }
@@ -227,15 +242,16 @@ class ApiClient{
       "worker": username,
     };
 
-    try{
+    try {
       var response = await _requestDELETE(
-          path: "${routes["shops"]}$shopId${routes["employees"]}", formData: params);
-      if(response != null){
+          path: "${routes["shops"]}$shopId${routes["employees"]}",
+          formData: params);
+      if (response != null) {
         return true;
-      }else{
+      } else {
         return false;
       }
-    }catch(e){
+    } catch (e) {
       print(e);
       return null;
     }
@@ -246,20 +262,26 @@ class ApiClient{
   /// [forumId] es el id del foro
   /// [postId] es el id del post
   /// [content] es el contenido del comentario
-  Future publishComment({required int forumId, required int postId, required String content}) async {
-    try{
+  Future publishComment(
+      {required int forumId,
+      required int postId,
+      required String content}) async {
+    try {
       Map<String, dynamic> params = {
         "content": content,
       };
 
       var response = await _requestPOST(
-          path: "${routes["forums"]}/$forumId${routes["posts"]}$postId/${routes["comments"]}", show: true, formData: params);
-      if(response != null){
+          path:
+              "${routes["forums"]}/$forumId${routes["posts"]}$postId/${routes["comments"]}",
+          show: true,
+          formData: params);
+      if (response != null) {
         return true;
-      }else{
+      } else {
         return false;
       }
-    }catch(e){
+    } catch (e) {
       print(e);
       return null;
     }
@@ -270,17 +292,20 @@ class ApiClient{
   /// [forumId] es el id del foro
   /// [postId] es el id del post
   /// [page] es la página de la que se quieren obtener los comentarios
-  Future<List<dynamic>?> getComments({required int forumId, required int postId, required int page}) async {
-    try{
+  Future<List<dynamic>?> getComments(
+      {required int forumId, required int postId, required int page}) async {
+    try {
       var response = await _requestGET(
-          path: "${routes["forums"]}/$forumId${routes["posts"]}$postId/${routes["comments"]}?page=$page", show: true);
-      if(response != null && response is Map){
+          path:
+              "${routes["forums"]}/$forumId${routes["posts"]}$postId/${routes["comments"]}?page=$page",
+          show: true);
+      if (response != null && response is Map) {
         var results = response['results'];
         if (results is List) {
           return results;
         }
       }
-    }catch(e){
+    } catch (e) {
       print(e);
     }
     return null;
@@ -304,13 +329,23 @@ class ApiClient{
     }
   }
 
- Future<String> getPostImage(int? forumId, int? postId, String? mediaName) async {
-    var response = await _requestGET(path: "http://52.86.76.124:8000/forums/$forumId/posts/$postId/media/$mediaName/");
-    print("GET DE IMAGEN $response");
-    return response;
+  Future<Uint8List?> getPostImage(int? forumId, int? postId, String? mediaName) async {
+    try {
+      var response = await _requestGET(
+          path: "http://52.86.76.124:8000/forums/$forumId/posts/$postId/media/$mediaName/");
+      print("IMAGEN GET ${response.runtimeType}");
+      print("http://52.86.76.124:8000/forums/$forumId/posts/$postId/media/$mediaName/");
+      print(response);
 
+      Uint8List bytes = base64.decode(response["image"].split(',').last);
+
+      return bytes;
+
+    } catch (e) {
+      print("Error al obtener la imagen: $e");
+      return null;
+    }
   }
-
 
   /// [createForumPost] se encarga de crear un post en un foro.
   /// Devuelve un booleano que indica si la creación ha sido correcta o no.
@@ -318,8 +353,8 @@ class ApiClient{
   /// [title] es el título del post
   /// [description] es la descripción del post
   /// [mediaContents] es una lista de strings con las imágenes en formato base64
-  Future<bool> createForumPost(int forumPk, String title, String description, List<String> mediaContents) async {
-
+  Future<bool> createForumPost(int forumPk, String title, String description,
+      List<String> mediaContents) async {
     Map<String, dynamic> params = {
       "title": title,
       "body": description,
@@ -330,7 +365,9 @@ class ApiClient{
       print("RESPONSE AQUI");
       print(UserHelper.accessToken);
       var response = await _requestPOST(
-          path: "${routes["forums"]}$forumPk${routes["posts"]}", formData: params,show: true);
+          path: "${routes["forums"]}$forumPk${routes["posts"]}",
+          formData: params,
+          show: true);
       print("RESPONSE AQUI: $response");
       if (response != null) {
         return true;
@@ -344,11 +381,9 @@ class ApiClient{
   }
 
   Future sendDeviceToken(Map<String, dynamic> deviceInfo) async {
-
     try {
       var response = await _requestPOST(
           path: "${routes["token"]}", formData: deviceInfo, show: true);
-
 
       if (response != null) {
         return true;
@@ -375,11 +410,11 @@ class ApiClient{
   /// REQUESTS
   Future<dynamic> _requestGET(
       {bool needsAuth = true,
-        String? path,
-        Map<String, dynamic>? params,
-        bool show = false,
-        bool connectionError = true,
-        bool extend = false}) async {
+      String? path,
+      Map<String, dynamic>? params,
+      bool show = false,
+      bool connectionError = true,
+      bool extend = false}) async {
     try {
       if (extend) {
         _dio.options.receiveTimeout = Duration(seconds: 30);
@@ -391,9 +426,9 @@ class ApiClient{
         options: Options(
           headers: needsAuth
               ? {
-            HttpHeaders.authorizationHeader:
-            "Token ${UserHelper.accessToken}",
-          }
+                  HttpHeaders.authorizationHeader:
+                      "Token ${UserHelper.accessToken}",
+                }
               : null,
           contentType: Headers.jsonContentType,
           responseType: ResponseType.json,
@@ -420,13 +455,12 @@ class ApiClient{
     }
   }
 
-
   Future<dynamic> _requestPUT(
       {bool needsAuth = true,
-        String? path,
-        Map<String, dynamic>? params,
-        bool show = false,
-        bool extend = false}) async {
+      String? path,
+      Map<String, dynamic>? params,
+      bool show = false,
+      bool extend = false}) async {
     try {
       if (extend) {
         _dio.options.receiveTimeout = Duration(seconds: 30);
@@ -438,9 +472,9 @@ class ApiClient{
         options: Options(
           headers: needsAuth
               ? {
-            HttpHeaders.authorizationHeader:
-            "Token ${UserHelper.accessToken}",
-          }
+                  HttpHeaders.authorizationHeader:
+                      "Token ${UserHelper.accessToken}",
+                }
               : null,
           contentType: Headers.jsonContentType,
           responseType: ResponseType.json,
@@ -466,14 +500,13 @@ class ApiClient{
     }
   }
 
-
   Future<dynamic> _requestPOST(
       {bool needsAuth = true,
-        String? path,
-        Map<String, dynamic>? formData,
-        Map<String, dynamic>? getParams,
-        bool connectionError = true,
-        bool show = false}) async {
+      String? path,
+      Map<String, dynamic>? formData,
+      Map<String, dynamic>? getParams,
+      bool connectionError = true,
+      bool show = false}) async {
     try {
       // Realitzem la request
       Response response = await _dio.post(
@@ -483,9 +516,9 @@ class ApiClient{
         options: Options(
           headers: needsAuth
               ? {
-            HttpHeaders.authorizationHeader:
-            "Token ${UserHelper.accessToken}",
-          }
+                  HttpHeaders.authorizationHeader:
+                      "Token ${UserHelper.accessToken}",
+                }
               : null,
           contentType: Headers.jsonContentType,
           responseType: ResponseType.json,
@@ -529,9 +562,9 @@ class ApiClient{
         options: Options(
           headers: needsAuth
               ? {
-            HttpHeaders.authorizationHeader:
-            "Token ${UserHelper.accessToken}",
-          }
+                  HttpHeaders.authorizationHeader:
+                      "Token ${UserHelper.accessToken}",
+                }
               : null,
           contentType: Headers.jsonContentType,
           responseType: ResponseType.json,
@@ -576,9 +609,9 @@ class ApiClient{
         options: Options(
           headers: needsAuth
               ? {
-            HttpHeaders.authorizationHeader:
-            "Token ${UserHelper.accessToken}",
-          }
+                  HttpHeaders.authorizationHeader:
+                      "Token ${UserHelper.accessToken}",
+                }
               : null,
           contentType: Headers.jsonContentType,
           responseType: ResponseType.json,
@@ -607,9 +640,7 @@ class ApiClient{
     }
   }
 
-
   void _printDioError(DioException e) {
-
     // Comprovem si la request té paràmetres, per fer print
     if (e.requestOptions.data != null) {
       //print(":.Params: ${e.requestOptions?.data}");
@@ -638,6 +669,4 @@ class ApiClient{
     }
     return false;
   }
-
-
 }

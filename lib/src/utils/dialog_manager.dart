@@ -75,6 +75,31 @@ class DialogManager{
     );
   }
 
+  showLoadingDialog(
+      {BuildContext? context}){
+    showDialog(
+        context: context!,
+        builder: ((_) => Padding(
+          padding: const EdgeInsets.symmetric(vertical: 40,),
+          child: SimpleDialog(
+            backgroundColor: AppColors.white,
+            elevation: 0,
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10.0))),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+            children: [
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 50),
+                  child: CircularProgressIndicator()
+                ),
+              ),
+            ],
+          ),
+        ))
+    );
+  }
+
   showDeleteDialog(
       {required BuildContext context,
       required String title,

@@ -8,7 +8,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/navigator_routes.dart';
 import '../../../model/forums.dart';
-import '../../../model/user.dart';
 import '../../widgets/card/forum_card.dart';
 
 class Home extends StatefulWidget {
