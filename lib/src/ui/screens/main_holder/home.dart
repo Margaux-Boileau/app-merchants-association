@@ -91,7 +91,8 @@ class _HomeState extends State<Home> {
 
   /// En esta función se obtienen los posts de la categoría actual.
   Future<void> _getPostsForCurrentCategory() async {
-    print("GETTING POSTS FOR CURRENT CATEGORY");
+    posts.clear();
+    setState(() {});
     if (UserHelper.shop != null && UserHelper.shop!.id != null) {
       posts = await ApiClient().getForumPosts(currentCategory.id, currentPage);
       setState(() {});

@@ -39,6 +39,13 @@ class _ForumCardState extends State<ForumCard> {
     getCreatorShop();
   }
 
+  @override
+  void dispose(){
+    super.dispose();
+    firstImageUrl = null;
+    secondImageUrl = null;
+  }
+
   getCreatorShop() async {
     var response = await ApiClient().getShopData(widget.post.idCreator!);
     shopCreator = Shop.fromJson(response);
@@ -236,7 +243,8 @@ class _ForumCardState extends State<ForumCard> {
                                     child: Image.memory(
                                       firstImageUrl!,
                                       fit: BoxFit.cover,
-                                    ))
+                                    )
+                            )
                                 : Container(),
                           ),
                         ),
@@ -318,7 +326,7 @@ class _ForumCardState extends State<ForumCard> {
               icon: Icon(Icons.more_horiz),
               onPressed: () async {
                 // Show confirmation dialog
-                bool shouldDelete = await DialogManager().showDeleteDialog(
+                await DialogManager().showDeleteDialog(
                   context: context,
                   title: "Eliminar post",
                   text: "¿Estás seguro de que quieres eliminar este post?",
