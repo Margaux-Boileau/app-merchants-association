@@ -82,7 +82,9 @@ class _CommentsScreenState extends State<CommentsScreen> {
                     child: CommentCard(
                         comment: commentsList[index],
                         post: widget.post,
-                        forum: widget.forum),
+                        forum: widget.forum,
+                        onDelete: getComments
+                    ),
                   );
                 }),
           ),

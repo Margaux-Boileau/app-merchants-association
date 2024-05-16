@@ -286,6 +286,24 @@ class ApiClient{
     return null;
   }
 
+  /// [deleteComment]
+  Future<void> deleteComment(int forumId, int postId, int commentId) async {
+    print("DELETE COMMENT");
+    try {
+      var response = await _requestDELETE(
+          path: "${routes["forums"]}/$forumId${routes["posts"]}$postId${routes["forums"]}/$commentId/");
+
+      print("RESPONSE DELETE COMMENT: $response");
+      if (response != null) {
+        return response;
+      } else {
+        throw Exception('Failed to delete comment');
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
  Future<String> getPostImage(int? forumId, int? postId, String? mediaName) async {
     var response = await _requestGET(path: "http://52.86.76.124:8000/forums/$forumId/posts/$postId/media/$mediaName/");
     print("GET DE IMAGEN $response");

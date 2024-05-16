@@ -9,11 +9,13 @@ import '../../../model/post.dart';
 import '../../../model/shop.dart';
 
 class CommentCard extends StatefulWidget {
-  const CommentCard({super.key, required this.comment, required this.post, required this.forum});
+  const CommentCard({super.key, required this.comment, required this.post, required this.forum,
+    this.onDelete});
 
   final Comment comment;
   final Post post;
   final Forums forum;
+  final VoidCallback? onDelete;
 
   @override
   State<CommentCard> createState() => _CommentCardState();
