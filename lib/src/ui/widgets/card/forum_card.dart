@@ -59,7 +59,6 @@ class _ForumCardState extends State<ForumCard> {
             widget.forum.id, widget.post.id, widget.post.medias![1]);
       }
     }
-
     setState(() {});
   }
 
@@ -240,10 +239,11 @@ class _ForumCardState extends State<ForumCard> {
                                         ),
                                       );
                                     },
-                                    child: Image.memory(
+                                    child: firstImageUrl != null ? Image.memory(
                                       firstImageUrl!,
                                       fit: BoxFit.cover,
                                     )
+                                        : Container()
                             )
                                 : Container(),
                           ),
@@ -262,10 +262,12 @@ class _ForumCardState extends State<ForumCard> {
                               fit: StackFit.expand,
                               children: [
                                 widget.post.medias!.length > 1
+                                    ? secondImageUrl != null
                                     ? Image.memory(
                                   secondImageUrl!,
-                                        fit: BoxFit.cover,
-                                      )
+                                  fit: BoxFit.cover,
+                                )
+                                : Container()
                                     : Container(),
                                 widget.post.medias!.length > 1
                                     ? Container(

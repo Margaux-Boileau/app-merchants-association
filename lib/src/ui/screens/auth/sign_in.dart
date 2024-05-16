@@ -165,9 +165,9 @@ class _SignInState extends State<SignIn> {
 
   login() async {
     if(_formKey.currentState!.validate()){
-      bool response = await ApiClient().signIn(usernameController.text, passwordController.text);
+      bool? response = await ApiClient().signIn(usernameController.text, passwordController.text);
 
-      if(response){
+      if(response == true){
         String username = await UserHelper.getUsernameFromSharedPreferences();
         await UserHelper.getTokenFromSharedPreferences();
         Map<String, dynamic>? response = await ApiClient().getUsernameData(username);
