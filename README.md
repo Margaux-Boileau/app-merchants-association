@@ -1,6 +1,6 @@
 ![App Demo](readme_assets/app_logo.jpg)
 
-# App per als comerciants de l'associació de Sants de Creu coberta
+# App Asociación de Sants de Creu coberta
 
 La intencion de esta apicacion ser un una herramienta de comunicacion entre todos los comerciantes de l'associació de Sants de Creu coberta. Para ello la aplicacion contiene un sistema de foros donde los comerciantes pueden hacer diferentes publicacion en los foros. Hay diferentes foros en la aplicacion lo que permite a los usuarios tener una mayor organizacion de las publicaciones.
 
