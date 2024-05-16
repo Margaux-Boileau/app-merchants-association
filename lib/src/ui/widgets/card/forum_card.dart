@@ -21,6 +21,8 @@ class ForumCard extends StatefulWidget {
   final Post post;
   final Forums forum;
 
+  final Function onDelete;
+
   @override
   State<ForumCard> createState() => _ForumCardState();
 }
@@ -306,6 +308,7 @@ class _ForumCardState extends State<ForumCard> {
             ],
           ),
         ),
+        ),
         Align(
           alignment: Alignment.topRight,
           child: Padding(
@@ -331,7 +334,8 @@ class _ForumCardState extends State<ForumCard> {
                 : Container(), // Empty container when the user is not the creator
           ),
         ),
-      ]),
+      ]
+      ),
     );
   }
 }
