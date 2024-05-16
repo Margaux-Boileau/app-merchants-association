@@ -1,112 +1,114 @@
-![App Demo](readme_assets/app_logo.jpg)
+![App Demo](readme_assets\app_logo.jpg)
 
-# App for the Merchants Association of Sants de Creu Coberta
+# App per als comerciants de l'associació de Sants de Creu coberta
 
-The purpose of this application is to be a communication tool among all the merchants of the Sants de Creu Coberta association. To achieve this, the application contains a forum system where merchants can make different publications in the forums. There are different forums in the application which allows users to have better organization of the publications.
+La intencion de esta apicacion ser un una herramienta de comunicacion entre todos los comerciantes de l'associació de Sants de Creu coberta. Para ello la aplicacion contiene un sistema de foros donde los comerciantes pueden hacer diferentes publicacion en los foros. Hay diferentes foros en la aplicacion lo que permite a los usuarios tener una mayor organizacion de las publicaciones.
 
-## Forums
-The app contains different forums and not all are shown to all users. There are two main forums:
+## Foros
+La app contiene diferentes foros y no todos se muestran a todos los usuarios. Hay dos foros principales:
 
-**General Forum:** All application users have access to this forum, and any store can make posts in it.
+**Foro general:** A este foro tienen acceso todos los usuarios de la aplicacion y cualquier tienda puede hacer publicaciones en este.
 
-**Technician's Forum:** This forum is intended for administrators and technicians of the application to make posts to inform the rest of the merchants. Therefore, all users can see the forum posts but only users with special permissions can make posts.
+**Foro de tecnicos:** Este foro esta destinado para que los administradores y tecnicos de la aplicacion puedan hacer publicaciones para informar al resto de comerciantes. Por lo que todos los usuarios pueden ver las publicaciones del foro pero solo usuarios con permisos especiales pueden hacer publicaciones.
 
-**Custom Forums:** These forums are created by the administrator from the admin panel and they designate which users can view the forum and make posts in it.
+**Foros personalizados:** Estos foros son creados por el administrador desde el panel de admin y el es el que designa que usuarios pueden ver el foro y hacer publicaciones en este
 
-## User Management
+## Gestion de usuarios
 
-From the app, a store owner can register their employees so that they can view and post in the different forums that the store has access to.
+Desde la app el dueño de una tienda puede registrar a los empleados de esta para que asi estos puedan ver y publicar en los diferentes foros a los que tenga acceso la tienda
 
-## Translations
+## Traucciones
 
-The app is available in different languages. It automatically detects the language of the device and loads the app in one language or another accordingly. The available languages are:
-- English
-- Spanish
+La app esta disponible en diferentes lenguajes. Esta detecta automaticamente el idioma del dispositivo y segun este carga la app en un idioma u otro. Los idiomas disponibles son:
+- Ingles
+- Español
 - Catalan
-- French
-- German
-- Portuguese
+- Frances
+- Aleman
+- Portuges
 
 # Technologies
 ![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white) ![Dart](https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white)
 
-# Install Flutter on Linux
+# Instalar flutter en linux
 
-**Download Flutter SDK**
+**Descargar flutter sdk**
 
-[Download SDK](https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.19.1-stable.tar.xz)
+[Download sdk](https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.19.1-stable.tar.xz)
 
-**Extract the downloaded file to a location of your choice**
+**Extrae el archivo descargado en una ubicación de tu elección**
 
 ```bash
 cd ~/development
 tar xf ~/Downloads/flutter_linux_vX.X.X-stable.tar.xz
 ```
 
-**Add the Flutter tool to your PATH**
+***Agrega la herramienta de Flutter a tu ruta (PATH)**
 
 ```bash
 export PATH="$PATH:`pwd`/flutter/bin"
 ```
 
-**Verify your installation**
+**Verifica tu instalacion**
 
 ```bash
 flutter doctor
 ```
 
-# Android Studio Setup
+# Configuracion Android Studio
 
-**Installing plugins**
+**Instalacion de pluggins**
 
-To be able to use Flutter, you need to install the 'Flutter' and 'Dart' plugins in your project. To do this, go to `File>Settings>Plugins`.
+Para poder utilizar flutter debes intalar el plugin 'Flutter' y 'Dart' en tu proyecto. Para eso dirigete a `File>Settings>Plugins`
 
-![Plugins](readme_assets/pluggins_flutter.png) 
+![Plugins](readme_assets\pluggins_flutter.png) 
 
-**Recommended Plugins**
+**Pluggins recomendados**
 
-If you intend to develop in Flutter, it is recommended to use the 'Flutter snippets' plugin. This plugin will allow you to autocomplete your code with exclusive flutter functions.
+Si tienes intencion de desarollar en flutter es recomentable usar el pluggin ´Flutter snippets´. Este pluggin te permitira autocompletar tu codigo con funciones exclusivas de flutter
 
 ![Plugins](readme_assets/extra_pluggins_flutter.png) 
 
-**Set Flutter SDK path**
+**Indicar path de flutter SDK**
 
-Inside Android Studio, go to ``File>Settings``, once in the tab go to ``Language & Frameworks>Flutter`` and indicate the path of your Flutter SDK, once done apply the changes.
+Dentro de Android Studio dirigete a ``File>Settings``, una vez en la pestaña dirigete en el menu de la derecha a ``Language & Frameworks>Flutter`` y indica el path de tu SDK de flutter, una vez echo aplica los cambios
 
 ![Plugins](readme_assets/flutter_path.png) 
 
-# Build Project
+# Compilar proyecto
 
-**Clone the GitHub repository:**
+**Clonar el repositorio de GitHub:**
 
     git clone https://github.com/Margaux-Boileau/app-merchants-association.git
 
-**Compile in Android Studio:**
+**Compilar en antroid studio:**
 
-Once the repository is cloned and after installing Flutter, open the IDE and get the dependencies, to do this open the IDE's own terminal and execute the following command:
+Una vez clonado el el repositorio y despues de instalar flutter abrimos el IDE y hacemos un get de las dependencias, para ello abre el propio terminal del IDE y ejecuta el siguiente comando:
 
 ```bash
 flutter pub get
 ```
 
-When the dependencies have been obtained, you will have to load the translation files, to do this execute the following command:
+Cuando se haya realizado el get de las dependencias tengras que cargar los ficheros de traducciones, para ello ejecuta el siguiente comand:
 
 ```bash
 flutter gen-l10n
 ```
 
-Once this is done, you can compile the project.
+
+Una vez echo esto ya puedes compilar el proyecto
 
 ![Android studio](readme_assets/run_app_android.png) 
 
-# App Demo (click on logo)
 
-[![App Demo](readme_assets/app_logo.jpg)](https://drive.google.com/file/d/1ayF2J8Dt34cIKMQJ-hLnnz1CwsGN4eta/view?usp=sharing)
+# Dema de la app (clicar en logo)
 
-# App APK
+[![App Demo](readme_assets\app_logo.jpg)](https://drive.google.com/file/d/1a2-2fYGBAlG_Kf2jA3iJ-jDS3jjFYrkf/view?usp=sharing)
 
-Are you using Android? Download our app here.
+# App apk
 
-![APK-Qr](readme_assets/qr-code.png) 
+Usas android? Descarga aqui nuestra app
 
-Can't scan the code? Download the apk from this [link](https://drive.google.com/file/d/1SAdtwZzslBFxYkaTbsNNm4LgFwDPxnB7/view?usp=sharing)
+![APK-Qr](readme_assets\qr-code.png) 
+
+No puedes escanear el codgio? Descarga la apk desde este [link](https://drive.google.com/file/d/1SAdtwZzslBFxYkaTbsNNm4LgFwDPxnB7/view?usp=sharing)
