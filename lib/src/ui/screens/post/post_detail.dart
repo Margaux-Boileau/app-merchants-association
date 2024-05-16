@@ -20,7 +20,6 @@ class PostDetail extends StatefulWidget {
   final Post post;
   final Forums forum;
 
-
   @override
   State<PostDetail> createState() => _PostDetailState();
 }
@@ -39,7 +38,7 @@ class _PostDetailState extends State<PostDetail> {
     post!.comments = post!.comments!.reversed.toList();
     getPostDetail();
     getCreatorShop();
-    if(post!.medias != null){
+    if (post!.medias != null) {
       createImagesMap(post!.medias!);
     }
   }
@@ -48,19 +47,18 @@ class _PostDetailState extends State<PostDetail> {
     Map<String, dynamic> resultMap = {};
 
     for (String str in strings) {
-      dynamic result = await ApiClient().getPostImage(widget.forum.id, post!.id,str); // Reemplaza asyncFunction() con la función asíncrona que desees llamar.
+      dynamic result = await ApiClient().getPostImage(widget.forum.id, post!.id,
+          str); // Reemplaza asyncFunction() con la función asíncrona que desees llamar.
       resultMap[str] = result;
     }
 
     imagesMap = resultMap;
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   getPostDetail() async {
-    var response = await ApiClient().getPostDetail(
-        widget.forum.id, widget.post.id);
+    var response =
+        await ApiClient().getPostDetail(widget.forum.id, widget.post.id);
     post = response;
     post!.comments = post!.comments!.reversed.toList();
     setState(() {});
@@ -69,9 +67,7 @@ class _PostDetailState extends State<PostDetail> {
   getCreatorShop() async {
     var response = await ApiClient().getShopData(widget.post.idCreator!);
     shopCreator = Shop.fromJson(response);
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   @override
@@ -102,15 +98,12 @@ class _PostDetailState extends State<PostDetail> {
         title: const Text("Detalle del post"),
       ),
       body: SizedBox(
-        height: MediaQuery
-            .of(context)
-            .size
-            .height,
+        height: MediaQuery.of(context).size.height,
         child: Stack(
           children: [
             Padding(
-              padding: const EdgeInsets.only(
-                  left: 20.0, right: 20.0, top: 20.0),
+              padding:
+                  const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -127,7 +120,11 @@ class _PostDetailState extends State<PostDetail> {
               bottom: 0,
               left: 0,
               right: 0,
-              child: CommentTextField(forum: widget.forum, post: post!, updateScreen: getPostDetail,),
+              child: CommentTextField(
+                forum: widget.forum,
+                post: post!,
+                updateScreen: getPostDetail,
+              ),
             ),
           ],
         ),
@@ -150,7 +147,8 @@ class _PostDetailState extends State<PostDetail> {
               child: Image.network(
                 "http://52.86.76.124:8000/shops/${widget.post.idCreator}/image/",
                 fit: BoxFit.cover,
-                errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                errorBuilder: (BuildContext context, Object exception,
+                    StackTrace? stackTrace) {
                   // Return an Image widget that displays a default image
                   return Image.asset(AppAssets.market, fit: BoxFit.cover);
                 },
@@ -164,10 +162,7 @@ class _PostDetailState extends State<PostDetail> {
             children: [
               Container(
                 constraints: BoxConstraints(
-                    maxWidth: MediaQuery
-                        .of(context)
-                        .size
-                        .width * 0.7),
+                    maxWidth: MediaQuery.of(context).size.width * 0.7),
                 child: Text(
                   shopCreator!.name!,
                   maxLines: 2,
@@ -218,71 +213,72 @@ class _PostDetailState extends State<PostDetail> {
         if (post!.medias!.isNotEmpty)
           imagesMap != null
               ? Column(
-            children: [
-              CarouselSlider(
-                options: CarouselOptions(
-                  height: 300,
-                  // Ajusta este valor para cambiar el tamaño de la imagen
-                  enlargeCenterPage: true,
-                  autoPlay: true,
-                  aspectRatio: 2.0,
-                  autoPlayCurve: Curves.fastOutSlowIn,
-                  enableInfiniteScroll: true,
-                  autoPlayAnimationDuration: const Duration(milliseconds: 800),
-                  viewportFraction: 0.8,
-                  onPageChanged: (index, reason) {
-                    // Actualiza el estado para reflejar el cambio de página
-                    setState(() {
-                      _currentIndex = index;
-                    });
-                  },
-                ),
-                items: post!.medias!.map((item) {
-
-                  return Padding(
-                    padding: const EdgeInsets.all(2),
-                    // Ajusta este valor según tus necesidades
-                    child: Material(
-                      elevation: 1.0,
-                      borderRadius: BorderRadius.circular(10),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.memory(
-                              imagesMap![item],
-                              fit: BoxFit.cover, width: 1500),
-                        ),
+                  children: [
+                    CarouselSlider(
+                      options: CarouselOptions(
+                        height: 300,
+                        // Ajusta este valor para cambiar el tamaño de la imagen
+                        enlargeCenterPage: true,
+                        autoPlay: true,
+                        aspectRatio: 2.0,
+                        autoPlayCurve: Curves.fastOutSlowIn,
+                        enableInfiniteScroll: true,
+                        autoPlayAnimationDuration:
+                            const Duration(milliseconds: 800),
+                        viewportFraction: 0.8,
+                        onPageChanged: (index, reason) {
+                          // Actualiza el estado para reflejar el cambio de página
+                          setState(() {
+                            _currentIndex = index;
+                          });
+                        },
                       ),
+                      items: post!.medias!.map((item) {
+                        return Padding(
+                          padding: const EdgeInsets.all(2),
+                          // Ajusta este valor según tus necesidades
+                          child: Material(
+                            elevation: 1.0,
+                            borderRadius: BorderRadius.circular(10),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: imagesMap![item] != null
+                                    ? Image.memory(imagesMap![item],
+                                        fit: BoxFit.cover, width: 1500)
+                                    : Container(),
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
                     ),
-                  );
-                }).toList(),
-              ),
 
-              /// Indicadores de posición
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: post!.medias!.map((url) {
-                  int index = post!.medias!.indexOf(url);
-                  return Container(
-                    width: 8.0,
-                    height: 8.0,
-                    margin: const EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 2.0),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: _currentIndex == index
-                          ? const Color.fromRGBO(0, 0, 0, 0.9)
-                          : const Color.fromRGBO(0, 0, 0, 0.4),
+                    /// Indicadores de posición
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: post!.medias!.map((url) {
+                        int index = post!.medias!.indexOf(url);
+                        return Container(
+                          width: 8.0,
+                          height: 8.0,
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 2.0),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: _currentIndex == index
+                                ? const Color.fromRGBO(0, 0, 0, 0.9)
+                                : const Color.fromRGBO(0, 0, 0, 0.4),
+                          ),
+                        );
+                      }).toList(),
                     ),
-                  );
-                }).toList(),
-              ),
-            ],
-          )
-        : CircularProgressIndicator(),
+                  ],
+                )
+              : CircularProgressIndicator(),
       ],
     );
   }
@@ -290,8 +286,9 @@ class _PostDetailState extends State<PostDetail> {
   /// Comentarios
   Widget _commentsBody(BuildContext context) {
     return Padding(
-      padding: post!.medias!.isNotEmpty ? const EdgeInsets.only(
-          top: 20.0, bottom: 70) : const EdgeInsets.only(top: 10.0, bottom: 70),
+      padding: post!.medias!.isNotEmpty
+          ? const EdgeInsets.only(top: 20.0, bottom: 70)
+          : const EdgeInsets.only(top: 10.0, bottom: 70),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -310,28 +307,29 @@ class _PostDetailState extends State<PostDetail> {
             physics: const NeverScrollableScrollPhysics(),
             itemCount: post!.comments!.length > 5 ? 5 : post!.comments!.length,
             itemBuilder: (context, index) {
-              return CommentCard(comment: post!.comments![index]!,
+              return CommentCard(
+                  comment: post!.comments![index]!,
                   post: post!,
-                  forum: widget.forum, onDelete: getPostDetail);
+                  forum: widget.forum,
+                  onDelete: getPostDetail);
             },
           ),
 
           /// Ver más
           /// Si los comentarios son mayores a 5, se muestra el botón "Ver más"
-          post!.comments!.length > 5 ? Center(
-            child: TextButton(
-              onPressed: () {
-                // Mostrar snackbar por ahora
-                Navigator.pushNamed(
-                    context, NavigatorRoutes.comments,
-                    arguments: [widget.post, widget.forum]);
-              },
-              child: Text(
-                  "Ver más",
-                  style: TextStyle(color: AppColors.primaryBlue)),
-            ),
-          ) : Container(),
-
+          post!.comments!.length > 5
+              ? Center(
+                  child: TextButton(
+                    onPressed: () {
+                      // Mostrar snackbar por ahora
+                      Navigator.pushNamed(context, NavigatorRoutes.comments,
+                          arguments: [widget.post, widget.forum]);
+                    },
+                    child: Text("Ver más",
+                        style: TextStyle(color: AppColors.primaryBlue)),
+                  ),
+                )
+              : Container(),
         ],
       ),
     );

@@ -263,6 +263,7 @@ class _HomeState extends State<Home> {
                     post: posts[index],
                     forum: currentCategory,
                     onDelete: _getPostsForCurrentCategory,
+                    key: UniqueKey(),
                   ),
                 ),
               );
