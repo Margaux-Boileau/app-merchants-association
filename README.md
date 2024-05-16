@@ -1,4 +1,4 @@
-![App Demo](readme_assets\app_logo.jpg)
+![App Demo](readme_assets/app_logo.jpg)
 
 # App for the Merchants Association of Sants de Creu Coberta
 
@@ -61,7 +61,7 @@ flutter doctor
 
 To be able to use Flutter, you need to install the 'Flutter' and 'Dart' plugins in your project. To do this, go to `File>Settings>Plugins`.
 
-![Plugins](readme_assets\pluggins_flutter.png) 
+![Plugins](readme_assets/pluggins_flutter.png) 
 
 **Recommended Plugins**
 
@@ -107,6 +107,6 @@ Once this is done, you can compile the project.
 
 Are you using Android? Download our app here.
 
-![APK-Qr](readme_assets\qr-code.png) 
+![APK-Qr](readme_assets/qr-code.png) 
 
 Can't scan the code? Download the apk from this [link](https://drive.google.com/file/d/1SAdtwZzslBFxYkaTbsNNm4LgFwDPxnB7/view?usp=sharing)
